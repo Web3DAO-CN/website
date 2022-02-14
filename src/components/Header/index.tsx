@@ -1,4 +1,3 @@
-import useScrollPosition from '@react-hook/window-scroll'
 import { CHAIN_INFO } from 'constants/chainInfo'
 import { SupportedChainId } from 'constants/chains'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
@@ -7,10 +6,10 @@ import { useNativeCurrencyBalances } from 'state/wallet/hooks'
 import Logo from '../../assets/svg/new/web3dao.png'
 import { Fragment } from 'react'
 import { Popover, Transition } from '@headlessui/react'
-import { BookmarkAltIcon, BriefcaseIcon, ChartBarIcon, CheckCircleIcon, CursorClickIcon, DesktopComputerIcon, GlobeAltIcon, InformationCircleIcon, MenuIcon, NewspaperIcon, OfficeBuildingIcon, PhoneIcon, PlayIcon, ShieldCheckIcon, UserGroupIcon, ViewGridIcon, XIcon, } from '@heroicons/react/outline'
+import { BookmarkAltIcon, BriefcaseIcon, ChartBarIcon, CheckCircleIcon, CursorClickIcon, DesktopComputerIcon, GlobeAltIcon, InformationCircleIcon, MenuIcon, NewspaperIcon, OfficeBuildingIcon, PhoneIcon, PlayIcon, ShieldCheckIcon, UserGroupIcon, ViewGridIcon, XIcon } from '@heroicons/react/outline'
 import { ChevronDownIcon } from '@heroicons/react/solid'
-import classNames from "../../utils/classNames";
-import Web3Status from "../Web3Status";
+import classNames from '../../utils/classNames'
+import Web3Status from '../Web3Status'
 
 const solutions = [
   {
@@ -248,7 +247,7 @@ export default function Header() {
 
   const userEthBalance = useNativeCurrencyBalances(account ? [account] : [])?.[account ?? '']
 
-  const scrollY = useScrollPosition()
+  // const scrollY = useScrollPosition()
 
   const chainInfo = CHAIN_INFO[chainId ? chainId : SupportedChainId.MAINNET]
 
@@ -468,7 +467,7 @@ export default function Header() {
               <span className="text-base font-medium text-gray-500 hover:text-gray-900">
                 {userEthBalance?.toSignificant(3)} {chainInfo?.addNetworkInfo.nativeToken.symbol}
               </span>
-              <span className="text-base font-medium text-gray-500 hover:text-gray-900">
+              <span className="text-base font-medium text-gray-500 hover:text-gray-900 ml-2">
                 <Web3Status />
               </span>
             </div>

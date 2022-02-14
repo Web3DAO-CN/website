@@ -32,6 +32,7 @@ export enum TransactionType {
   COLLECT_FEES = 12,
   REMOVE_LIQUIDITY_V3 = 13,
   SUBMIT_PROPOSAL = 14,
+  BUY_NFT = 101,
 }
 
 export interface BaseTransactionInfo {
@@ -62,6 +63,7 @@ export interface ExactInputSwapTransactionInfo extends BaseSwapTransactionInfo {
   expectedOutputCurrencyAmountRaw: string
   minimumOutputCurrencyAmountRaw: string
 }
+
 export interface ExactOutputSwapTransactionInfo extends BaseSwapTransactionInfo {
   tradeType: TradeType.EXACT_OUTPUT
   outputCurrencyAmountRaw: string
@@ -143,6 +145,10 @@ export interface SubmitProposalTransactionInfo {
   type: TransactionType.SUBMIT_PROPOSAL
 }
 
+export interface BuyNFTInfo {
+  type: TransactionType.BUY_NFT
+}
+
 export type TransactionInfo =
   | ApproveTransactionInfo
   | ExactOutputSwapTransactionInfo
@@ -159,6 +165,7 @@ export type TransactionInfo =
   | CollectFeesTransactionInfo
   | RemoveLiquidityV3TransactionInfo
   | SubmitProposalTransactionInfo
+  | BuyNFTInfo
 
 export const addTransaction = createAction<{
   chainId: number

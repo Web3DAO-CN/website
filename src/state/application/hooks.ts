@@ -3,7 +3,7 @@ import { useCallback, useMemo } from 'react'
 import { useAppDispatch, useAppSelector } from 'state/hooks'
 
 import { AppState } from '../index'
-import { addPopup, ApplicationModal, PopupContent, removePopup, setOpenModal } from './reducer'
+import { addPopup, ApplicationModal, PopupContent, setOpenModal } from './reducer'
 
 export function useModalOpen(modal: ApplicationModal): boolean {
   const openModal = useAppSelector((state: AppState) => state.application.openModal)
@@ -61,7 +61,7 @@ export function useAddPopup(): (content: PopupContent, key?: string, removeAfter
 }
 
 // returns a function that allows removing a popup via its key
-export function useRemovePopup(): (key: string) => void {
+/*export function useRemovePopup(): (key: string) => void {
   const dispatch = useAppDispatch()
   return useCallback(
     (key: string) => {
@@ -69,7 +69,7 @@ export function useRemovePopup(): (key: string) => void {
     },
     [dispatch]
   )
-}
+}*/
 
 // get the list of active popups
 export function useActivePopups(): AppState['application']['popupList'] {

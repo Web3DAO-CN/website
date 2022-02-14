@@ -3,6 +3,9 @@ import 'inter-ui'
 import 'polyfills'
 import 'components/analytics'
 
+// eslint-disable-next-line no-restricted-imports
+import 'react-toastify/dist/ReactToastify.min.css'
+
 import { BlockUpdater } from 'lib/hooks/useBlockNumber'
 import { MulticallUpdater } from 'lib/state/multicall'
 import { StrictMode } from 'react'

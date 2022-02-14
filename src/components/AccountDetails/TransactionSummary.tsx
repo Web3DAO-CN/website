@@ -5,36 +5,18 @@ import JSBI from 'jsbi'
 import { nativeOnChain } from '../../constants/tokens'
 import { useCurrency, useToken } from '../../hooks/Tokens'
 import useENSName from '../../hooks/useENSName'
-import {
-  AddLiquidityV2PoolTransactionInfo,
-  AddLiquidityV3PoolTransactionInfo,
-  ApproveTransactionInfo,
-  ClaimTransactionInfo,
-  CollectFeesTransactionInfo,
-  CreateV3PoolTransactionInfo,
-  DelegateTransactionInfo,
-  DepositLiquidityStakingTransactionInfo,
-  ExactInputSwapTransactionInfo,
-  ExactOutputSwapTransactionInfo,
-  MigrateV2LiquidityToV3TransactionInfo,
-  RemoveLiquidityV3TransactionInfo,
-  SubmitProposalTransactionInfo,
-  TransactionInfo,
-  TransactionType,
-  WithdrawLiquidityStakingTransactionInfo,
-  WrapTransactionInfo,
-} from '../../state/transactions/actions'
+import { AddLiquidityV2PoolTransactionInfo, AddLiquidityV3PoolTransactionInfo, ApproveTransactionInfo, BuyNFTInfo, ClaimTransactionInfo, CollectFeesTransactionInfo, CreateV3PoolTransactionInfo, DelegateTransactionInfo, DepositLiquidityStakingTransactionInfo, ExactInputSwapTransactionInfo, ExactOutputSwapTransactionInfo, MigrateV2LiquidityToV3TransactionInfo, RemoveLiquidityV3TransactionInfo, SubmitProposalTransactionInfo, TransactionInfo, TransactionType, WithdrawLiquidityStakingTransactionInfo, WrapTransactionInfo } from '../../state/transactions/actions'
 
 function formatAmount(amountRaw: string, decimals: number, sigFigs: number): string {
   return new Fraction(amountRaw, JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(decimals))).toSignificant(sigFigs)
 }
 
 function FormattedCurrencyAmount({
-  rawAmount,
-  symbol,
-  decimals,
-  sigFigs,
-}: {
+                                   rawAmount,
+                                   symbol,
+                                   decimals,
+                                   sigFigs
+                                 }: {
   rawAmount: string
   symbol: string
   decimals: number
@@ -48,10 +30,10 @@ function FormattedCurrencyAmount({
 }
 
 function FormattedCurrencyAmountManaged({
-  rawAmount,
-  currencyId,
-  sigFigs = 6,
-}: {
+                                          rawAmount,
+                                          currencyId,
+                                          sigFigs = 6
+                                        }: {
   rawAmount: string
   currencyId: string
   sigFigs: number
@@ -137,8 +119,8 @@ function WithdrawLiquidityStakingSummary(_: { info: WithdrawLiquidityStakingTran
 }
 
 function MigrateLiquidityToV3Summary({
-  info: { baseCurrencyId, quoteCurrencyId },
-}: {
+                                       info: { baseCurrencyId, quoteCurrencyId }
+                                     }: {
   info: MigrateV2LiquidityToV3TransactionInfo
 }) {
   const baseCurrency = useCurrency(baseCurrencyId)
@@ -174,8 +156,8 @@ function CollectFeesSummary({ info: { currencyId0, currencyId1 } }: { info: Coll
 }
 
 function RemoveLiquidityV3Summary({
-  info: { baseCurrencyId, quoteCurrencyId, expectedAmountBaseRaw, expectedAmountQuoteRaw },
-}: {
+                                    info: { baseCurrencyId, quoteCurrencyId, expectedAmountBaseRaw, expectedAmountQuoteRaw }
+                                  }: {
   info: RemoveLiquidityV3TransactionInfo
 }) {
   return (
@@ -188,8 +170,8 @@ function RemoveLiquidityV3Summary({
 }
 
 function AddLiquidityV3PoolSummary({
-  info: { createPool, quoteCurrencyId, baseCurrencyId },
-}: {
+                                     info: { createPool, quoteCurrencyId, baseCurrencyId }
+                                   }: {
   info: AddLiquidityV3PoolTransactionInfo
 }) {
   const baseCurrency = useCurrency(baseCurrencyId)
@@ -207,8 +189,8 @@ function AddLiquidityV3PoolSummary({
 }
 
 function AddLiquidityV2PoolSummary({
-  info: { quoteCurrencyId, expectedAmountBaseRaw, expectedAmountQuoteRaw, baseCurrencyId },
-}: {
+                                     info: { quoteCurrencyId, expectedAmountBaseRaw, expectedAmountQuoteRaw, baseCurrencyId }
+                                   }: {
   info: AddLiquidityV2PoolTransactionInfo
 }) {
   return (
@@ -258,6 +240,12 @@ function SwapSummary({ info }: { info: ExactInputSwapTransactionInfo | ExactOutp
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function BuyNFTSummary({ info }: { info: BuyNFTInfo }) {
+  return <Trans>Buy NFT Successful</Trans>
+}
+
+
 export function TransactionSummary({ info }: { info: TransactionInfo }) {
   switch (info.type) {
     case TransactionType.ADD_LIQUIDITY_V3_POOL:
@@ -301,5 +289,8 @@ export function TransactionSummary({ info }: { info: TransactionInfo }) {
 
     case TransactionType.SUBMIT_PROPOSAL:
       return <SubmitProposalTransactionSummary info={info} />
+
+    case TransactionType.BUY_NFT:
+      return <BuyNFTSummary info={info} />
   }
 }

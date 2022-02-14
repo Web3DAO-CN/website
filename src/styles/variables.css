@@ -6,11 +6,11 @@
 }
 
 #connect-METAMASK > *:first-child {
-  background: #2D2F3D;
+  /*background: #2D2F3D;*/
 }
 
 #connect-WALLET_CONNECT > *:first-child {
-  background: #3A9AFC;
+  /*background: #3A9AFC;*/
 }
 
 .randomBack1 {

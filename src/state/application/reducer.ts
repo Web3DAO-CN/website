@@ -1,17 +1,18 @@
 import { createSlice, nanoid } from '@reduxjs/toolkit'
 import { DEFAULT_TXN_DISMISS_MS } from 'constants/misc'
+import { popupToast } from '../../components/Popups/PopupToast'
 
 import { SupportedChainId } from '../../constants/chains'
 
 export type PopupContent =
   | {
-      txn: {
-        hash: string
-      }
-    }
+  txn: {
+    hash: string
+  }
+}
   | {
-      failedSwitchNetwork: SupportedChainId
-    }
+  failedSwitchNetwork: SupportedChainId
+}
 
 export enum ApplicationModal {
   WALLET,
@@ -38,7 +39,7 @@ export interface ApplicationState {
 const initialState: ApplicationState = {
   chainId: null,
   openModal: null,
-  popupList: [],
+  popupList: []
 }
 
 const applicationSlice = createSlice({
@@ -56,21 +57,23 @@ const applicationSlice = createSlice({
       state.popupList = (key ? state.popupList.filter((popup) => popup.key !== key) : state.popupList).concat([
         {
           key: key || nanoid(),
-          show: true,
+          show: false,
           content,
-          removeAfterMs,
-        },
+          removeAfterMs
+        }
       ])
-    },
-    removePopup(state, { payload: { key } }) {
+      //立即显示
+      popupToast({ content, popKey: key, removeAfterMs })
+    }
+    /*removePopup(state, { payload: { key } }) {
       state.popupList.forEach((p) => {
         if (p.key === key) {
           p.show = false
         }
       })
-    },
-  },
+    },*/
+  }
 })
 
-export const { updateChainId, setOpenModal, addPopup, removePopup } = applicationSlice.actions
+export const { updateChainId, setOpenModal, addPopup } = applicationSlice.actions
 export default applicationSlice.reducer

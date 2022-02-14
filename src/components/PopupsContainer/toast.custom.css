@@ -1,0 +1,23 @@
+.Toastify__toast {
+    align-items: start;
+    padding: 20px 14px;
+    box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.18);
+    border-radius: 18px;
+    border: 1px solid #F0F1F4;
+    cursor: auto;
+}
+
+.Toastify__toast-body {
+    display: contents;
+    padding: 0 14px 0 0;
+}
+
+.Toastify__toast-body > div:last-child {
+    min-width: 0;
+}
+
+.Toastify__toast-icon {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+}

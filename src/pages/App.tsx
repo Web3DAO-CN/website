@@ -5,11 +5,15 @@ import { Route, Routes } from 'react-router-dom'
 
 import ErrorBoundary from '../components/ErrorBoundary'
 import Polling from '../components/Header/Polling'
-import Popups from '../components/Popups'
 import Web3ReactManager from '../components/Web3ReactManager'
-import initFontawesome from "./fontawesome";
-import Step from "./Step";
-import { PageLayout } from "../components/Layout";
+import initFontawesome from './fontawesome'
+import Index from './Index'
+import IndexApproveWrapToken from './Index/ApproveWrapToken'
+import IndexWrapToken from './Index/WrapToken'
+import IndexDemoLayout from './Index/DemoLayout'
+import IndexBuyNFT from './Index/BuyNFT'
+import { PageLayout } from '../components/Layout'
+import PopupsContainer from '../components/PopupsContainer'
 
 // const AppWrapper = styled.div`
 //   display: flex;
@@ -59,12 +63,17 @@ export default function App() {
     <ErrorBoundary>
       <Web3ReactManager>
         <>
-          <Popups />
           <Polling />
+          <PopupsContainer />
           <Suspense fallback={<Loader />}>
             <Routes>
               <Route path='/' element={<PageLayout />}>
-                <Route path='step/*' element={<Step />} />
+                <Route index element={<Index />} />
+                <Route path='wrapToken/*' element={<IndexWrapToken />} />
+                <Route path='approveWrapToken/*' element={<IndexApproveWrapToken />} />
+                <Route path='demoLayout/*' element={<IndexDemoLayout />} />
+                <Route path='buyNFT/*' element={<IndexBuyNFT />} />
+                <Route path='*' />
               </Route>
             </Routes>
           </Suspense>
