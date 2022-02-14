@@ -1,0 +1,39 @@
+:root {
+  --primary: #0d0415;
+  --text-primary: #bfbfbf;
+  --font-sans: 'DM Sans', -apple-system, system-ui, BlinkMacSystemFont, 'Helvetica Neue', 'Helvetica', sans-serif;
+  --scrollbar-width: 14px;
+}
+
+#connect-METAMASK > *:first-child {
+  background: #2D2F3D;
+}
+
+#connect-WALLET_CONNECT > *:first-child {
+  background: #3A9AFC;
+}
+
+.randomBack1 {
+  background: #925b7e;
+}
+
+.randomBack2 {
+  background: #4d7c84;
+}
+
+.randomBack3 {
+  background: #4d4f84;
+}
+
+.randomBack4 {
+  background: #97655b;
+}
+
+.react-datepicker-wrapper {
+  min-width: 0;
+  width: auto;
+}
+
+.react-datepicker__input-container {
+  height: 100%;
+}
