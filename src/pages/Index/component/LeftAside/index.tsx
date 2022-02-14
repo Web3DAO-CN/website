@@ -1,4 +1,4 @@
-import { CreditCard, ExchangeAlt, LayerGroup, ShoppingCart } from 'components/FontawesomeIcon'
+import { ExchangeAlt, LayerGroup, ShoppingCart } from 'components/FontawesomeIcon'
 import { NavLink } from 'react-router-dom'
 import classNames from '../../../../utils/classNames'
 
@@ -10,13 +10,13 @@ const navigation = [
     icon: <ExchangeAlt />,
     path: '/wrapToken'
   },
-  {
+  /*{
     id: 2,
     name: '授权W母币',
     href: '#',
     icon: <CreditCard />,
     path: '/approveWrapToken'
-  },
+  },*/
   {
     id: 3,
     name: '购买',

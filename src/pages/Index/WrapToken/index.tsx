@@ -83,7 +83,7 @@ export default function WrapToken() {
                       placeholder={'输入数额'}
                     />
                   </div>
-                  <div className='mt-2 text-sm text-gray-500 flex justify-start items-center'>
+                  <div className='mt-2 text-sm text-gray-500 flex justify-between items-center'>
                     <div onClick={handleMaxInput} className='text-blue-600'>
                       您的余额&nbsp;
                       {
@@ -99,7 +99,7 @@ export default function WrapToken() {
                       }
                       &nbsp;
                     </div>
-                    <div className='ml-2' onClick={toggleWrap}>
+                    <div onClick={toggleWrap} className='text-blue-500'>
                       <Repeat />
                     </div>
                   </div>

@@ -20,6 +20,10 @@ import { isAddress, shortenAddress } from '../../../utils'
 import { popupToastError } from '../../../components/Popups/PopupToast'
 import { DEFAULT_TXN_DISMISS_MS } from '../../../constants/misc'
 import usePrevious from '../../../hooks/usePrevious'
+import { ApprovalState } from '../../../lib/hooks/useApproval'
+import { Dots } from '../../../components/swap/styleds'
+import { useApproveCallback } from '../../../hooks/useApproveCallback'
+import { BuyNFT } from '../../../constants/addresses'
 
 export default function ApproveWrapToken() {
 
@@ -41,6 +45,12 @@ export default function ApproveWrapToken() {
   const nftPriceCurrencyAmount = useNativeCurrencyAmount(nftPrice)
 
   console.log('nftPriceCurrencyAmount = %s', nftPriceCurrencyAmount?.toExact())
+
+  const [approval, approveCallback] = useApproveCallback(userWrappedNativeTokenBalance, chainId ? BuyNFT[chainId] : undefined)
+
+  async function onAttemptToApprove() {
+    await approveCallback()
+  }
 
   //合约交互
   const [txHash, setTxHash] = useState<string>('')
@@ -72,7 +82,7 @@ export default function ApproveWrapToken() {
                 {userWrappedNativeTokenBalance?.currency.symbol}
                 <div className='mt-3 sm:mt-0 sm:ml-4'>
                   <div className='text-sm font-medium text-gray-900'>
-                    {userWrappedNativeTokenBalance?.toExact()}
+                    {nftPriceCurrencyAmount?.toExact()}
                   </div>
                   <div className='mt-1 text-sm text-gray-600 sm:flex sm:items-center'>
                     <div className='mt-1 sm:mt-0'>
@@ -197,14 +207,24 @@ export default function ApproveWrapToken() {
         <form action='#' method='POST'>
           <div className='shadow sm:rounded-md sm:overflow-hidden'>
             <div className='bg-white py-6 px-4 space-y-6 sm:p-6'>
+
               <div>
                 <h3 className='text-lg leading-6 font-medium text-gray-900'>Profile</h3>
                 <p className='mt-1 text-sm text-gray-500'>
-                  需支付 {nftPriceCurrencyAmount?.toExact()} {nftPriceCurrencyAmount?.currency.symbol}
+                  NFT价格 {nftPriceCurrencyAmount?.toExact()} {nftPriceCurrencyAmount?.currency.symbol}
                 </p>
               </div>
 
               <div className='grid grid-cols-3 gap-6'>
+
+                <div className='col-span-3'>
+                  <label htmlFor='about' className='block text-sm font-medium text-gray-700'>
+                    NFT交易合约
+                  </label>
+                  <p className='mt-2 text-sm text-gray-500'>
+                    {chainId ? BuyNFT[chainId] : ''}
+                  </p>
+                </div>
 
                 <div className='col-span-3'>
                   <label htmlFor='about' className='block text-sm font-medium text-gray-700'>
@@ -235,10 +255,32 @@ export default function ApproveWrapToken() {
             </div>
             <div className='px-4 py-3 bg-gray-50 text-right sm:px-6'>
 
+              {
+                approval !== ApprovalState.APPROVED
+                  ? <button
+                    disabled={approval !== ApprovalState.NOT_APPROVED || !userWrappedNativeTokenBalance?.greaterThan(0)}
+                    type='button'
+                    className='bg-indigo-600 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-30'
+                    onClick={onAttemptToApprove}
+                  >
+                    {
+                      approval === ApprovalState.PENDING
+                        ?
+                        <Dots>
+                          <Trans>Approving</Trans>
+                        </Dots>
+                        : userWrappedNativeTokenBalance?.greaterThan(0)
+                          ? <Trans>Approve</Trans>
+                          : null
+                    }
+                  </button>
+                  : null
+              }
+
               <button
-                disabled={!userWrappedNativeTokenBalance?.greaterThan(0) || !nftReceiver || !isAddress(nftReceiver)}
+                disabled={approval !== ApprovalState.APPROVED || !userWrappedNativeTokenBalance?.greaterThan(0) || !nftReceiver || !isAddress(nftReceiver)}
                 type='button'
-                className='bg-indigo-600 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-30'
+                className='bg-indigo-600 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-30 ml-2'
                 onClick={() => {
                   setShowConfirm(true)
                 }}
