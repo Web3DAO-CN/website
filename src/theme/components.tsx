@@ -238,10 +238,10 @@ export function BackArrow({ to }: { to: string }) {
   )
 }
 
-export const CustomLightSpinner = styled(Spinner)<{ size: string }>`
+/*export const CustomLightSpinner = styled(Spinner)<{ size: string }>`
   height: ${({ size }) => size};
   width: ${({ size }) => size};
-`
+`*/
 
 export const HideSmall = styled.span`
   ${({ theme }) => theme.mediaWidth.upToSmall`

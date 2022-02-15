@@ -62,7 +62,6 @@ const applicationSlice = createSlice({
           removeAfterMs
         }
       ])
-      //立即显示
       popupToast({ content, popKey: key, removeAfterMs })
     }
     /*removePopup(state, { payload: { key } }) {

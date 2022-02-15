@@ -10,9 +10,8 @@ import { Text } from 'rebass'
 import { useIsTransactionConfirmed, useTransaction } from 'state/transactions/hooks'
 import styled, { ThemeContext } from 'styled-components/macro'
 
-import Circle from '../../assets/images/blue-loader.svg'
-import MetaMaskLogo from '../../assets/images/metamask.png'
-import { CloseIcon, CustomLightSpinner, ExternalLink } from '../../theme'
+import MetaMaskLogo from '../../assets/images/wallet/metamask.png'
+import { CloseIcon, ExternalLink } from '../../theme'
 import { ExplorerDataType, getExplorerLink } from '../../utils/getExplorerLink'
 import { TransactionSummary } from '../AccountDetails/TransactionSummary'
 import { ButtonLight, ButtonPrimary } from '../Button'
@@ -20,7 +19,7 @@ import { AutoColumn, ColumnCenter } from '../Column'
 import Modal from '../Modal'
 import { RowBetween, RowFixed } from '../Row'
 import AnimatedConfirmation from './AnimatedConfirmation'
-import { CheckCircle, ExclamationCircle, ExclamationTriangle, PlaneDeparture } from "../FontawesomeIcon";
+import { CheckCircle, ExclamationCircle, ExclamationTriangle, PlaneDeparture, SyncAlt } from '../FontawesomeIcon'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -64,7 +63,8 @@ function ConfirmationPendingContent({
           </RowBetween>
         )}
         <ConfirmedIcon inline={inline}>
-          <CustomLightSpinner src={Circle} alt="loader" size={inline ? '40px' : '90px'} />
+          {/*<CustomLightSpinner src={Circle} alt="loader" size={inline ? '40px' : '90px'} />*/}
+          <SyncAlt size={90} />
         </ConfirmedIcon>
         <AutoColumn gap="12px" justify={'center'}>
           <Text fontWeight={500} fontSize={20} textAlign="center">
@@ -259,7 +259,7 @@ function L2Content({
               <ExclamationCircle strokeWidth={1} size={inline ? '40px' : '90px'} color={theme.red1} />
             )
           ) : (
-            <CustomLightSpinner src={Circle} alt="loader" size={inline ? '40px' : '90px'} />
+            <SyncAlt size={90} />
           )}
         </ConfirmedIcon>
         <AutoColumn gap="12px" justify={'center'}>

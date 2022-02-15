@@ -1,6 +1,6 @@
 import { Connector } from '@web3-react/types'
 import { AbstractConnector } from 'web3-react-abstract-connector'
-import WalletConnectIcon from '../../assets/images/walletConnectIcon.svg'
+import WalletConnectIcon from '../../assets/images/wallet/walletConnectIcon.svg'
 import { injected, walletconnect } from '../../connectors'
 import Identicon from '../Identicon'
 
