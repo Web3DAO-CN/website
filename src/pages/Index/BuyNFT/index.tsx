@@ -32,8 +32,8 @@ export default function ApproveWrapToken() {
 
   const [nftReceiver, setNFTReceiver] = useState<string>('')
   useEffect(() => {
-    if (account && account !== lastAccount && isAddress(account)) {
-      setNFTReceiver(account)
+    if (account !== lastAccount && isAddress(account)) {
+      setNFTReceiver(account ?? '')
     }
   }, [lastAccount, account])
 
