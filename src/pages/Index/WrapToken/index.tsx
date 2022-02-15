@@ -85,19 +85,13 @@ export default function WrapToken() {
                   </div>
                   <div className='mt-2 text-sm text-gray-500 flex justify-between items-center'>
                     <div onClick={handleMaxInput} className='text-blue-600'>
-                      您的余额&nbsp;
-                      {
-                        wrap
-                          ? userNativeTokenBalance?.toSignificant(4)
-                          : userWrappedNativeTokenBalance?.toSignificant(4)
-                      }
+                      <Trans>Balance: {wrap ? userNativeTokenBalance?.toSignificant(4) : userWrappedNativeTokenBalance?.toSignificant(4)}</Trans>
                       &nbsp;
                       {
                         wrap
                           ? userNativeTokenBalance?.currency.symbol
                           : userWrappedNativeTokenBalance?.currency.symbol
                       }
-                      &nbsp;
                     </div>
                     <div onClick={toggleWrap} className='text-blue-500'>
                       <Repeat />
@@ -129,7 +123,7 @@ export default function WrapToken() {
                   ) : wrapType === WrapType.UNWRAP ? (
                       <Trans>Unwrap</Trans>
                     )
-                    : <Trans>请输入</Trans>
+                    : <Trans>Enter an amount</Trans>
                 }
 
               </button>

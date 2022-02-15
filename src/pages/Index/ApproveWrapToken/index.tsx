@@ -52,7 +52,7 @@ export default function ApproveWrapToken() {
                   <div className='mt-1'>
                   </div>
                   <p className='mt-2 text-sm text-gray-500'>
-                    您的余额 {userWrappedNativeTokenBalance?.toSignificant(3)} {wrappedNativeCurrency?.symbol}
+                    <Trans>Balance: {userWrappedNativeTokenBalance?.toSignificant(3)}</Trans> {wrappedNativeCurrency?.symbol}
                   </p>
                 </div>
 

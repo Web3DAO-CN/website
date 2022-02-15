@@ -244,11 +244,8 @@ export default function ApproveWrapToken() {
 
                 <div className='col-span-3'>
                   <label htmlFor='about' className='block text-sm font-medium text-gray-700'>
-                    您的余额
+                    <Trans>Balance: {userWrappedNativeTokenBalance?.toSignificant(3)}</Trans> {wrappedNativeCurrency?.symbol}
                   </label>
-                  <p className='mt-2 text-sm text-gray-500'>
-                    {userWrappedNativeTokenBalance?.toSignificant(3)} {wrappedNativeCurrency?.symbol}
-                  </p>
                 </div>
 
               </div>
@@ -288,7 +285,7 @@ export default function ApproveWrapToken() {
                     ? 'NFT接收地址，格式不正确'
                     : userWrappedNativeTokenBalance?.greaterThan(0)
                       ? <Trans>购买</Trans>
-                      : <Trans>额度不足</Trans>
+                      : <Trans>Insufficient {userWrappedNativeTokenBalance?.currency.symbol} balance</Trans>
                 }
               </button>
 
