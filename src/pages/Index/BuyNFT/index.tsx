@@ -54,6 +54,7 @@ export default function ApproveWrapToken() {
   const buyNFTAddress = useMemo(() => {
     return chainId ? BuyNFT[chainId] : undefined
   }, [chainId])
+
   const [approval, approveCallback] = useApproveCallback(userWrappedNativeTokenBalance, buyNFTAddress)
 
   async function onAttemptToApprove() {
@@ -249,7 +250,7 @@ export default function ApproveWrapToken() {
                       <p className='mt-2 text-sm text-gray-500'>
                         {
                           <ExternalLink href={getExplorerLink(chainId, buyNFTAddress, ExplorerDataType.ADDRESS)}>
-                            {buyNFTAddress}
+                            {shortenAddress(buyNFTAddress)}
                             <ExternalLinkAlt className='ml-1' />
                           </ExternalLink>
                         }
