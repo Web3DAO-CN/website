@@ -39,3 +39,23 @@ export function useNativeCurrencyAmount(value?: number | string): CurrencyAmount
     }
   }, [value, nativeToken])
 }
+
+export function useERC20CurrencyAmountForTypeInput(amount: string | undefined, currency: Currency | undefined | null): CurrencyAmount<Currency> | undefined {
+  return useMemo(() => {
+    if (amount && currency) {
+      return tryParseCurrencyAmount(amount, currency)
+    } else {
+      return undefined
+    }
+  }, [amount, currency])
+}
+
+export function useERC20CurrencyAmount(amount: string | undefined, currency: Currency | undefined | null): CurrencyAmount<Currency> | undefined {
+  return useMemo(() => {
+    if (amount && currency) {
+      return CurrencyAmount.fromRawAmount(currency, amount)
+    } else {
+      return undefined
+    }
+  }, [amount, currency])
+}

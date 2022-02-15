@@ -7,7 +7,7 @@ import RightContents from '../component/RightContents'
 import BodyWrapper from '../component/BodyWrapper'
 import { useBuyNFTContract } from '../../../hooks/useContract'
 import { useBuyNFTPrice } from '../../../hooks/useBuyNFTContract'
-import { useNativeCurrencyAmount } from '../../../lib/hooks/useNativeCurrency'
+import { useERC20CurrencyAmount } from '../../../lib/hooks/useNativeCurrency'
 import TransactionConfirmationModal, { ConfirmationModalContent } from 'components/TransactionConfirmationModal'
 import { useCallback, useEffect, useState } from 'react'
 import { ButtonPrimary } from 'components/Button'
@@ -24,6 +24,9 @@ import { ApprovalState } from '../../../lib/hooks/useApproval'
 import { useApproveCallback } from '../../../hooks/useApproveCallback'
 import { BuyNFT } from '../../../constants/addresses'
 import { Dots } from 'components/Dots'
+import { ExternalLinkAlt } from '../../../components/FontawesomeIcon'
+import { ExplorerDataType, getExplorerLink } from '../../../utils/getExplorerLink'
+import ExternalLink from '../../../lib/components/ExternalLink'
 
 export default function ApproveWrapToken() {
 
@@ -42,9 +45,9 @@ export default function ApproveWrapToken() {
   const userWrappedNativeTokenBalance = useCurrencyBalance(account ?? undefined, wrappedNativeCurrency)
 
   const nftPrice = useBuyNFTPrice()
-  const nftPriceCurrencyAmount = useNativeCurrencyAmount(nftPrice)
+  const nftPriceCurrencyAmount = useERC20CurrencyAmount(nftPrice, wrappedNativeCurrency)
 
-  console.log('nftPriceCurrencyAmount = %s', nftPriceCurrencyAmount?.toExact())
+  //console.log('nftPriceCurrencyAmount = %s', nftPriceCurrencyAmount?.toExact())
 
   const [approval, approveCallback] = useApproveCallback(userWrappedNativeTokenBalance, chainId ? BuyNFT[chainId] : undefined)
 
@@ -222,7 +225,19 @@ export default function ApproveWrapToken() {
                     NFT交易合约
                   </label>
                   <p className='mt-2 text-sm text-gray-500'>
-                    {chainId ? BuyNFT[chainId] : ''}
+                    {
+                      chainId
+                        ?
+                        <>
+                          {
+                            <ExternalLink href={getExplorerLink(chainId, BuyNFT[chainId], ExplorerDataType.ADDRESS)}>
+                              {BuyNFT[chainId]}
+                              <ExternalLinkAlt className='ml-1' />
+                            </ExternalLink>
+                          }
+                        </>
+                        : ''
+                    }
                   </p>
                 </div>
 

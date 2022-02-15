@@ -131,7 +131,7 @@
     "prepare": "yarn contracts:compile && yarn i18n:compile",
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "predeploy": "npm run build",
+    "predeploy": "yarn build",
     "deploy": "gh-pages -d build"
   },
   "browserslist": {
