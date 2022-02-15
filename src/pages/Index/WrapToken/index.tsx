@@ -83,20 +83,25 @@ export default function WrapToken() {
                       placeholder={'输入数额'}
                     />
                   </div>
-                  <div className='mt-2 text-sm text-gray-500 flex justify-between items-center'>
-                    <div onClick={handleMaxInput} className='text-blue-600'>
-                      <Trans>Balance: {wrap ? userNativeTokenBalance?.toSignificant(4) : userWrappedNativeTokenBalance?.toSignificant(4)}</Trans>
-                      &nbsp;
-                      {
-                        wrap
-                          ? userNativeTokenBalance?.currency.symbol
-                          : userWrappedNativeTokenBalance?.currency.symbol
-                      }
-                    </div>
-                    <div onClick={toggleWrap} className='text-blue-500'>
-                      <Repeat />
-                    </div>
-                  </div>
+                  {
+                    userNativeTokenBalance && userWrappedNativeTokenBalance
+                      ?
+                      <div className='mt-2 text-sm text-gray-500 flex justify-between items-center'>
+                        <div onClick={handleMaxInput} className='text-blue-600'>
+                          <Trans>Balance: {wrap ? userNativeTokenBalance?.toSignificant(4) : userWrappedNativeTokenBalance?.toSignificant(4)}</Trans>
+                          &nbsp;
+                          {
+                            wrap
+                              ? userNativeTokenBalance?.currency.symbol
+                              : userWrappedNativeTokenBalance?.currency.symbol
+                          }
+                        </div>
+                        <div onClick={toggleWrap} className='text-blue-500'>
+                          <Repeat />
+                        </div>
+                      </div>
+                      : null
+                  }
                 </div>
 
               </div>

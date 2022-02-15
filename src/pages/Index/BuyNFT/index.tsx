@@ -35,8 +35,10 @@ export default function ApproveWrapToken() {
 
   const [nftReceiver, setNFTReceiver] = useState<string>('')
   useEffect(() => {
-    if (account !== lastAccount && isAddress(account)) {
+    if ((account || account !== lastAccount) && isAddress(account)) {
       setNFTReceiver(account ?? '')
+    } else {
+      setNFTReceiver('')
     }
   }, [lastAccount, account])
 
@@ -272,12 +274,16 @@ export default function ApproveWrapToken() {
                   </p>
                 </div>
 
-                <div className='col-span-3'>
-                  <label htmlFor='about' className='block text-sm font-medium text-gray-700'>
-                    <Trans>Balance: {userWrappedNativeTokenBalance?.toSignificant(3)}</Trans> {wrappedNativeCurrency?.symbol}
-                  </label>
-                </div>
-
+                {
+                  userWrappedNativeTokenBalance
+                    ?
+                    <div className='col-span-3'>
+                      <label htmlFor='about' className='block text-sm font-medium text-gray-700'>
+                        <Trans>Balance: {userWrappedNativeTokenBalance?.toSignificant(3)}</Trans> {wrappedNativeCurrency?.symbol}
+                      </label>
+                    </div>
+                    : null
+                }
               </div>
             </div>
             <div className='px-4 py-3 bg-gray-50 text-right sm:px-6'>
