@@ -11,6 +11,8 @@ interface SwitchNetworkArguments {
 
 function getRpcUrls(chainId: SupportedChainId): [string] {
   switch (chainId) {
+    case SupportedChainId.MAINNET:
+      return [RPC_URLS[chainId]]
     case SupportedChainId.RINKEBY:
       return [RPC_URLS[chainId]]
     case SupportedChainId.POLYGON:
@@ -33,7 +35,7 @@ export async function switchToNetwork({ library, chainId }: SwitchNetworkArgumen
   try {
     await library.provider.request({
       method: 'wallet_switchEthereumChain',
-      params: [{ chainId: formattedChainId }],
+      params: [{ chainId: formattedChainId }]
     })
   } catch (error) {
     // 4902 is the error code for attempting to switch to an unrecognized chainId
@@ -48,9 +50,9 @@ export async function switchToNetwork({ library, chainId }: SwitchNetworkArgumen
             chainName: info.label,
             rpcUrls: getRpcUrls(chainId),
             nativeCurrency: info.addNetworkInfo.nativeToken,
-            blockExplorerUrls: [info.explorer],
-          },
-        ],
+            blockExplorerUrls: [info.explorer]
+          }
+        ]
       })
       // metamask (only known implementer) automatically switches after a network is added
       // the second call is done here because that behavior is not a part of the spec and cannot be relied upon in the future
@@ -58,7 +60,7 @@ export async function switchToNetwork({ library, chainId }: SwitchNetworkArgumen
       try {
         await library.provider.request({
           method: 'wallet_switchEthereumChain',
-          params: [{ chainId: formattedChainId }],
+          params: [{ chainId: formattedChainId }]
         })
       } catch (error) {
         console.debug('Added network but could not switch chains', error)

@@ -1,4 +1,4 @@
-import { SupportedChainId } from 'constants/chains'
+import { DEFAULT_CHAIN_ID, SupportedChainId } from 'constants/chains'
 import useActiveWeb3React from 'lib/hooks/useActiveWeb3React'
 import styled, { Color } from 'lib/theme'
 import { ReactNode, useMemo } from 'react'
@@ -21,11 +21,11 @@ interface EtherscanLinkProps {
 export default function EtherscanLink({ data, type, color = 'currentColor', children }: EtherscanLinkProps) {
   const { chainId } = useActiveWeb3React()
   const url = useMemo(
-    () => data && getExplorerLink(chainId || SupportedChainId.MAINNET, data, type),
+    () => data && getExplorerLink(chainId || DEFAULT_CHAIN_ID, data, type),
     [chainId, data, type]
   )
   return (
-    <Link href={url} color={color} target="_blank">
+    <Link href={url} color={color} target='_blank'>
       {children}
     </Link>
   )

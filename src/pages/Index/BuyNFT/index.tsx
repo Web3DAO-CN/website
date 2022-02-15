@@ -9,7 +9,7 @@ import { useBuyNFTContract } from '../../../hooks/useContract'
 import { useBuyNFTPrice } from '../../../hooks/useBuyNFTContract'
 import { useERC20CurrencyAmount } from '../../../lib/hooks/useNativeCurrency'
 import TransactionConfirmationModal, { ConfirmationModalContent } from 'components/TransactionConfirmationModal'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { ButtonPrimary } from 'components/Button'
 import { calculateGasMargin } from '../../../utils/calculateGasMargin'
 import { TransactionResponse } from '@ethersproject/providers'
@@ -49,7 +49,10 @@ export default function ApproveWrapToken() {
 
   //console.log('nftPriceCurrencyAmount = %s', nftPriceCurrencyAmount?.toExact())
 
-  const [approval, approveCallback] = useApproveCallback(userWrappedNativeTokenBalance, chainId ? BuyNFT[chainId] : undefined)
+  const buyNFTAddress = useMemo(() => {
+    return chainId ? BuyNFT[chainId] : undefined
+  }, [chainId])
+  const [approval, approveCallback] = useApproveCallback(userWrappedNativeTokenBalance, buyNFTAddress)
 
   async function onAttemptToApprove() {
     await approveCallback()
@@ -214,32 +217,44 @@ export default function ApproveWrapToken() {
               <div>
                 <h3 className='text-lg leading-6 font-medium text-gray-900'>Profile</h3>
                 <p className='mt-1 text-sm text-gray-500'>
-                  NFT价格 {nftPriceCurrencyAmount?.toExact()} {nftPriceCurrencyAmount?.currency.symbol}
+                  简介
                 </p>
               </div>
 
               <div className='grid grid-cols-3 gap-6'>
 
-                <div className='col-span-3'>
-                  <label htmlFor='about' className='block text-sm font-medium text-gray-700'>
-                    NFT交易合约
-                  </label>
-                  <p className='mt-2 text-sm text-gray-500'>
-                    {
-                      chainId
-                        ?
-                        <>
-                          {
-                            <ExternalLink href={getExplorerLink(chainId, BuyNFT[chainId], ExplorerDataType.ADDRESS)}>
-                              {BuyNFT[chainId]}
-                              <ExternalLinkAlt className='ml-1' />
-                            </ExternalLink>
-                          }
-                        </>
-                        : ''
-                    }
-                  </p>
-                </div>
+                {
+                  nftPriceCurrencyAmount && nftPriceCurrencyAmount.greaterThan(0)
+                    ?
+                    <div className='col-span-3'>
+                      <label htmlFor='about' className='block text-sm font-medium text-gray-700'>
+                        NFT价格
+                      </label>
+                      <p className='mt-2 text-sm text-gray-500'>
+                        {nftPriceCurrencyAmount?.toExact()} {nftPriceCurrencyAmount?.currency.symbol}
+                      </p>
+                    </div>
+                    : null
+                }
+
+                {
+                  chainId && buyNFTAddress
+                    ?
+                    <div className='col-span-3'>
+                      <label htmlFor='about' className='block text-sm font-medium text-gray-700'>
+                        NFT交易合约
+                      </label>
+                      <p className='mt-2 text-sm text-gray-500'>
+                        {
+                          <ExternalLink href={getExplorerLink(chainId, buyNFTAddress, ExplorerDataType.ADDRESS)}>
+                            {buyNFTAddress}
+                            <ExternalLinkAlt className='ml-1' />
+                          </ExternalLink>
+                        }
+                      </p>
+                    </div>
+                    : null
+                }
 
                 <div className='col-span-3'>
                   <label htmlFor='about' className='block text-sm font-medium text-gray-700'>

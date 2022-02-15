@@ -1,5 +1,5 @@
 import { Currency } from '@uniswap/sdk-core'
-import { SupportedChainId } from 'constants/chains'
+import { DEFAULT_CHAIN_ID, SupportedChainId } from 'constants/chains'
 import useHttpLocations from 'hooks/useHttpLocations'
 import { useMemo } from 'react'
 import { WrappedTokenInfo } from 'state/lists/wrappedTokenInfo'
@@ -7,18 +7,20 @@ import { WrappedTokenInfo } from 'state/lists/wrappedTokenInfo'
 import EthereumLogo from '../../assets/images/ethereum-logo.png'
 import MaticLogo from '../../assets/svg/matic-token-icon.svg'
 
-type Network = 'ethereum'
+type Network = 'polygon' | 'ethereum'
 
 function chainIdToNetworkName(networkId: SupportedChainId): Network {
   switch (networkId) {
     case SupportedChainId.MAINNET:
       return 'ethereum'
+    case SupportedChainId.POLYGON || SupportedChainId.POLYGON_MUMBAI:
+      return 'polygon'
     default:
       return 'ethereum'
   }
 }
 
-function getNativeLogoURI(chainId: SupportedChainId = SupportedChainId.MAINNET): string {
+function getNativeLogoURI(chainId: SupportedChainId = DEFAULT_CHAIN_ID): string {
   switch (chainId) {
     case SupportedChainId.POLYGON_MUMBAI:
     case SupportedChainId.POLYGON:
@@ -28,7 +30,7 @@ function getNativeLogoURI(chainId: SupportedChainId = SupportedChainId.MAINNET):
   }
 }
 
-function getTokenLogoURI(address: string, chainId: SupportedChainId = SupportedChainId.MAINNET): string | void {
+function getTokenLogoURI(address: string, chainId: SupportedChainId = DEFAULT_CHAIN_ID): string | void {
   const networkName = chainIdToNetworkName(chainId)
   const networksWithUrls = [SupportedChainId.MAINNET]
   if (networksWithUrls.includes(chainId)) {

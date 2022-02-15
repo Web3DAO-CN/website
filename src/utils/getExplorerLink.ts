@@ -4,7 +4,7 @@ const ETHERSCAN_PREFIXES: { [chainId: number]: string } = {
   [SupportedChainId.MAINNET]: 'https://etherscan.io',
   [SupportedChainId.RINKEBY]: 'https://rinkeby.etherscan.io',
   [SupportedChainId.POLYGON_MUMBAI]: 'https://mumbai.polygonscan.com',
-  [SupportedChainId.POLYGON]: 'https://polygonscan.com',
+  [SupportedChainId.POLYGON]: 'https://polygonscan.com'
 }
 
 export enum ExplorerDataType {

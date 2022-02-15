@@ -1,9 +1,9 @@
 import { Currency, CurrencyAmount, NativeCurrency } from '@uniswap/sdk-core'
-import { SupportedChainId } from 'constants/chains'
+import { DEFAULT_CHAIN_ID } from 'constants/chains'
 import { nativeOnChain } from 'constants/tokens'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { useMemo } from 'react'
-import tryParseCurrencyAmount from "../utils/tryParseCurrencyAmount";
+import tryParseCurrencyAmount from '../utils/tryParseCurrencyAmount'
 
 export default function useNativeCurrency(): NativeCurrency {
   const { chainId } = useActiveWeb3React()
@@ -11,8 +11,8 @@ export default function useNativeCurrency(): NativeCurrency {
     () =>
       chainId
         ? nativeOnChain(chainId)
-        : // display mainnet when not connected
-        nativeOnChain(SupportedChainId.MAINNET),
+        : // display default when not connected
+        nativeOnChain(DEFAULT_CHAIN_ID),
     [chainId]
   )
 }

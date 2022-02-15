@@ -3,6 +3,8 @@ import { SupportedChainId } from '../constants/chains'
 const DEFAULT_NETWORKS = [
   SupportedChainId.MAINNET,
   SupportedChainId.RINKEBY,
+  SupportedChainId.POLYGON,
+  SupportedChainId.POLYGON_MUMBAI
 ]
 
 export function constructSameAddressMap<T extends string>(
