@@ -263,7 +263,7 @@ export default function Header() {
               <img
                 className='h-8 w-auto sm:h-10'
                 src={Logo}
-                alt=''
+                alt='web3dao'
               />
 
             </a>
@@ -494,8 +494,8 @@ export default function Header() {
                 <div>
                   <img
                     className='h-8 w-auto'
-                    src='https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg'
-                    alt='Workflow'
+                    src={Logo}
+                    alt='web3dao'
                   />
                 </div>
                 <div className='-mr-2'>

@@ -161,7 +161,7 @@ const ToggleMenuItem = styled.button`
   }
 `
 
-function LanguageMenuItem({ locale, active }: { locale: SupportedLocale; active: boolean }) {
+export function LanguageMenuItem({ locale, active }: { locale: SupportedLocale; active: boolean }) {
   const { to, onClick } = useLocationLinkProps(locale)
 
   if (!to) return null
