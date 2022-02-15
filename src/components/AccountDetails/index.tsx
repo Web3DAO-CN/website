@@ -6,7 +6,6 @@ import { useAppDispatch } from 'state/hooks'
 import styled, { ThemeContext } from 'styled-components/macro'
 import { AbstractConnector } from 'web3-react-abstract-connector'
 
-import { ReactComponent as Close } from '../../assets/images/x.svg'
 import { injected } from '../../connectors'
 import { SUPPORTED_WALLETS } from '../../constants/wallet'
 import { clearAllTransactions } from '../../state/transactions/actions'
@@ -18,7 +17,7 @@ import StatusIcon from '../Identicon/StatusIcon'
 import { AutoRow } from '../Row'
 import Copy from './Copy'
 import Transaction from './Transaction'
-import { ExternalLinkAlt } from "../FontawesomeIcon";
+import { ExternalLinkAlt, Times } from '../FontawesomeIcon'
 
 const HeaderRow = styled.div`
   ${({ theme }) => theme.flexRowNoWrap};
@@ -151,7 +150,7 @@ const CloseIcon = styled.div`
   }
 `
 
-const CloseColor = styled(Close)`
+const CloseColor = styled(Times)`
   path {
     stroke: ${({ theme }) => theme.text4};
   }
@@ -242,7 +241,7 @@ export default function AccountDetails({
                                          pendingTransactions,
                                          confirmedTransactions,
                                          ENSName,
-                                         openOptions,
+                                         openOptions
                                        }: AccountDetailsProps) {
   const { chainId, account, connector } = useActiveWeb3React()
   const theme = useContext(ThemeContext)
@@ -303,7 +302,7 @@ export default function AccountDetails({
                   </WalletAction>
                 </div>
               </AccountGroupingRow>
-              <AccountGroupingRow id="web3-account-identifier-row">
+              <AccountGroupingRow id='web3-account-identifier-row'>
                 <AccountControl>
                   {ENSName ? (
                     <>

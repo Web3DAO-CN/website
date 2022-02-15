@@ -10,8 +10,7 @@ import { AbstractConnector } from 'web3-react-abstract-connector'
 import { UnsupportedChainIdError, useWeb3React } from 'web3-react-core'
 import { WalletConnectConnector } from 'web3-react-walletconnect-connector'
 
-import MetamaskIcon from '../../assets/images/metamask.png'
-import { ReactComponent as Close } from '../../assets/images/x.svg'
+import MetamaskIcon from '../../assets/images/wallet/metamask.png'
 import { injected } from '../../connectors'
 import { SUPPORTED_WALLETS } from '../../constants/wallet'
 import usePrevious from '../../hooks/usePrevious'
@@ -24,7 +23,7 @@ import Card, { LightCard } from '../Card'
 import Modal from '../Modal'
 import Option from './Option'
 import PendingView from './PendingView'
-import { ArrowLeft, ArrowRight, InfoCircle } from "../FontawesomeIcon";
+import { ArrowLeft, ArrowRight, InfoCircle, Times } from '../FontawesomeIcon'
 
 const CloseIcon = styled.div`
   position: absolute;
@@ -36,7 +35,7 @@ const CloseIcon = styled.div`
   }
 `
 
-const CloseColor = styled(Close)`
+const CloseColor = styled(Times)`
   path {
     stroke: ${({ theme }) => theme.text4};
   }

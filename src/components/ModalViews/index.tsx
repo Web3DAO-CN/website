@@ -2,13 +2,11 @@ import { Trans } from '@lingui/macro'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { useContext } from 'react'
 import styled, { ThemeContext } from 'styled-components/macro'
-
-import Circle from '../../assets/images/blue-loader.svg'
-import { CloseIcon, CustomLightSpinner, ExternalLink, ThemedText } from '../../theme'
+import { CloseIcon, ExternalLink, ThemedText } from '../../theme'
 import { ExplorerDataType, getExplorerLink } from '../../utils/getExplorerLink'
 import { AutoColumn, ColumnCenter } from '../Column'
 import { RowBetween } from '../Row'
-import { ArrowAltCircleUp } from "../FontawesomeIcon";
+import { ArrowAltCircleUp, SyncAlt } from '../FontawesomeIcon'
 
 const ConfirmOrLoadingWrapper = styled.div`
   width: 100%;
@@ -27,7 +25,8 @@ export function LoadingView({ children, onDismiss }: { children: any; onDismiss:
         <CloseIcon onClick={onDismiss} />
       </RowBetween>
       <ConfirmedIcon>
-        <CustomLightSpinner src={Circle} alt="loader" size={'90px'} />
+        {/*<CustomLightSpinner src={Circle} alt="loader" size={'90px'} />*/}
+        <SyncAlt size={90} />
       </ConfirmedIcon>
       <AutoColumn gap="100px" justify={'center'}>
         {children}

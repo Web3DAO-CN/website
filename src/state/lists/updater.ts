@@ -12,7 +12,7 @@ import { acceptListUpdate } from './actions'
 import { useActiveListUrls } from './hooks'
 
 export default function Updater(): null {
-  const { chainId, library } = useActiveWeb3React()
+  const { library } = useActiveWeb3React()
   const dispatch = useAppDispatch()
   const isWindowVisible = useIsWindowVisible()
 
