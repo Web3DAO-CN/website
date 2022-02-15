@@ -1,9 +1,4 @@
-import { DEFAULT_LOCALE, SupportedLocale } from '../../constants/locales'
-import React, { useEffect, useState } from 'react'
-import { useActiveLocale } from '../../hooks/useActiveLocale'
-import { useNavigate } from 'react-router-dom'
-import usePrevious from '../../hooks/usePrevious'
-import { useLocationLinkProps } from '../../hooks/useLocationLinkProps'
+import React from 'react'
 import LanguageDropdown from './components/LanguageDropdown'
 
 const navigation = {
@@ -97,26 +92,6 @@ const navigation = {
 }
 
 export default function Footer() {
-
-  const navigate = useNavigate()
-
-  const [locale, setLocale] = useState<SupportedLocale>(DEFAULT_LOCALE)
-  const lastLocale = usePrevious(locale)
-
-  const { to } = useLocationLinkProps(locale)
-
-  const onChangeLanguage = (value: string) => {
-    setLocale(value)
-  }
-
-  useEffect(() => {
-    if (locale && locale !== lastLocale && to) {
-      navigate(to)
-    }
-  }, [to, locale, lastLocale])
-
-  const activeLocale = useActiveLocale()
-  console.log('activeLocale = %s', activeLocale)
 
   return (
     <footer className='bg-gray-800' aria-labelledby='footer-heading'>

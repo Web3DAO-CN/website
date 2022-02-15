@@ -36,20 +36,10 @@ export default function LanguageDropdown() {
             <div className='py-1'>
                {SUPPORTED_LOCALES.map((locale, index) => (
                  <Menu.Item key={index}>
-                   {({ active }) => (
-                     /*<a
-                       className={classNames(
-                         active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                         'block px-4 py-2 text-sm'
-                       )}
-                     >
-                       {item.name}
-                     </a>*/
-                     <LanguageMenuItem
-                       key={index}
-                       locale={locale}
-                       active={activeLocale === locale} />
-                   )}
+                   <LanguageMenuItem
+                     key={index}
+                     locale={locale}
+                     active={activeLocale === locale} />
                  </Menu.Item>
                ))}
             </div>

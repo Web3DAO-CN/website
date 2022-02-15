@@ -21,7 +21,7 @@ import { AutoColumn } from '../Column'
 import CurrencyLogo from '../CurrencyLogo'
 import DoubleCurrencyLogo from '../DoubleLogo'
 import { AutoRow, RowBetween, RowFixed } from '../Row'
-import { Dots } from '../swap/styleds'
+import { Dots } from 'components/Dots'
 import { useTokenBalance } from "../../lib/hooks/useCurrencyBalance";
 import { ChevronDown, ChevronUp } from "../FontawesomeIcon";
 

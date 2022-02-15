@@ -21,9 +21,9 @@ import { popupToastError } from '../../../components/Popups/PopupToast'
 import { DEFAULT_TXN_DISMISS_MS } from '../../../constants/misc'
 import usePrevious from '../../../hooks/usePrevious'
 import { ApprovalState } from '../../../lib/hooks/useApproval'
-import { Dots } from '../../../components/swap/styleds'
 import { useApproveCallback } from '../../../hooks/useApproveCallback'
 import { BuyNFT } from '../../../constants/addresses'
+import { Dots } from 'components/Dots'
 
 export default function ApproveWrapToken() {
 
@@ -61,7 +61,7 @@ export default function ApproveWrapToken() {
   const handleDismissConfirmation = useCallback(() => {
     setShowConfirm(false)
     setTxHash('')
-  }, [txHash])
+  }, [])
 
   const pendingText = (
     <Trans>
