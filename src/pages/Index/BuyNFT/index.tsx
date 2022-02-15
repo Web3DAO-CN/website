@@ -256,7 +256,7 @@ export default function ApproveWrapToken() {
             <div className='px-4 py-3 bg-gray-50 text-right sm:px-6'>
 
               {
-                approval !== ApprovalState.APPROVED
+                approval !== ApprovalState.APPROVED && userWrappedNativeTokenBalance?.greaterThan(0)
                   ? <button
                     disabled={approval !== ApprovalState.NOT_APPROVED || !userWrappedNativeTokenBalance?.greaterThan(0)}
                     type='button'
@@ -269,9 +269,7 @@ export default function ApproveWrapToken() {
                         <Dots>
                           <Trans>Approving</Trans>
                         </Dots>
-                        : userWrappedNativeTokenBalance?.greaterThan(0)
-                          ? <Trans>Approve</Trans>
-                          : null
+                        : <Trans>Approve</Trans>
                     }
                   </button>
                   : null
