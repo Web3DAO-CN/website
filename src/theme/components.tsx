@@ -37,6 +37,7 @@ export const IconWrapper = styled.div<{ stroke?: string; size?: string; marginRi
   height: ${({ size }) => size ?? '20px'};
   margin-right: ${({ marginRight }) => marginRight ?? 0};
   margin-left: ${({ marginLeft }) => marginLeft ?? 0};
+
   & > * {
     stroke: ${({ theme, stroke }) => stroke ?? theme.blue1};
   }
@@ -191,20 +192,20 @@ function handleClickExternalLink(event: React.MouseEvent<HTMLAnchorElement>) {
  * Outbound link that handles firing google analytics events
  */
 export function ExternalLink({
-  target = '_blank',
-  href,
-  rel = 'noopener noreferrer',
-  ...rest
-}: Omit<HTMLProps<HTMLAnchorElement>, 'as' | 'ref' | 'onClick'> & { href: string }) {
+                               target = '_blank',
+                               href,
+                               rel = 'noopener noreferrer',
+                               ...rest
+                             }: Omit<HTMLProps<HTMLAnchorElement>, 'as' | 'ref' | 'onClick'> & { href: string }) {
   return <StyledLink target={target} rel={rel} href={href} onClick={handleClickExternalLink} {...rest} />
 }
 
 export function ExternalLinkIcon({
-  target = '_blank',
-  href,
-  rel = 'noopener noreferrer',
-  ...rest
-}: Omit<HTMLProps<HTMLAnchorElement>, 'as' | 'ref' | 'onClick'> & { href: string }) {
+                                   target = '_blank',
+                                   href,
+                                   rel = 'noopener noreferrer',
+                                   ...rest
+                                 }: Omit<HTMLProps<HTMLAnchorElement>, 'as' | 'ref' | 'onClick'> & { href: string }) {
   return (
     <LinkIconWrapper target={target} rel={rel} href={href} onClick={handleClickExternalLink} {...rest}>
       <LinkIcon />
@@ -230,6 +231,7 @@ const Spinner = styled.img`
 const BackArrowLink = styled(StyledInternalLink)`
   color: ${({ theme }) => theme.text1};
 `
+
 export function BackArrow({ to }: { to: string }) {
   return (
     <BackArrowLink to={to}>

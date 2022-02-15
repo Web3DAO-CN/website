@@ -1,4 +1,4 @@
-import { ExchangeAlt, LayerGroup, ShoppingCart } from 'components/FontawesomeIcon'
+import { Donate, ExchangeAlt, LayerGroup, ShoppingCart } from 'components/FontawesomeIcon'
 import { NavLink } from 'react-router-dom'
 import classNames from '../../../../utils/classNames'
 
@@ -19,10 +19,17 @@ const navigation = [
   },*/
   {
     id: 3,
-    name: '购买',
+    name: '购买NFT',
     href: '#',
     icon: <ShoppingCart />,
     path: '/buyNFT'
+  },
+  {
+    id: 4,
+    name: '赞助',
+    href: '#',
+    icon: <Donate />,
+    path: '/sponsor'
   },
   {
     id: 9,

@@ -22,16 +22,21 @@ import { DEFAULT_TXN_DISMISS_MS } from '../../../constants/misc'
 import usePrevious from '../../../hooks/usePrevious'
 import { ApprovalState } from '../../../lib/hooks/useApproval'
 import { useApproveCallback } from '../../../hooks/useApproveCallback'
-import { BuyNFT as BuyNFTAddress } from '../../../constants/addresses'
+import { DaoTreasury } from '../../../constants/addresses'
 import { Dots } from 'components/Dots'
 import { ExternalLinkAlt } from '../../../components/FontawesomeIcon'
 import { ExplorerDataType, getExplorerLink } from '../../../utils/getExplorerLink'
 import ExternalLink from '../../../lib/components/ExternalLink'
+import { useTokenIdsByOwner } from '../../../hooks/contract/useWeb3DAOCNContract'
 
-export default function BuyNFT() {
+export default function Sponsor() {
 
   const { account, library, chainId } = useActiveWeb3React()
   const lastAccount = usePrevious(account)
+
+  const ownTokenIds = useTokenIdsByOwner(account)
+  console.log('ownTokenIds = %s', JSON.stringify(ownTokenIds))
+
 
   const [nftReceiver, setNFTReceiver] = useState<string>('')
   useEffect(() => {
@@ -51,11 +56,11 @@ export default function BuyNFT() {
 
   //console.log('nftPriceCurrencyAmount = %s', nftPriceCurrencyAmount?.toExact())
 
-  const buyNFTAddress = useMemo(() => {
-    return chainId ? BuyNFTAddress[chainId] : undefined
+  const daoTreasuryAddress = useMemo(() => {
+    return chainId ? DaoTreasury[chainId] : undefined
   }, [chainId])
 
-  const [approval, approveCallback] = useApproveCallback(userWrappedNativeTokenBalance, buyNFTAddress)
+  const [approval, approveCallback] = useApproveCallback(userWrappedNativeTokenBalance, daoTreasuryAddress)
 
   async function onAttemptToApprove() {
     await approveCallback()
@@ -241,16 +246,16 @@ export default function BuyNFT() {
                 }
 
                 {
-                  chainId && buyNFTAddress
+                  chainId && daoTreasuryAddress
                     ?
                     <div className='col-span-3'>
                       <label htmlFor='about' className='block text-sm font-medium text-gray-700'>
-                        NFT交易合约地址
+                        WEB3DAO金库合约地址
                       </label>
                       <p className='mt-2 text-sm text-gray-500'>
                         {
-                          <ExternalLink href={getExplorerLink(chainId, buyNFTAddress, ExplorerDataType.ADDRESS)}>
-                            {shortenAddress(buyNFTAddress)}
+                          <ExternalLink href={getExplorerLink(chainId, daoTreasuryAddress, ExplorerDataType.ADDRESS)}>
+                            {shortenAddress(daoTreasuryAddress)}
                             <ExternalLinkAlt className='ml-1' />
                           </ExternalLink>
                         }

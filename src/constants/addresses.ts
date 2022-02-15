@@ -28,8 +28,20 @@ export const WrapperNativeToken: AddressMap = {
   [SupportedChainId.LOCAL]: '0xd5e1B318c5f41Ec23CF82BEa7c41fa176EB129CF',
 }
 
+export const Web3DAOCN: AddressMap = {
+  [SupportedChainId.POLYGON]: '',
+  [SupportedChainId.POLYGON_MUMBAI]: '0xea936a1FD9B9C45840A1E8643E2C0FD7A3FCB41F',
+  [SupportedChainId.LOCAL]: '',
+}
+
 export const BuyNFT: AddressMap = {
   [SupportedChainId.POLYGON]: '',
   [SupportedChainId.POLYGON_MUMBAI]: '0x694829F9f162e571aC08F4444c12787fb14641b3',
+  [SupportedChainId.LOCAL]: '',
+}
+
+export const DaoTreasury: AddressMap = {
+  [SupportedChainId.POLYGON]: '',
+  [SupportedChainId.POLYGON_MUMBAI]: '0x14bD74a10648a27CBB6d7B073199a04dC7Cb759F',
   [SupportedChainId.LOCAL]: '',
 }

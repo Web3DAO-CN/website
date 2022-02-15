@@ -14,6 +14,7 @@ import IndexDemoLayout from './Index/DemoLayout'
 import IndexBuyNFT from './Index/BuyNFT'
 import { PageLayout } from '../components/Layout'
 import PopupsContainer from '../components/PopupsContainer'
+import Sponsor from './Index/Sponsor'
 
 // const AppWrapper = styled.div`
 //   display: flex;
@@ -73,6 +74,7 @@ export default function App() {
                 <Route path='approveWrapToken/*' element={<IndexApproveWrapToken />} />
                 <Route path='demoLayout/*' element={<IndexDemoLayout />} />
                 <Route path='buyNFT/*' element={<IndexBuyNFT />} />
+                <Route path='Sponsor/*' element={<Sponsor />} />
                 <Route path='*' />
               </Route>
             </Routes>
