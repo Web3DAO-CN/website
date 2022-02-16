@@ -1,11 +1,11 @@
 import { useMemo } from 'react'
 
 import { useSingleContractMultipleData } from 'lib/hooks/multicall'
-import { useWeb3DAOCNContract } from '../useContract'
+import { useWeb3DaoCNContract } from '../useContract'
 import { useERC721TotalSupply } from '../useERC721TotalSupply'
 
 export function useTokenIdOwnerArr(): { tokenId: string, owner: string }[] {
-  const contract = useWeb3DAOCNContract()
+  const contract = useWeb3DaoCNContract()
   const totalSupply = useERC721TotalSupply(contract?.address)
 
   const tokenIds: string[] = useMemo(() => {
@@ -23,7 +23,7 @@ export function useTokenIdOwnerArr(): { tokenId: string, owner: string }[] {
     'ownerOf',
     tokenIds.map((tokenId) => [tokenId])
   )
-  console.log('useTokenIdOwnerArr = %s', new Date().getTime())
+  // console.log('useTokenIdOwnerArr = %s', new Date().getTime())
 
   return useMemo(() => {
     const tokenIdOwnerArr: { tokenId: string, owner: string }[] = []
@@ -52,3 +52,18 @@ export function useTokenIdsByOwner(owner?: string | null): string[] {
   }, [owner, tokenIdOwnerArr])
 }
 
+// export function useTotalSupply(attrId: number): string[] {
+//   const tokenIdOwnerArr = useTokenIdOwnerArr()
+//   return useMemo(() => {
+//     const tokenIds: string[] = []
+//     if (tokenIdOwnerArr && owner) {
+//       console.log('useTokenIdsByOwner = %s', new Date().getTime())
+//       tokenIdOwnerArr.map((tokenIdOwner) => {
+//         if (tokenIdOwner.owner === owner) {
+//           tokenIds.push(tokenIdOwner.tokenId)
+//         }
+//       })
+//     }
+//     return tokenIds
+//   }, [owner, tokenIdOwnerArr])
+// }

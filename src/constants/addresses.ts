@@ -34,20 +34,32 @@ export const VALUATION_TOKEN_ADDRESSES: AddressMap = {
   [SupportedChainId.POLYGON_MUMBAI]: '0x6817c8475Ad33Aa86422160C3d1C673c453A76dE'
 }
 
-export const WEB3DAOCN_ADDRESSES: AddressMap = {
+export const WEB3_DAO_CN_ADDRESSES: AddressMap = {
   [SupportedChainId.POLYGON]: '',
   [SupportedChainId.POLYGON_MUMBAI]: '0xea936a1FD9B9C45840A1E8643E2C0FD7A3FCB41F',
   [SupportedChainId.LOCAL]: ''
 }
 
-export const BUYNFT_ADDRESSES: AddressMap = {
+export const BUY_NFT_ADDRESSES: AddressMap = {
   [SupportedChainId.POLYGON]: '',
   [SupportedChainId.POLYGON_MUMBAI]: '0x694829F9f162e571aC08F4444c12787fb14641b3',
   [SupportedChainId.LOCAL]: ''
 }
 
-export const DAOTREASURY_ADDRESSES: AddressMap = {
+export const DAO_TREASURY_ADDRESSES: AddressMap = {
   [SupportedChainId.POLYGON]: '',
   [SupportedChainId.POLYGON_MUMBAI]: '0x14bD74a10648a27CBB6d7B073199a04dC7Cb759F',
+  [SupportedChainId.LOCAL]: ''
+}
+
+export const DAO_VAULT_ADDRESSES: AddressMap = {
+  [SupportedChainId.POLYGON]: '',
+  [SupportedChainId.POLYGON_MUMBAI]: '0xcb2B23A0F9f6c09f81181b7c42c20a1f6FcbBbC4',
+  [SupportedChainId.LOCAL]: ''
+}
+
+export const DAO_SPONSOR_ADDRESSES: AddressMap = {
+  [SupportedChainId.POLYGON]: '',
+  [SupportedChainId.POLYGON_MUMBAI]: '0xCb2d0A8e9F1c3a1B4Ae90338D5d4516CDA3c0dE2',
   [SupportedChainId.LOCAL]: ''
 }

@@ -2,7 +2,7 @@ import useCurrencyBalance from '../../../lib/hooks/useCurrencyBalance'
 import useActiveWeb3React from '../../../hooks/useActiveWeb3React'
 import { WRAPPED_NATIVE_TOKEN } from '../../../constants/tokens'
 import { Trans } from '@lingui/macro'
-import { BUYNFT_ADDRESSES } from '../../../constants/addresses'
+import { BUY_NFT_ADDRESSES } from '../../../constants/addresses'
 import { ApprovalState, useApproveCallback } from '../../../hooks/useApproveCallback'
 import { Dots } from 'components/Dots'
 import LeftAside from '../component/LeftAside'
@@ -17,7 +17,7 @@ export default function ApproveWrapToken() {
 
   const userWrappedNativeTokenBalance = useCurrencyBalance(account ?? undefined, wrappedNativeToken)
 
-  const [approval, approveCallback] = useApproveCallback(userWrappedNativeTokenBalance, chainId ? BUYNFT_ADDRESSES[chainId] : undefined)
+  const [approval, approveCallback] = useApproveCallback(userWrappedNativeTokenBalance, chainId ? BUY_NFT_ADDRESSES[chainId] : undefined)
 
   // console.log("approval = %s", approval)
 

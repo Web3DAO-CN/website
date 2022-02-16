@@ -19,7 +19,7 @@ import { DEFAULT_TXN_DISMISS_MS } from '../../../constants/misc'
 import usePrevious from '../../../hooks/usePrevious'
 import { ApprovalState } from '../../../lib/hooks/useApproval'
 import { useApproveCallback } from '../../../hooks/useApproveCallback'
-import { DAOTREASURY_ADDRESSES } from '../../../constants/addresses'
+import { DAO_TREASURY_ADDRESSES } from '../../../constants/addresses'
 import { Dots } from 'components/Dots'
 import { ExternalLinkAlt } from '../../../components/FontawesomeIcon'
 import { ExplorerDataType, getExplorerLink } from '../../../utils/getExplorerLink'
@@ -49,7 +49,7 @@ export default function Sponsor() {
   const userValuationTokenBalance = useCurrencyBalance(account ?? undefined, valuationToken)
 
   const daoTreasuryAddress = useMemo(() => {
-    return chainId ? DAOTREASURY_ADDRESSES[chainId] : undefined
+    return chainId ? DAO_TREASURY_ADDRESSES[chainId] : undefined
   }, [chainId])
 
   const [approval, approveCallback] = useApproveCallback(userValuationTokenBalance, daoTreasuryAddress)
@@ -236,6 +236,22 @@ export default function Sponsor() {
                             {shortenAddress(daoTreasuryAddress)}
                             <ExternalLinkAlt className='ml-1' />
                           </ExternalLink>
+                        }
+                      </p>
+                    </div>
+                    : null
+                }
+
+                {
+                  ownTokenIds
+                    ?
+                    <div className='col-span-3'>
+                      <label htmlFor='about' className='block text-sm font-medium text-gray-700'>
+                        我的TokenId
+                      </label>
+                      <p className='mt-2 text-sm text-gray-500'>
+                        {
+                          ownTokenIds.join(' , ')
                         }
                       </p>
                     </div>

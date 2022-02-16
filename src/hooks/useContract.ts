@@ -3,6 +3,8 @@ import ARGENT_WALLET_DETECTOR_ABI from 'abis/argent-wallet-detector.json'
 import Web3DAOCN_ABI from 'abis/Web3DAOCN.json'
 import BUY_NFT_ABI from 'abis/BuyNft.json'
 import DaoTreasury_ABI from 'abis/DaoTreasury.json'
+import DaoVault_ABI from 'abis/DaoVault.json'
+import DaoSponsor_ABI from 'abis/DaoSponsor.json'
 import EIP_2612 from 'abis/eip_2612.json'
 import ENS_PUBLIC_RESOLVER_ABI from 'abis/ens-public-resolver.json'
 import ENS_ABI from 'abis/ens-registrar.json'
@@ -13,7 +15,7 @@ import ERC1155_ABI from 'abis/erc1155.json'
 import UniswapInterfaceMulticallJson from 'abis/UniswapInterfaceMulticall.json'
 import { ArgentWalletDetector, EnsPublicResolver, EnsRegistrar, Erc1155, Erc20, Erc721, UniswapInterfaceMulticall, Weth } from 'abis/types'
 import WETH_ABI from 'abis/weth.json'
-import { ARGENT_WALLET_DETECTOR_ADDRESS, BUYNFT_ADDRESSES, DAOTREASURY_ADDRESSES, ENS_REGISTRAR_ADDRESSES, MULTICALL_ADDRESS, VALUATION_TOKEN_ADDRESSES, WEB3DAOCN_ADDRESSES } from 'constants/addresses'
+import { ARGENT_WALLET_DETECTOR_ADDRESS, BUY_NFT_ADDRESSES, DAO_SPONSOR_ADDRESSES, DAO_TREASURY_ADDRESSES, DAO_VAULT_ADDRESSES, ENS_REGISTRAR_ADDRESSES, MULTICALL_ADDRESS, VALUATION_TOKEN_ADDRESSES, WEB3_DAO_CN_ADDRESSES } from 'constants/addresses'
 import { WRAPPED_NATIVE_TOKEN } from 'constants/tokens'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { useMemo } from 'react'
@@ -90,22 +92,34 @@ export function useInterfaceMulticall() {
   return useContract<UniswapInterfaceMulticall>(MULTICALL_ADDRESS, MulticallABI, false) as UniswapInterfaceMulticall
 }
 
-export function useWeb3DAOCNContract(): Contract | null {
+export function useWeb3DaoCNContract(): Contract | null {
   const { chainId } = useActiveWeb3React()
-  const address = chainId ? WEB3DAOCN_ADDRESSES[chainId] : undefined
+  const address = chainId ? WEB3_DAO_CN_ADDRESSES[chainId] : undefined
   return useContract(address, Web3DAOCN_ABI, true)
 }
 
 export function useBuyNFTContract(): Contract | null {
   const { chainId } = useActiveWeb3React()
-  const address = chainId ? BUYNFT_ADDRESSES[chainId] : undefined
+  const address = chainId ? BUY_NFT_ADDRESSES[chainId] : undefined
   return useContract(address, BUY_NFT_ABI, true)
 }
 
 export function useDaoTreasury(): Contract | null {
   const { chainId } = useActiveWeb3React()
-  const address = chainId ? DAOTREASURY_ADDRESSES[chainId] : undefined
+  const address = chainId ? DAO_TREASURY_ADDRESSES[chainId] : undefined
   return useContract(address, DaoTreasury_ABI, true)
+}
+
+export function useDaoVault(): Contract | null {
+  const { chainId } = useActiveWeb3React()
+  const address = chainId ? DAO_VAULT_ADDRESSES[chainId] : undefined
+  return useContract(address, DaoVault_ABI, true)
+}
+
+export function useDaoSponsor(): Contract | null {
+  const { chainId } = useActiveWeb3React()
+  const address = chainId ? DAO_SPONSOR_ADDRESSES[chainId] : undefined
+  return useContract(address, DaoSponsor_ABI, true)
 }
 
 export function useValuationTokenContract(withSignerIfPossible?: boolean) {

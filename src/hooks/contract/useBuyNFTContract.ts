@@ -5,8 +5,8 @@ import { useBuyNFTContract } from '../useContract'
 
 export function usePrice(): string {
   const contract = useBuyNFTContract()
-  const price = useSingleCallResult(contract, 'price')?.result?.[0]
+  const result = useSingleCallResult(contract, 'price')?.result?.[0]
   return useMemo(() => {
-    return price ? price : undefined
-  }, [price])
+    return result ? result : undefined
+  }, [result])
 }

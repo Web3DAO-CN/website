@@ -21,7 +21,7 @@ import { DEFAULT_TXN_DISMISS_MS } from '../../../constants/misc'
 import usePrevious from '../../../hooks/usePrevious'
 import { ApprovalState } from '../../../lib/hooks/useApproval'
 import { useApproveCallback } from '../../../hooks/useApproveCallback'
-import { BUYNFT_ADDRESSES } from '../../../constants/addresses'
+import { BUY_NFT_ADDRESSES } from '../../../constants/addresses'
 import { Dots } from 'components/Dots'
 import { ExternalLinkAlt } from '../../../components/FontawesomeIcon'
 import { ExplorerDataType, getExplorerLink } from '../../../utils/getExplorerLink'
@@ -55,7 +55,7 @@ export default function BuyNFT() {
   //console.log('nftPriceCurrencyAmount = %s', nftPriceCurrencyAmount?.toExact())
 
   const buyNFTAddress = useMemo(() => {
-    return chainId ? BUYNFT_ADDRESSES[chainId] : undefined
+    return chainId ? BUY_NFT_ADDRESSES[chainId] : undefined
   }, [chainId])
 
   const [approval, approveCallback] = useApproveCallback(userValuationTokenBalance, buyNFTAddress)
