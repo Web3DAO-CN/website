@@ -1,7 +1,7 @@
-import WrapToken from './WrapToken'
+import BuyWETH from './BuyWETH'
 
 export default function Index() {
 
-  return <WrapToken />
+  return <BuyWETH />
 
 }

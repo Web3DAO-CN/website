@@ -5,7 +5,7 @@ import JSBI from 'jsbi'
 import { nativeOnChain } from '../../constants/tokens'
 import { useCurrency, useToken } from '../../hooks/Tokens'
 import useENSName from '../../hooks/useENSName'
-import { AddLiquidityV2PoolTransactionInfo, AddLiquidityV3PoolTransactionInfo, ApproveTransactionInfo, BuyNFTInfo, ClaimTransactionInfo, CollectFeesTransactionInfo, CreateV3PoolTransactionInfo, DelegateTransactionInfo, DepositLiquidityStakingTransactionInfo, ExactInputSwapTransactionInfo, ExactOutputSwapTransactionInfo, MigrateV2LiquidityToV3TransactionInfo, RemoveLiquidityV3TransactionInfo, SubmitProposalTransactionInfo, TransactionInfo, TransactionType, WithdrawLiquidityStakingTransactionInfo, WrapTransactionInfo } from '../../state/transactions/actions'
+import { AddLiquidityV2PoolTransactionInfo, AddLiquidityV3PoolTransactionInfo, ApproveTransactionInfo, BuyNFTInfo, BuyWETHInfo, ClaimTransactionInfo, CollectFeesTransactionInfo, CreateV3PoolTransactionInfo, DelegateTransactionInfo, DepositLiquidityStakingTransactionInfo, ExactInputSwapTransactionInfo, ExactOutputSwapTransactionInfo, MigrateV2LiquidityToV3TransactionInfo, RemoveLiquidityV3TransactionInfo, SubmitProposalTransactionInfo, TransactionInfo, TransactionType, WithdrawLiquidityStakingTransactionInfo, WrapTransactionInfo } from '../../state/transactions/actions'
 
 function formatAmount(amountRaw: string, decimals: number, sigFigs: number): string {
   return new Fraction(amountRaw, JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(decimals))).toSignificant(sigFigs)
@@ -245,6 +245,12 @@ function BuyNFTSummary({ info }: { info: BuyNFTInfo }) {
   return <Trans>Buy NFT Successful</Trans>
 }
 
+function BuyWETHSummary({ info }: { info: BuyWETHInfo }) {
+  return <Trans>
+    You {info.depositWithdraw ? 'deposit' : 'withdraw'} {info.currencyAmountExact} {info.symbol}
+  </Trans>
+}
+
 
 export function TransactionSummary({ info }: { info: TransactionInfo }) {
   switch (info.type) {
@@ -289,6 +295,9 @@ export function TransactionSummary({ info }: { info: TransactionInfo }) {
 
     case TransactionType.SUBMIT_PROPOSAL:
       return <SubmitProposalTransactionSummary info={info} />
+
+    case TransactionType.BUY_WETH:
+      return <BuyWETHSummary info={info} />
 
     case TransactionType.BUY_NFT:
       return <BuyNFTSummary info={info} />

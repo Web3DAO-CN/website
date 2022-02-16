@@ -9,7 +9,7 @@ import Web3ReactManager from '../components/Web3ReactManager'
 import initFontawesome from './fontawesome'
 import Index from './Index'
 import IndexApproveWrapToken from './Index/ApproveWrapToken'
-import IndexWrapToken from './Index/WrapToken'
+import IndexBuyWETH from './Index/BuyWETH'
 import IndexDemoLayout from './Index/DemoLayout'
 import IndexBuyNFT from './Index/BuyNFT'
 import { PageLayout } from '../components/Layout'
@@ -70,7 +70,7 @@ export default function App() {
             <Routes>
               <Route path='/' element={<PageLayout />}>
                 <Route index element={<Index />} />
-                <Route path='wrapToken/*' element={<IndexWrapToken />} />
+                <Route path='buyWETH/*' element={<IndexBuyWETH />} />
                 <Route path='approveWrapToken/*' element={<IndexApproveWrapToken />} />
                 <Route path='demoLayout/*' element={<IndexDemoLayout />} />
                 <Route path='buyNFT/*' element={<IndexBuyNFT />} />

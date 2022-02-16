@@ -5,7 +5,7 @@ import useNativeCurrency from 'lib/hooks/useNativeCurrency'
 import tryParseCurrencyAmount from 'lib/utils/tryParseCurrencyAmount'
 import { useMemo } from 'react'
 
-import { WRAPPED_NATIVE_CURRENCY } from '../constants/tokens'
+import { WRAPPED_NATIVE_TOKEN } from '../constants/tokens'
 import { TransactionType } from '../state/transactions/actions'
 import { useTransactionAdder } from '../state/transactions/hooks'
 import { useCurrencyBalance } from '../state/wallet/hooks'
@@ -69,7 +69,7 @@ export default function useWrapCallback(
 
   return useMemo(() => {
     if (!wethContract || !chainId || !inputCurrency || !outputCurrency) return NOT_APPLICABLE
-    const weth = WRAPPED_NATIVE_CURRENCY[chainId]
+    const weth = WRAPPED_NATIVE_TOKEN[chainId]
     if (!weth) return NOT_APPLICABLE
 
     const hasInputAmount = Boolean(inputAmount?.greaterThan('0'))

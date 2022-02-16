@@ -5,10 +5,10 @@ import classNames from '../../../../utils/classNames'
 const navigation = [
   {
     id: 1,
-    name: '母币兑换',
+    name: '购买WETH(仅测试)',
     href: '#',
     icon: <ExchangeAlt />,
-    path: '/wrapToken'
+    path: '/buyWETH'
   },
   /*{
     id: 2,

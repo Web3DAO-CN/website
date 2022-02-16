@@ -13,8 +13,8 @@ import ERC1155_ABI from 'abis/erc1155.json'
 import UniswapInterfaceMulticallJson from 'abis/UniswapInterfaceMulticall.json'
 import { ArgentWalletDetector, EnsPublicResolver, EnsRegistrar, Erc1155, Erc20, Erc721, UniswapInterfaceMulticall, Weth } from 'abis/types'
 import WETH_ABI from 'abis/weth.json'
-import { ARGENT_WALLET_DETECTOR_ADDRESS, BuyNFT, DaoTreasury, ENS_REGISTRAR_ADDRESSES, MULTICALL_ADDRESS, Web3DAOCN } from 'constants/addresses'
-import { WRAPPED_NATIVE_CURRENCY } from 'constants/tokens'
+import { ARGENT_WALLET_DETECTOR_ADDRESS, BUYNFT_ADDRESSES, DAOTREASURY_ADDRESSES, ENS_REGISTRAR_ADDRESSES, MULTICALL_ADDRESS, VALUATION_TOKEN_ADDRESSES, WEB3DAOCN_ADDRESSES } from 'constants/addresses'
+import { WRAPPED_NATIVE_TOKEN } from 'constants/tokens'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { useMemo } from 'react'
 
@@ -52,7 +52,7 @@ export function useTokenContract(tokenAddress?: string, withSignerIfPossible?: b
 export function useWETHContract(withSignerIfPossible?: boolean) {
   const { chainId } = useActiveWeb3React()
   return useContract<Weth>(
-    chainId ? WRAPPED_NATIVE_CURRENCY[chainId]?.address : undefined,
+    chainId ? WRAPPED_NATIVE_TOKEN[chainId]?.address : undefined,
     WETH_ABI,
     withSignerIfPossible
   )
@@ -92,18 +92,27 @@ export function useInterfaceMulticall() {
 
 export function useWeb3DAOCNContract(): Contract | null {
   const { chainId } = useActiveWeb3React()
-  const address = chainId ? Web3DAOCN[chainId] : undefined
+  const address = chainId ? WEB3DAOCN_ADDRESSES[chainId] : undefined
   return useContract(address, Web3DAOCN_ABI, true)
 }
 
 export function useBuyNFTContract(): Contract | null {
   const { chainId } = useActiveWeb3React()
-  const address = chainId ? BuyNFT[chainId] : undefined
+  const address = chainId ? BUYNFT_ADDRESSES[chainId] : undefined
   return useContract(address, BUY_NFT_ABI, true)
 }
 
 export function useDaoTreasury(): Contract | null {
   const { chainId } = useActiveWeb3React()
-  const address = chainId ? DaoTreasury[chainId] : undefined
+  const address = chainId ? DAOTREASURY_ADDRESSES[chainId] : undefined
   return useContract(address, DaoTreasury_ABI, true)
+}
+
+export function useValuationTokenContract(withSignerIfPossible?: boolean) {
+  const { chainId } = useActiveWeb3React()
+  return useContract<Weth>(
+    chainId ? VALUATION_TOKEN_ADDRESSES[chainId] : undefined,
+    WETH_ABI,
+    withSignerIfPossible
+  )
 }

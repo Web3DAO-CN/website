@@ -32,7 +32,8 @@ export enum TransactionType {
   COLLECT_FEES = 12,
   REMOVE_LIQUIDITY_V3 = 13,
   SUBMIT_PROPOSAL = 14,
-  BUY_NFT = 101,
+  BUY_WETH = 101,
+  BUY_NFT = 102,
 }
 
 export interface BaseTransactionInfo {
@@ -145,6 +146,13 @@ export interface SubmitProposalTransactionInfo {
   type: TransactionType.SUBMIT_PROPOSAL
 }
 
+export interface BuyWETHInfo {
+  type: TransactionType.BUY_WETH
+  currencyAmountExact: string
+  depositWithdraw: boolean
+  symbol?: string
+}
+
 export interface BuyNFTInfo {
   type: TransactionType.BUY_NFT
 }
@@ -165,6 +173,7 @@ export type TransactionInfo =
   | CollectFeesTransactionInfo
   | RemoveLiquidityV3TransactionInfo
   | SubmitProposalTransactionInfo
+  | BuyWETHInfo
   | BuyNFTInfo
 
 export const addTransaction = createAction<{

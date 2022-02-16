@@ -1,6 +1,5 @@
 import useCurrencyBalance from '../../../lib/hooks/useCurrencyBalance'
 import useActiveWeb3React from '../../../hooks/useActiveWeb3React'
-import { WRAPPED_NATIVE_CURRENCY } from '../../../constants/tokens'
 import { Trans } from '@lingui/macro'
 import LeftAside from '../component/LeftAside'
 import RightContents from '../component/RightContents'
@@ -22,11 +21,12 @@ import { DEFAULT_TXN_DISMISS_MS } from '../../../constants/misc'
 import usePrevious from '../../../hooks/usePrevious'
 import { ApprovalState } from '../../../lib/hooks/useApproval'
 import { useApproveCallback } from '../../../hooks/useApproveCallback'
-import { BuyNFT as BuyNFTAddress } from '../../../constants/addresses'
+import { BUYNFT_ADDRESSES } from '../../../constants/addresses'
 import { Dots } from 'components/Dots'
 import { ExternalLinkAlt } from '../../../components/FontawesomeIcon'
 import { ExplorerDataType, getExplorerLink } from '../../../utils/getExplorerLink'
 import ExternalLink from '../../../lib/components/ExternalLink'
+import { VALUATION_TOKEN } from '../../../constants/web3dao'
 
 export default function BuyNFT() {
 
@@ -42,20 +42,23 @@ export default function BuyNFT() {
     }
   }, [lastAccount, account])
 
-  const wrappedNativeCurrency = chainId ? WRAPPED_NATIVE_CURRENCY[chainId] : undefined
+  // const valuationToken2 = useToken(chainId ? VALUATION_TOKEN_ADDRESSES[chainId] : undefined)
+  // console.log('valuationToken2 = %s', JSON.stringify(valuationToken2))
 
-  const userWrappedNativeTokenBalance = useCurrencyBalance(account ?? undefined, wrappedNativeCurrency)
+  const valuationToken = chainId ? VALUATION_TOKEN[chainId] : undefined
+
+  const userValuationTokenBalance = useCurrencyBalance(account ?? undefined, valuationToken)
 
   const nftPrice = usePrice()
-  const nftPriceCurrencyAmount = useERC20CurrencyAmount(nftPrice, wrappedNativeCurrency)
+  const nftPriceCurrencyAmount = useERC20CurrencyAmount(nftPrice, valuationToken)
 
   //console.log('nftPriceCurrencyAmount = %s', nftPriceCurrencyAmount?.toExact())
 
   const buyNFTAddress = useMemo(() => {
-    return chainId ? BuyNFTAddress[chainId] : undefined
+    return chainId ? BUYNFT_ADDRESSES[chainId] : undefined
   }, [chainId])
 
-  const [approval, approveCallback] = useApproveCallback(userWrappedNativeTokenBalance, buyNFTAddress)
+  const [approval, approveCallback] = useApproveCallback(userValuationTokenBalance, buyNFTAddress)
 
   async function onAttemptToApprove() {
     await approveCallback()
@@ -88,7 +91,7 @@ export default function BuyNFT() {
           <div className='mt-5'>
             <div className='rounded-md bg-gray-50 px-6 py-5 sm:flex sm:items-start sm:justify-between'>
               <div className='sm:flex sm:items-start'>
-                {userWrappedNativeTokenBalance?.currency.symbol}
+                {userValuationTokenBalance?.currency.symbol}
                 <div className='mt-3 sm:mt-0 sm:ml-4'>
                   <div className='text-sm font-medium text-gray-900'>
                     {nftPriceCurrencyAmount?.toExact()}
@@ -121,7 +124,7 @@ export default function BuyNFT() {
   function modalBottom() {
     return (
       <>
-        <ButtonPrimary disabled={!userWrappedNativeTokenBalance?.greaterThan(0)} onClick={onBuy}>
+        <ButtonPrimary disabled={!userValuationTokenBalance?.greaterThan(0)} onClick={onBuy}>
           <span className='text-lg font-semibold'>
             <Trans>Confirm</Trans>
           </span>
@@ -139,7 +142,7 @@ export default function BuyNFT() {
       || !buyNFTContract)
       throw new Error('missing dependencies')
 
-    if (!userWrappedNativeTokenBalance?.greaterThan(0)) {
+    if (!userValuationTokenBalance?.greaterThan(0)) {
       throw new Error('missing currency amounts')
     }
     //
@@ -276,11 +279,11 @@ export default function BuyNFT() {
                 </div>
 
                 {
-                  userWrappedNativeTokenBalance
+                  userValuationTokenBalance
                     ?
                     <div className='col-span-3'>
                       <label htmlFor='about' className='block text-sm font-medium text-gray-700'>
-                        <Trans>Balance: {userWrappedNativeTokenBalance?.toSignificant(3)}</Trans> {wrappedNativeCurrency?.symbol}
+                        <Trans>Balance: {userValuationTokenBalance?.toSignificant(3)}</Trans> {valuationToken?.symbol}
                       </label>
                     </div>
                     : null
@@ -290,9 +293,9 @@ export default function BuyNFT() {
             <div className='px-4 py-3 bg-gray-50 text-right sm:px-6'>
 
               {
-                approval !== ApprovalState.APPROVED && userWrappedNativeTokenBalance?.greaterThan(0)
+                approval !== ApprovalState.APPROVED && userValuationTokenBalance?.greaterThan(0)
                   ? <button
-                    disabled={approval !== ApprovalState.NOT_APPROVED || !userWrappedNativeTokenBalance?.greaterThan(0)}
+                    disabled={approval !== ApprovalState.NOT_APPROVED || !userValuationTokenBalance?.greaterThan(0)}
                     type='button'
                     className='bg-indigo-600 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-30'
                     onClick={onAttemptToApprove}
@@ -310,7 +313,7 @@ export default function BuyNFT() {
               }
 
               <button
-                disabled={approval !== ApprovalState.APPROVED || !userWrappedNativeTokenBalance?.greaterThan(0) || !nftReceiver || !isAddress(nftReceiver)}
+                disabled={approval !== ApprovalState.APPROVED || !userValuationTokenBalance?.greaterThan(0) || !nftReceiver || !isAddress(nftReceiver)}
                 type='button'
                 className='bg-indigo-600 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-30 ml-2'
                 onClick={() => {
@@ -320,9 +323,9 @@ export default function BuyNFT() {
                 {
                   !isAddress(nftReceiver)
                     ? 'NFT接收地址，格式不正确'
-                    : userWrappedNativeTokenBalance?.greaterThan(0)
+                    : userValuationTokenBalance?.greaterThan(0)
                       ? <Trans>购买</Trans>
-                      : <Trans>Insufficient {userWrappedNativeTokenBalance?.currency.symbol} balance</Trans>
+                      : <Trans>Insufficient {userValuationTokenBalance?.currency.symbol} balance</Trans>
                 }
               </button>
 
