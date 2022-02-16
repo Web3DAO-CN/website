@@ -38,6 +38,7 @@ export function useTokenIdOwnerArr(): { tokenId: string, owner: string }[] {
 
 export function useTokenIdsByOwner(owner?: string | null): string[] {
   const tokenIdOwnerArr = useTokenIdOwnerArr()
+
   return useMemo(() => {
     const tokenIds: string[] = []
     if (tokenIdOwnerArr && owner) {

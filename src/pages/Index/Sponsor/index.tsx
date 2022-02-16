@@ -4,19 +4,18 @@ import { Trans } from '@lingui/macro'
 import LeftAside from '../component/LeftAside'
 import RightContents from '../component/RightContents'
 import BodyWrapper from '../component/BodyWrapper'
-import { useBuyNFTContract } from '../../../hooks/useContract'
+import { useDaoTreasury } from '../../../hooks/useContract'
 import TransactionConfirmationModal, { ConfirmationModalContent } from 'components/TransactionConfirmationModal'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { ButtonPrimary } from 'components/Button'
 import { calculateGasMargin } from '../../../utils/calculateGasMargin'
 import { TransactionResponse } from '@ethersproject/providers'
 import { TransactionType } from '../../../state/transactions/actions'
 import { useTransactionAdder } from '../../../state/transactions/hooks'
 import { BigNumber } from '@ethersproject/bignumber'
-import { isAddress, shortenAddress } from '../../../utils'
+import { shortenAddress } from '../../../utils'
 import { popupToastError } from '../../../components/Popups/PopupToast'
 import { DEFAULT_TXN_DISMISS_MS } from '../../../constants/misc'
-import usePrevious from '../../../hooks/usePrevious'
 import { ApprovalState } from '../../../lib/hooks/useApproval'
 import { useApproveCallback } from '../../../hooks/useApproveCallback'
 import { DAO_TREASURY_ADDRESSES } from '../../../constants/addresses'
@@ -26,27 +25,21 @@ import { ExplorerDataType, getExplorerLink } from '../../../utils/getExplorerLin
 import ExternalLink from '../../../lib/components/ExternalLink'
 import { useTokenIdsByOwner } from '../../../hooks/contract/useWeb3DAOCNContract'
 import { VALUATION_TOKEN } from '../../../constants/web3dao'
+import { useERC20CurrencyAmountForTypeInput } from '../../../lib/hooks/useNativeCurrency'
 
 export default function Sponsor() {
 
   const { account, library, chainId } = useActiveWeb3React()
-  const lastAccount = usePrevious(account)
 
   const ownTokenIds = useTokenIdsByOwner(account)
   console.log('ownTokenIds = %s', JSON.stringify(ownTokenIds))
 
-  const [nftReceiver, setNFTReceiver] = useState<string>('')
-  useEffect(() => {
-    if ((account || account !== lastAccount) && isAddress(account)) {
-      setNFTReceiver(account ?? '')
-    } else {
-      setNFTReceiver('')
-    }
-  }, [lastAccount, account])
-
   const valuationToken = chainId ? VALUATION_TOKEN[chainId] : undefined
 
   const userValuationTokenBalance = useCurrencyBalance(account ?? undefined, valuationToken)
+
+  const [amountInput, setAmountInput] = useState<string>('')
+  const amountInputCurrencyAmount = useERC20CurrencyAmountForTypeInput(amountInput, userValuationTokenBalance?.currency)
 
   const daoTreasuryAddress = useMemo(() => {
     return chainId ? DAO_TREASURY_ADDRESSES[chainId] : undefined
@@ -71,7 +64,7 @@ export default function Sponsor() {
 
   const pendingText = (
     <Trans>
-      Buy NFT
+      Sponsor {amountInputCurrencyAmount?.toExact()} {amountInputCurrencyAmount?.currency.symbol} for tokenId {ownTokenIds?.[0]}
     </Trans>
   )
 
@@ -80,19 +73,19 @@ export default function Sponsor() {
       <div className='bg-white shadow sm:rounded-lg m-4'>
         <div className='px-4 py-5 sm:p-6'>
           <h3 className='text-lg leading-6 font-medium text-gray-900'>
-            You will pay
+            You will sponsor
           </h3>
           <div className='mt-5'>
             <div className='rounded-md bg-gray-50 px-6 py-5 sm:flex sm:items-start sm:justify-between'>
               <div className='sm:flex sm:items-start'>
-                {userValuationTokenBalance?.currency.symbol}
+                {amountInputCurrencyAmount?.currency.symbol}
                 <div className='mt-3 sm:mt-0 sm:ml-4'>
                   <div className='text-sm font-medium text-gray-900'>
-                    {1111111111}
+                    {amountInputCurrencyAmount?.toExact()}
                   </div>
                   <div className='mt-1 text-sm text-gray-600 sm:flex sm:items-center'>
                     <div className='mt-1 sm:mt-0'>
-                      <Trans>{shortenAddress(nftReceiver)} will receive NFT</Trans>
+                      <Trans>For tokenId {ownTokenIds?.[0]}</Trans>
                     </div>
                   </div>
                 </div>
@@ -127,25 +120,30 @@ export default function Sponsor() {
     )
   }
 
-  const buyNFTContract = useBuyNFTContract()
+  const daoTreasuryContract = useDaoTreasury()
 
   async function onBuy() {
     if (!chainId
       || !library
-      || !nftReceiver
-      || !buyNFTContract)
+      || !amountInputCurrencyAmount
+      || !(ownTokenIds && ownTokenIds.length > 0)
+      || !daoTreasuryContract)
       throw new Error('missing dependencies')
 
-    if (!userValuationTokenBalance?.greaterThan(0)) {
+    if (!amountInputCurrencyAmount?.greaterThan(0)) {
       throw new Error('missing currency amounts')
     }
     //
-    const methodNames: string[] = ['buy']
-    const args: Array<string | string[] | number | boolean> = [nftReceiver]
+    const methodNames: string[] = ['sponsor']
+    const args: Array<string | BigNumber> =
+      [
+        ownTokenIds[0],
+        BigNumber.from(amountInputCurrencyAmount.quotient.toString())
+      ]
     //
     const safeGasEstimates: (BigNumber | undefined)[] = await Promise.all(
       methodNames.map((methodName) =>
-        buyNFTContract.estimateGas[methodName](...args)
+        daoTreasuryContract.estimateGas[methodName](...args)
           .then((estimateGas) => calculateGasMargin(estimateGas))
           .catch((error) => {
             console.error(`estimateGas failed`, methodName, args, error)
@@ -167,7 +165,7 @@ export default function Sponsor() {
       const safeGasEstimate = safeGasEstimates[indexOfSuccessfulEstimation]
 
       setAttemptingTxn(true)
-      await buyNFTContract[methodName](...args, {
+      await daoTreasuryContract[methodName](...args, {
         gasLimit: safeGasEstimate
       })
         .then((response: TransactionResponse) => {
@@ -201,7 +199,7 @@ export default function Sponsor() {
           hash={txHash ? txHash : ''}
           content={() => (
             <ConfirmationModalContent
-              title={<Trans>Confirm Buy Detail</Trans>}
+              title={<Trans>Confirm Detail</Trans>}
               onDismiss={handleDismissConfirmation}
               topContent={modalHeader}
               bottomContent={modalBottom}
@@ -243,7 +241,8 @@ export default function Sponsor() {
                 }
 
                 {
-                  ownTokenIds
+                  //TODO: 待修改
+                  ownTokenIds && ownTokenIds.length > 0
                     ?
                     <div className='col-span-3'>
                       <label htmlFor='about' className='block text-sm font-medium text-gray-700'>
@@ -260,15 +259,15 @@ export default function Sponsor() {
 
                 <div className='col-span-3'>
                   <label htmlFor='about' className='block text-sm font-medium text-gray-700'>
-                    NFT接收地址
+                    输入您赞助的资金
                   </label>
                   <p className='mt-2 text-sm text-gray-500'>
                     <input
                       type='text'
                       className='mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
-                      value={nftReceiver}
+                      value={amountInput}
                       onChange={(e) => {
-                        setNFTReceiver(e.target.value)
+                        setAmountInput(e.target.value)
                       }}
                     />
                   </p>
@@ -309,7 +308,12 @@ export default function Sponsor() {
               }
 
               <button
-                disabled={approval !== ApprovalState.APPROVED || !userValuationTokenBalance?.greaterThan(0) || !nftReceiver || !isAddress(nftReceiver)}
+                disabled={
+                  approval !== ApprovalState.APPROVED
+                  || (!userValuationTokenBalance?.greaterThan(0) || amountInputCurrencyAmount?.greaterThan(userValuationTokenBalance))
+                  || !amountInputCurrencyAmount?.greaterThan(0)
+                  || !(ownTokenIds && ownTokenIds.length > 0)
+                }
                 type='button'
                 className='bg-indigo-600 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-30 ml-2'
                 onClick={() => {
@@ -317,11 +321,13 @@ export default function Sponsor() {
                 }}
               >
                 {
-                  !isAddress(nftReceiver)
-                    ? 'NFT接收地址，格式不正确'
-                    : userValuationTokenBalance?.greaterThan(0)
-                      ? <Trans>赞助</Trans>
-                      : <Trans>Insufficient {userValuationTokenBalance?.currency.symbol} balance</Trans>
+                  (!userValuationTokenBalance?.greaterThan(0) || amountInputCurrencyAmount?.greaterThan(userValuationTokenBalance))
+                    ? <Trans>Insufficient {userValuationTokenBalance?.currency.symbol} balance</Trans>
+                    : !amountInputCurrencyAmount?.greaterThan(0)
+                      ? <Trans>Enter an amount</Trans>
+                      : !(ownTokenIds && ownTokenIds.length > 0)
+                        ? <Trans>您尚未购买NFT</Trans>
+                        : <Trans>赞助</Trans>
                 }
               </button>
 
