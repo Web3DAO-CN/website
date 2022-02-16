@@ -222,6 +222,23 @@ export default function Sponsor() {
               <div className='grid grid-cols-3 gap-6'>
 
                 {
+                  //TODO: 待修改
+                  ownTokenIds && ownTokenIds.length > 0
+                    ?
+                    <div className='col-span-3'>
+                      <label htmlFor='about' className='block text-sm font-medium text-gray-700'>
+                        我的TokenId
+                      </label>
+                      <p className='mt-2 text-sm text-gray-500'>
+                        {
+                          ownTokenIds.join(' , ')
+                        }
+                      </p>
+                    </div>
+                    : null
+                }
+
+                {
                   chainId && daoTreasuryAddress
                     ?
                     <div className='col-span-3'>
@@ -234,23 +251,6 @@ export default function Sponsor() {
                             {shortenAddress(daoTreasuryAddress)}
                             <ExternalLinkAlt className='ml-1' />
                           </ExternalLink>
-                        }
-                      </p>
-                    </div>
-                    : null
-                }
-
-                {
-                  //TODO: 待修改
-                  ownTokenIds && ownTokenIds.length > 0
-                    ?
-                    <div className='col-span-3'>
-                      <label htmlFor='about' className='block text-sm font-medium text-gray-700'>
-                        我的TokenId
-                      </label>
-                      <p className='mt-2 text-sm text-gray-500'>
-                        {
-                          ownTokenIds.join(' , ')
                         }
                       </p>
                     </div>
