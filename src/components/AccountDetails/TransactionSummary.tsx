@@ -5,7 +5,7 @@ import JSBI from 'jsbi'
 import { nativeOnChain } from '../../constants/tokens'
 import { useCurrency, useToken } from '../../hooks/Tokens'
 import useENSName from '../../hooks/useENSName'
-import { AddLiquidityV2PoolTransactionInfo, AddLiquidityV3PoolTransactionInfo, ApproveTransactionInfo, BuyNFTInfo, BuyWETHInfo, ClaimTransactionInfo, CollectFeesTransactionInfo, CreateV3PoolTransactionInfo, DelegateTransactionInfo, DepositLiquidityStakingTransactionInfo, ExactInputSwapTransactionInfo, ExactOutputSwapTransactionInfo, MigrateV2LiquidityToV3TransactionInfo, RemoveLiquidityV3TransactionInfo, SubmitProposalTransactionInfo, TransactionInfo, TransactionType, WithdrawLiquidityStakingTransactionInfo, WrapTransactionInfo } from '../../state/transactions/actions'
+import { AddLiquidityV2PoolTransactionInfo, AddLiquidityV3PoolTransactionInfo, ApproveTransactionInfo, BorrowGasInfo, BuyNFTInfo, BuyWETHInfo, ClaimTransactionInfo, CollectFeesTransactionInfo, CreateV3PoolTransactionInfo, DelegateTransactionInfo, DepositLiquidityStakingTransactionInfo, ExactInputSwapTransactionInfo, ExactOutputSwapTransactionInfo, MigrateV2LiquidityToV3TransactionInfo, RemoveLiquidityV3TransactionInfo, SubmitProposalTransactionInfo, TransactionInfo, TransactionType, WithdrawLiquidityStakingTransactionInfo, WrapTransactionInfo } from '../../state/transactions/actions'
 
 function formatAmount(amountRaw: string, decimals: number, sigFigs: number): string {
   return new Fraction(amountRaw, JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(decimals))).toSignificant(sigFigs)
@@ -251,6 +251,11 @@ function BuyWETHSummary({ info }: { info: BuyWETHInfo }) {
   </Trans>
 }
 
+function BorrowGasSummary({ info }: { info: BorrowGasInfo }) {
+  return <Trans>
+    You borrow {info.currencyAmountExact} {info.symbol}
+  </Trans>
+}
 
 export function TransactionSummary({ info }: { info: TransactionInfo }) {
   switch (info.type) {
@@ -301,5 +306,8 @@ export function TransactionSummary({ info }: { info: TransactionInfo }) {
 
     case TransactionType.BUY_NFT:
       return <BuyNFTSummary info={info} />
+
+    case TransactionType.BORROW_GAS:
+      return <BorrowGasSummary info={info} />
   }
 }

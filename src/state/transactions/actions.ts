@@ -34,6 +34,7 @@ export enum TransactionType {
   SUBMIT_PROPOSAL = 14,
   BUY_WETH = 101,
   BUY_NFT = 102,
+  BORROW_GAS = 103,
 }
 
 export interface BaseTransactionInfo {
@@ -157,6 +158,12 @@ export interface BuyNFTInfo {
   type: TransactionType.BUY_NFT
 }
 
+export interface BorrowGasInfo {
+  type: TransactionType.BORROW_GAS
+  currencyAmountExact: string
+  symbol?: string
+}
+
 export type TransactionInfo =
   | ApproveTransactionInfo
   | ExactOutputSwapTransactionInfo
@@ -175,6 +182,7 @@ export type TransactionInfo =
   | SubmitProposalTransactionInfo
   | BuyWETHInfo
   | BuyNFTInfo
+  | BorrowGasInfo
 
 export const addTransaction = createAction<{
   chainId: number

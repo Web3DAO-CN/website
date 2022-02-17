@@ -36,6 +36,18 @@ export const SPONSOR_TOKEN: { [chainId: number]: Token } = {
 
 }
 
+export const GAS_TOKEN: { [chainId: number]: Token } = {
+
+  [SupportedChainId.POLYGON_MUMBAI]: new Token(
+    SupportedChainId.POLYGON_MUMBAI,
+    WEB3_DAO_CN_ADDRESSES[SupportedChainId.POLYGON_MUMBAI],
+    WEB3_DAO_CN_ATTR_ID[AttrIdEnum.gas].decimal,
+    WEB3_DAO_CN_ATTR_ID[AttrIdEnum.gas].symbol,
+    WEB3_DAO_CN_ATTR_ID[AttrIdEnum.gas].name
+  )
+
+}
+
 //计价token
 export const VALUATION_TOKEN: { [chainId: number]: Token } = {
 
