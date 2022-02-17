@@ -342,7 +342,7 @@ export default function BorrowGas() {
                 </div>
 
                 {
-                  availableBorrowGasCurrencyAmount
+                  availableBorrowGasCurrencyAmount && gasTotalSupplyCurrencyAmount
                     ?
                     <div className='col-span-12 sm:col-span-6'>
                       <label htmlFor='last-name' className='block text-sm font-medium text-gray-700 flex justify-between'>
