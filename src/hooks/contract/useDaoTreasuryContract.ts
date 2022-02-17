@@ -1,12 +1,12 @@
 import { useMemo } from 'react'
 
 import { useSingleCallResult } from 'lib/hooks/multicall'
-import { useDaoVault } from '../useContract'
+import { useDaoTreasury } from '../useContract'
 import { BigNumber } from '@ethersproject/bignumber'
 
-export function useReserve(): BigNumber | undefined {
-  const contract = useDaoVault()
-  const result = useSingleCallResult(contract, 'reserve')?.result?.[0]
+export function useGasAttrPrice(): BigNumber | undefined {
+  const contract = useDaoTreasury()
+  const result = useSingleCallResult(contract, 'gasAttrPrice')?.result?.[0]
   return useMemo(() => {
     return result ? result : undefined
   }, [result])

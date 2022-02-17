@@ -9,6 +9,7 @@ import EIP_2612 from 'abis/eip_2612.json'
 import ENS_PUBLIC_RESOLVER_ABI from 'abis/ens-public-resolver.json'
 import ENS_ABI from 'abis/ens-registrar.json'
 import ERC20_ABI from 'abis/erc20.json'
+import ERC3664_ABI from 'abis/erc3664.json'
 import ERC20_BYTES32_ABI from 'abis/erc20_bytes32.json'
 import ERC721_ABI from 'abis/erc721.json'
 import ERC1155_ABI from 'abis/erc1155.json'
@@ -21,6 +22,7 @@ import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { useMemo } from 'react'
 
 import { getContract } from '../utils'
+import { Erc3664 } from '../abis/types/Erc3664'
 
 const { abi: MulticallABI } = UniswapInterfaceMulticallJson
 
@@ -86,6 +88,10 @@ export function useBytes32TokenContract(tokenAddress?: string, withSignerIfPossi
 
 export function useEIP2612Contract(tokenAddress?: string): Contract | null {
   return useContract(tokenAddress, EIP_2612, false)
+}
+
+export function useERC3664Contract(contractAddress?: string): Contract | null {
+  return useContract<Erc3664>(contractAddress, ERC3664_ABI, false)
 }
 
 export function useInterfaceMulticall() {

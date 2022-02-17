@@ -18,16 +18,18 @@ import { popupToastError } from '../../../components/Popups/PopupToast'
 import { DEFAULT_TXN_DISMISS_MS } from '../../../constants/misc'
 import { ApprovalState } from '../../../lib/hooks/useApproval'
 import { useApproveCallback } from '../../../hooks/useApproveCallback'
-import { DAO_TREASURY_ADDRESSES } from '../../../constants/addresses'
+import { DAO_TREASURY_ADDRESSES, WEB3_DAO_CN_ADDRESSES } from '../../../constants/addresses'
 import { Dots } from 'components/Dots'
 import { ExternalLinkAlt } from '../../../components/FontawesomeIcon'
 import { ExplorerDataType, getExplorerLink } from '../../../utils/getExplorerLink'
 import ExternalLink from '../../../lib/components/ExternalLink'
 import { useTokenIdsByOwner } from '../../../hooks/contract/useWeb3DAOCNContract'
-import { VALUATION_TOKEN } from '../../../constants/web3dao'
-import { useERC20CurrencyAmountForTypeInput } from '../../../lib/hooks/useNativeCurrency'
+import { AttrIdEnum, SPONSOR_TOKEN, VALUATION_TOKEN } from '../../../constants/web3dao'
+import { useERC20CurrencyAmount, useERC20CurrencyAmountForTypeInput, useNativeCurrencyAmount } from '../../../lib/hooks/useNativeCurrency'
 import useDebounce from '../../../hooks/useDebounce'
-import { useLockVault } from '../../../hooks/contract/useDaoSponsorContract'
+import { useAvailableBorrowGas, useLockVault } from '../../../hooks/contract/useDaoSponsorContract'
+import CountdownExt from '../../../components/CountdownExt'
+import { useTotalSupplyByAttrId } from '../../../hooks/contract/useERC2664Contract'
 
 export default function BorrowGas() {
 
@@ -38,6 +40,21 @@ export default function BorrowGas() {
 
   const lockVault = useLockVault(ownTokenIds[0])
   console.log('lockVault = %s', JSON.stringify(lockVault))
+
+  //锁仓时间
+  const lockTimeMilliseconds = lockVault ? lockVault.time.toNumber() * 1000 : 0
+
+  //赞助
+  const sponsorAmountCurrencyAmount = useNativeCurrencyAmount(lockVault?.sponsorAmount.toString())
+
+  //可借出GAS
+  const availableBorrowGasCurrencyAmount = useAvailableBorrowGas()
+
+  //  sponsorTotalSupply
+  const sponsorTotalSupply = useTotalSupplyByAttrId(AttrIdEnum.sp, chainId ? WEB3_DAO_CN_ADDRESSES[chainId] : undefined)
+  console.log('sponsorTotalSupply = %s', sponsorTotalSupply?.toString())
+  const sponsorToken = chainId ? SPONSOR_TOKEN[chainId] : undefined
+  const sponsorTotalSupplyCurrencyAmount = useERC20CurrencyAmount(sponsorTotalSupply?.toString(), sponsorToken)
 
   const valuationToken = chainId ? VALUATION_TOKEN[chainId] : undefined
 
@@ -263,34 +280,85 @@ export default function BorrowGas() {
                     </div>
                     : null
                 }
+              </div>
 
-                <div className='col-span-3'>
-                  <label htmlFor='about' className='block text-sm font-medium text-gray-700'>
-                    输入您赞助的资金
+              <div className='grid grid-cols-6 gap-6'>
+
+                {
+                  lockTimeMilliseconds && lockTimeMilliseconds > 0
+                    ?
+                    <div className='col-span-6 sm:col-span-3'>
+                      <label htmlFor='first-name' className='block text-sm font-medium text-gray-700'>
+                        锁仓时间
+                      </label>
+                      <CountdownExt small={true} milliseconds={lockTimeMilliseconds} />
+                    </div>
+                    : null
+                }
+
+                {
+                  sponsorAmountCurrencyAmount
+                    ?
+                    <div className='col-span-6 sm:col-span-3'>
+                      <label htmlFor='last-name' className='block text-sm font-medium text-gray-700'>
+                        赞助总额
+                      </label>
+                      {sponsorAmountCurrencyAmount.toExact()} {sponsorAmountCurrencyAmount.currency.symbol}
+                    </div>
+                    : null
+                }
+
+                {
+                  lockVault
+                    ?
+                    <div className='col-span-6 sm:col-span-3'>
+                      <label htmlFor='first-name' className='block text-sm font-medium text-gray-700'>
+                        已借GAS
+                      </label>
+                      {lockVault?.borrowGasAmount.toString()}
+                    </div>
+                    : null
+                }
+
+                {
+                  lockVault
+                    ?
+                    <div className='col-span-6 sm:col-span-3'>
+                      <label htmlFor='last-name' className='block text-sm font-medium text-gray-700'>
+                        抵押
+                      </label>
+                      {lockVault?.stakeAmount.toString()}
+                    </div>
+                    : null
+                }
+
+                <div className='col-span-12 sm:col-span-6'>
+                  <label htmlFor='last-name' className='block text-sm font-medium text-gray-700'>
+                    输入借出GAS额度
                   </label>
-                  <p className='mt-2 text-sm text-gray-500'>
-                    <input
-                      type='text'
-                      className='mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
-                      value={amountInput}
-                      onChange={(e) => {
-                        setAmountInput(e.target.value)
-                      }}
-                    />
-                  </p>
+                  <input
+                    type='text'
+                    className='mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
+                    value={amountInput}
+                    onChange={(e) => {
+                      setAmountInput(e.target.value)
+                    }}
+                  />
                 </div>
 
                 {
-                  userValuationTokenBalance
+                  availableBorrowGasCurrencyAmount
                     ?
-                    <div className='col-span-3'>
-                      <label htmlFor='about' className='block text-sm font-medium text-gray-700'>
-                        <Trans>Balance: {userValuationTokenBalance?.toSignificant(3)}</Trans> {valuationToken?.symbol}
+                    <div className='col-span-12 sm:col-span-6'>
+                      <label htmlFor='last-name' className='block text-sm font-medium text-gray-700'>
+                        <Trans>最大可借出GAS: {availableBorrowGasCurrencyAmount?.toSignificant(3)}</Trans> {availableBorrowGasCurrencyAmount?.currency.symbol}
                       </label>
                     </div>
                     : null
                 }
+
               </div>
+
             </div>
             <div className='px-4 py-3 bg-gray-50 text-right sm:px-6'>
 
@@ -334,11 +402,12 @@ export default function BorrowGas() {
                       ? <Trans>Enter an amount</Trans>
                       : !(ownTokenIds && ownTokenIds.length > 0)
                         ? <Trans>您尚未购买NFT</Trans>
-                        : <Trans>赞助</Trans>
+                        : <Trans>借出</Trans>
                 }
               </button>
 
             </div>
+
           </div>
         </form>
 
