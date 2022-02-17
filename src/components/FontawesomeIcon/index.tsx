@@ -577,3 +577,7 @@ export function Repeat({ ...rest }: FontAwesomeIconProps | any) {
 export function Donate({ ...rest }: FontAwesomeIconProps | any) {
   return <BaseIcon {...rest} icon={['fas', 'donate']} />
 }
+
+export function HandHoldingDroplet({ ...rest }: FontAwesomeIconProps | any) {
+  return <BaseIcon {...rest} icon={['fas', 'hand-holding-droplet']} />
+}

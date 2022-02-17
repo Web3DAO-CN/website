@@ -1,9 +1,9 @@
 import useCurrencyBalance from '../../../lib/hooks/useCurrencyBalance'
 import useActiveWeb3React from '../../../hooks/useActiveWeb3React'
 import { Trans } from '@lingui/macro'
-import LeftAside from '../component/LeftAside'
-import RightContents from '../component/RightContents'
-import BodyWrapper from '../component/BodyWrapper'
+import Left from '../component/Left'
+import Right from '../component/Right'
+import Body from '../component/Body'
 import { useBuyNFTContract } from '../../../hooks/useContract'
 import { usePrice } from '../../../hooks/contract/useBuyNFTContract'
 import { useERC20CurrencyAmount } from '../../../lib/hooks/useNativeCurrency'
@@ -194,11 +194,11 @@ export default function BuyNFT() {
 
   return (
 
-    <BodyWrapper>
+    <Body>
 
-      <LeftAside />
+      <Left />
 
-      <RightContents>
+      <Right>
 
         <TransactionConfirmationModal
           isOpen={showConfirm}
@@ -333,8 +333,8 @@ export default function BuyNFT() {
           </div>
         </form>
 
-      </RightContents>
+      </Right>
 
-    </BodyWrapper>
+    </Body>
   )
 }

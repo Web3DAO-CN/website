@@ -15,6 +15,7 @@ import IndexBuyNFT from './Index/BuyNFT'
 import { PageLayout } from '../components/Layout'
 import PopupsContainer from '../components/PopupsContainer'
 import Sponsor from './Index/Sponsor'
+import BorrowGas from './Index/BorrowGas'
 
 // const AppWrapper = styled.div`
 //   display: flex;
@@ -74,7 +75,8 @@ export default function App() {
                 <Route path='approveWrapToken/*' element={<IndexApproveWrapToken />} />
                 <Route path='demoLayout/*' element={<IndexDemoLayout />} />
                 <Route path='buyNFT/*' element={<IndexBuyNFT />} />
-                <Route path='Sponsor/*' element={<Sponsor />} />
+                <Route path='sponsor/*' element={<Sponsor />} />
+                <Route path='borrowGas/*' element={<BorrowGas />} />
                 <Route path='*' />
               </Route>
             </Routes>

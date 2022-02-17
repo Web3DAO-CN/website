@@ -1,15 +1,15 @@
-import BodyWrapper from '../component/BodyWrapper'
-import LeftAside from '../component/LeftAside'
-import RightContents from '../component/RightContents'
+import Body from '../component/Body'
+import Left from '../component/Left'
+import Right from '../component/Right'
 
 export default function DemoLayout() {
   return (
 
-    <BodyWrapper>
+    <Body>
 
-      <LeftAside />
+      <Left />
 
-      <RightContents>
+      <Right>
 
         <form action='#' method='POST'>
           <div className='shadow sm:rounded-md sm:overflow-hidden'>
@@ -367,8 +367,8 @@ export default function DemoLayout() {
           </div>
         </form>
 
-      </RightContents>
+      </Right>
 
-    </BodyWrapper>
+    </Body>
   )
 }

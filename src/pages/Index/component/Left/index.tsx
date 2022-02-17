@@ -1,4 +1,4 @@
-import { Donate, ExchangeAlt, LayerGroup, ShoppingCart } from 'components/FontawesomeIcon'
+import { Donate, ExchangeAlt, HandHoldingDroplet, LayerGroup, ShoppingCart } from 'components/FontawesomeIcon'
 import { NavLink } from 'react-router-dom'
 import classNames from '../../../../utils/classNames'
 
@@ -32,6 +32,13 @@ const navigation = [
     path: '/sponsor'
   },
   {
+    id: 5,
+    name: '借出GAS',
+    href: '#',
+    icon: <HandHoldingDroplet />,
+    path: '/borrowGas'
+  },
+  {
     id: 9,
     name: '参考布局',
     href: '#',
@@ -40,7 +47,7 @@ const navigation = [
   }
 ]
 
-export default function LeftAside() {
+export default function Left() {
 
   return (
     <aside className='py-6 px-2 sm:px-6 lg:py-0 lg:px-0 lg:col-span-3'>

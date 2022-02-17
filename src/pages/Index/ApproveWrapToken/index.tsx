@@ -5,9 +5,9 @@ import { Trans } from '@lingui/macro'
 import { BUY_NFT_ADDRESSES } from '../../../constants/addresses'
 import { ApprovalState, useApproveCallback } from '../../../hooks/useApproveCallback'
 import { Dots } from 'components/Dots'
-import LeftAside from '../component/LeftAside'
-import RightContents from '../component/RightContents'
-import BodyWrapper from '../component/BodyWrapper'
+import Left from '../component/Left'
+import Right from '../component/Right'
+import Body from '../component/Body'
 
 export default function ApproveWrapToken() {
 
@@ -27,11 +27,11 @@ export default function ApproveWrapToken() {
 
   return (
 
-    <BodyWrapper>
+    <Body>
 
-      <LeftAside />
+      <Left />
 
-      <RightContents>
+      <Right>
 
         <form action='#' method='POST'>
           <div className='shadow sm:rounded-md sm:overflow-hidden'>
@@ -82,8 +82,8 @@ export default function ApproveWrapToken() {
           </div>
         </form>
 
-      </RightContents>
+      </Right>
 
-    </BodyWrapper>
+    </Body>
   )
 }

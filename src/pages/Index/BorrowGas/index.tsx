@@ -27,13 +27,17 @@ import { useTokenIdsByOwner } from '../../../hooks/contract/useWeb3DAOCNContract
 import { VALUATION_TOKEN } from '../../../constants/web3dao'
 import { useERC20CurrencyAmountForTypeInput } from '../../../lib/hooks/useNativeCurrency'
 import useDebounce from '../../../hooks/useDebounce'
+import { useLockVault } from '../../../hooks/contract/useDaoSponsorContract'
 
-export default function Sponsor() {
+export default function BorrowGas() {
 
   const { account, library, chainId } = useActiveWeb3React()
 
   const ownTokenIds = useTokenIdsByOwner(account)
   console.log('ownTokenIds = %s', JSON.stringify(ownTokenIds))
+
+  const lockVault = useLockVault(ownTokenIds[0])
+  console.log('lockVault = %s', JSON.stringify(lockVault))
 
   const valuationToken = chainId ? VALUATION_TOKEN[chainId] : undefined
 

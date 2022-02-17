@@ -6,9 +6,9 @@ import NumericalInput from 'components/NumericalInput'
 import { useERC20CurrencyAmountForTypeInput } from '../../../lib/hooks/useNativeCurrency'
 import { Trans } from '@lingui/macro'
 import { Repeat } from '../../../components/FontawesomeIcon'
-import LeftAside from '../component/LeftAside'
-import BodyWrapper from '../component/BodyWrapper'
-import RightContents from '../component/RightContents'
+import Left from '../component/Left'
+import Body from '../component/Body'
+import Right from '../component/Right'
 import { VALUATION_TOKEN } from '../../../constants/web3dao'
 import { useTransaction, useTransactionAdder } from '../../../state/transactions/hooks'
 import { ButtonPrimary } from '../../../components/Button'
@@ -201,11 +201,11 @@ export default function BuyWETH() {
   }
 
   return (
-    <BodyWrapper>
+    <Body>
 
-      <LeftAside />
+      <Left />
 
-      <RightContents>
+      <Right>
 
         <TransactionConfirmationModal
           isOpen={showConfirm}
@@ -299,8 +299,8 @@ export default function BuyWETH() {
           </div>
         </form>
 
-      </RightContents>
+      </Right>
 
-    </BodyWrapper>
+    </Body>
   )
 }
