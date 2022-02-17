@@ -26,6 +26,7 @@ import ExternalLink from '../../../lib/components/ExternalLink'
 import { useTokenIdsByOwner } from '../../../hooks/contract/useWeb3DAOCNContract'
 import { VALUATION_TOKEN } from '../../../constants/web3dao'
 import { useERC20CurrencyAmountForTypeInput } from '../../../lib/hooks/useNativeCurrency'
+import useDebounce from '../../../hooks/useDebounce'
 
 export default function Sponsor() {
 
@@ -39,7 +40,9 @@ export default function Sponsor() {
   const userValuationTokenBalance = useCurrencyBalance(account ?? undefined, valuationToken)
 
   const [amountInput, setAmountInput] = useState<string>('')
-  const amountInputCurrencyAmount = useERC20CurrencyAmountForTypeInput(amountInput, userValuationTokenBalance?.currency)
+  const debouncedAmountInput = useDebounce(amountInput, 200)
+
+  const amountInputCurrencyAmount = useERC20CurrencyAmountForTypeInput(debouncedAmountInput, userValuationTokenBalance?.currency)
 
   const daoTreasuryAddress = useMemo(() => {
     return chainId ? DAO_TREASURY_ADDRESSES[chainId] : undefined
@@ -111,7 +114,7 @@ export default function Sponsor() {
   function modalBottom() {
     return (
       <>
-        <ButtonPrimary disabled={!userValuationTokenBalance?.greaterThan(0)} onClick={onBuy}>
+        <ButtonPrimary disabled={!userValuationTokenBalance?.greaterThan(0)} onClick={onSponsor}>
           <span className='text-lg font-semibold'>
             <Trans>Confirm</Trans>
           </span>
@@ -122,7 +125,7 @@ export default function Sponsor() {
 
   const daoTreasuryContract = useDaoTreasury()
 
-  async function onBuy() {
+  async function onSponsor() {
     if (!chainId
       || !library
       || !amountInputCurrencyAmount
@@ -227,7 +230,7 @@ export default function Sponsor() {
                     ?
                     <div className='col-span-3'>
                       <label htmlFor='about' className='block text-sm font-medium text-gray-700'>
-                        我的TokenId
+                        NFT TokenId
                       </label>
                       <p className='mt-2 text-sm text-gray-500'>
                         {
