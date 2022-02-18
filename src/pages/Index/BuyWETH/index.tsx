@@ -128,7 +128,7 @@ export default function BuyWETH() {
   function modalBottom() {
     return (
       <>
-        <ButtonPrimary disabled={!amountInputCurrencyAmount?.greaterThan(0)} onClick={onBuy}>
+        <ButtonPrimary disabled={!amountInputCurrencyAmount?.greaterThan(0)} onClick={handle}>
           <span className='text-lg font-semibold'>
             <Trans>Confirm</Trans>
           </span>
@@ -139,7 +139,7 @@ export default function BuyWETH() {
 
   const valuationTokenContract = useValuationTokenContract()
 
-  async function onBuy() {
+  async function handle() {
     if (!chainId
       || !library
       || !valuationTokenContract)
@@ -236,7 +236,7 @@ export default function BuyWETH() {
               <div className='grid grid-cols-3 gap-6'>
 
                 <div className='col-span-3'>
-                  <label htmlFor='about' className='block text-sm font-medium text-gray-700'>
+                  <label className='block text-sm font-medium text-gray-700'>
                     兑换额度
                   </label>
                   <div className='mt-1'>

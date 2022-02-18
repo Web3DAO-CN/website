@@ -62,9 +62,14 @@ export default function BorrowGas() {
   const debouncedAmountInput = useDebounce(amountInput, 200)
   const amountInputCurrencyAmount = useERC20CurrencyAmountForTypeInput(debouncedAmountInput, gasToken)
 
+
   const daoTreasuryAddress = useMemo(() => {
     return chainId ? DAO_TREASURY_ADDRESSES[chainId] : undefined
   }, [chainId])
+
+  const handleMaxInput = useCallback(() => {
+    setAmountInput(availableBorrowGasCurrencyAmount ? availableBorrowGasCurrencyAmount?.toExact() : '')
+  }, [availableBorrowGasCurrencyAmount])
 
   //const [approval, approveCallback] = useApproveCallback(userValuationTokenBalance, daoTreasuryAddress)
 
@@ -141,7 +146,7 @@ export default function BorrowGas() {
   function modalBottom() {
     return (
       <>
-        <ButtonPrimary disabled={!amountInputCurrencyAmount?.greaterThan(0)} onClick={onBuy}>
+        <ButtonPrimary disabled={!amountInputCurrencyAmount?.greaterThan(0)} onClick={handle}>
           <span className='text-lg font-semibold'>
             <Trans>Confirm</Trans>
           </span>
@@ -152,7 +157,7 @@ export default function BorrowGas() {
 
   const treasuryContract = useDaoTreasury()
 
-  async function onBuy() {
+  async function handle() {
     if (!chainId
       || !library
       || !ownTokenIds?.[0]
@@ -245,7 +250,7 @@ export default function BorrowGas() {
                   ownTokenIds && ownTokenIds.length > 0
                     ?
                     <div className='col-span-3'>
-                      <label htmlFor='about' className='block text-sm font-medium text-gray-700'>
+                      <label className='block text-sm font-medium text-gray-700'>
                         NFT TokenId
                       </label>
                       <p className='mt-2 text-sm text-gray-500'>
@@ -261,7 +266,7 @@ export default function BorrowGas() {
                   chainId && daoTreasuryAddress
                     ?
                     <div className='col-span-3'>
-                      <label htmlFor='about' className='block text-sm font-medium text-gray-700'>
+                      <label className='block text-sm font-medium text-gray-700'>
                         WEB3DAO金库合约地址
                       </label>
                       <p className='mt-2 text-sm text-gray-500'>
@@ -283,7 +288,7 @@ export default function BorrowGas() {
                   lockTimeMilliseconds && lockTimeMilliseconds > 0
                     ?
                     <div className='col-span-6 sm:col-span-3'>
-                      <label htmlFor='first-name' className='block text-sm font-medium text-gray-700'>
+                      <label className='block text-sm font-medium text-gray-700'>
                         锁仓时间
                       </label>
                       <CountdownExt small={true} milliseconds={lockTimeMilliseconds} />
@@ -295,7 +300,7 @@ export default function BorrowGas() {
                   sponsorAmountCurrencyAmount
                     ?
                     <div className='col-span-6 sm:col-span-3'>
-                      <label htmlFor='last-name' className='block text-sm font-medium text-gray-700'>
+                      <label className='block text-sm font-medium text-gray-700'>
                         赞助总额
                       </label>
                       {sponsorAmountCurrencyAmount.toExact()} {sponsorAmountCurrencyAmount.currency.symbol}
@@ -307,7 +312,7 @@ export default function BorrowGas() {
                   borrowGasAmountCurrencyAmount
                     ?
                     <div className='col-span-6 sm:col-span-3'>
-                      <label htmlFor='first-name' className='block text-sm font-medium text-gray-700'>
+                      <label className='block text-sm font-medium text-gray-700'>
                         已借
                       </label>
                       {borrowGasAmountCurrencyAmount.toExact()} {borrowGasAmountCurrencyAmount.currency.symbol}
@@ -319,7 +324,7 @@ export default function BorrowGas() {
                   stakeAmountCurrencyAmount
                     ?
                     <div className='col-span-6 sm:col-span-3'>
-                      <label htmlFor='last-name' className='block text-sm font-medium text-gray-700'>
+                      <label className='block text-sm font-medium text-gray-700'>
                         抵押
                       </label>
                       {stakeAmountCurrencyAmount.toExact()} {stakeAmountCurrencyAmount.currency.symbol}
@@ -328,7 +333,7 @@ export default function BorrowGas() {
                 }
 
                 <div className='col-span-12 sm:col-span-6'>
-                  <label htmlFor='last-name' className='block text-sm font-medium text-gray-700'>
+                  <label className='block text-sm font-medium text-gray-700'>
                     输入借出GAS额度
                   </label>
                   <input
@@ -345,8 +350,8 @@ export default function BorrowGas() {
                   availableBorrowGasCurrencyAmount && gasTotalSupplyCurrencyAmount
                     ?
                     <div className='col-span-12 sm:col-span-6'>
-                      <label htmlFor='last-name' className='block text-sm font-medium text-gray-700 flex justify-between'>
-                        <div>
+                      <label className='block text-sm font-medium text-gray-700 flex justify-between'>
+                        <div onClick={handleMaxInput} className='text-blue-600'>
                           <Trans>还可借: {availableBorrowGasCurrencyAmount?.toExact()}</Trans> {availableBorrowGasCurrencyAmount?.currency.symbol}
                         </div>
                         <div>

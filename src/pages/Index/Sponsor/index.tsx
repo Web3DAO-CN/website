@@ -11,7 +11,7 @@ import { ButtonPrimary } from 'components/Button'
 import { calculateGasMargin } from '../../../utils/calculateGasMargin'
 import { TransactionResponse } from '@ethersproject/providers'
 import { TransactionType } from '../../../state/transactions/actions'
-import { useTransactionAdder } from '../../../state/transactions/hooks'
+import { useTransaction, useTransactionAdder } from '../../../state/transactions/hooks'
 import { BigNumber } from '@ethersproject/bignumber'
 import { shortenAddress } from '../../../utils'
 import { popupToastError } from '../../../components/Popups/PopupToast'
@@ -63,6 +63,15 @@ export default function Sponsor() {
   const [attemptingTxn, setAttemptingTxn] = useState(false) // clicked confirm
   const [showConfirm, setShowConfirm] = useState<boolean>(false)
   const addTransaction = useTransactionAdder()
+
+  const transaction = useTransaction(txHash)
+  const transactionSuccess = transaction?.receipt?.status === 1
+
+  if (transactionSuccess) {
+    setTxHash('')
+    setShowConfirm(false)
+    setAmountInput('')
+  }
 
   const handleDismissConfirmation = useCallback(() => {
     setShowConfirm(false)
@@ -118,7 +127,7 @@ export default function Sponsor() {
   function modalBottom() {
     return (
       <>
-        <ButtonPrimary disabled={!userValuationTokenBalance?.greaterThan(0)} onClick={onSponsor}>
+        <ButtonPrimary disabled={!userValuationTokenBalance?.greaterThan(0)} onClick={handle}>
           <span className='text-lg font-semibold'>
             <Trans>Confirm</Trans>
           </span>
@@ -129,7 +138,7 @@ export default function Sponsor() {
 
   const daoTreasuryContract = useDaoTreasury()
 
-  async function onSponsor() {
+  async function handle() {
     if (!chainId
       || !library
       || !amountInputCurrencyAmount
@@ -140,7 +149,48 @@ export default function Sponsor() {
     if (!amountInputCurrencyAmount?.greaterThan(0)) {
       throw new Error('missing currency amounts')
     }
-    //
+
+    const estimate = daoTreasuryContract.estimateGas.sponsor
+    const method: (...args: any) => Promise<TransactionResponse> = daoTreasuryContract.borrowGas
+    const args: Array<string | BigNumber> =
+      [
+        ownTokenIds[0],
+        BigNumber.from(amountInputCurrencyAmount.quotient.toString())
+      ]
+    const value = null
+
+    setAttemptingTxn(true)
+    // @ts-ignore
+    await estimate(...args, value ? { value } : {})
+      .then((estimatedGasLimit) =>
+        method(...args, {
+          ...(value ? { value } : {}),
+          gasLimit: calculateGasMargin(estimatedGasLimit)
+        }).then((response) => {
+          setAttemptingTxn(false)
+
+          addTransaction(response, {
+            type: TransactionType.BORROW_GAS,
+            currencyAmountExact: amountInputCurrencyAmount?.toExact(),
+            symbol: amountInputCurrencyAmount?.currency.symbol
+          })
+
+          setTxHash(response.hash)
+
+        })
+      )
+      .catch((error) => {
+        const msg = error?.data?.message ? error.data.message : error?.message ? error.message : error.reason
+        popupToastError({ message: msg, removeAfterMs: DEFAULT_TXN_DISMISS_MS })
+        //
+        setAttemptingTxn(false)
+        // we only care if the error is something _other_ than the user rejected the tx
+        if (error?.code !== 4001) {
+          console.error(error)
+        }
+      })
+
+    /*//
     const methodNames: string[] = ['sponsor']
     const args: Array<string | BigNumber> =
       [
@@ -188,7 +238,7 @@ export default function Sponsor() {
           setAttemptingTxn(false)
           console.error(error)
         })
-    }
+    }*/
   }
 
   return (
@@ -233,7 +283,7 @@ export default function Sponsor() {
                   ownTokenIds && ownTokenIds.length > 0
                     ?
                     <div className='col-span-3'>
-                      <label htmlFor='about' className='block text-sm font-medium text-gray-700'>
+                      <label className='block text-sm font-medium text-gray-700'>
                         NFT TokenId
                       </label>
                       <p className='mt-2 text-sm text-gray-500'>
@@ -249,7 +299,7 @@ export default function Sponsor() {
                   chainId && daoTreasuryAddress
                     ?
                     <div className='col-span-3'>
-                      <label htmlFor='about' className='block text-sm font-medium text-gray-700'>
+                      <label className='block text-sm font-medium text-gray-700'>
                         WEB3DAO金库合约地址
                       </label>
                       <p className='mt-2 text-sm text-gray-500'>
@@ -265,7 +315,7 @@ export default function Sponsor() {
                 }
 
                 <div className='col-span-3'>
-                  <label htmlFor='about' className='block text-sm font-medium text-gray-700'>
+                  <label className='block text-sm font-medium text-gray-700'>
                     输入您赞助的资金
                   </label>
                   <p className='mt-2 text-sm text-gray-500'>
@@ -284,7 +334,7 @@ export default function Sponsor() {
                   userValuationTokenBalance
                     ?
                     <div className='col-span-3'>
-                      <label onClick={handleMaxInput} htmlFor='about' className='block text-sm font-medium text-gray-700'>
+                      <label onClick={handleMaxInput} className='block text-sm font-medium text-blue-600'>
                         <Trans>Balance: {userValuationTokenBalance?.toSignificant(3)}</Trans> {valuationToken?.symbol}
                       </label>
                     </div>

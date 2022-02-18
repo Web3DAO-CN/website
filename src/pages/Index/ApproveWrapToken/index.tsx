@@ -46,7 +46,7 @@ export default function ApproveWrapToken() {
               <div className='grid grid-cols-3 gap-6'>
 
                 <div className='col-span-3'>
-                  <label htmlFor='about' className='block text-sm font-medium text-gray-700'>
+                  <label className='block text-sm font-medium text-gray-700'>
                     授权W母币
                   </label>
                   <div className='mt-1'>

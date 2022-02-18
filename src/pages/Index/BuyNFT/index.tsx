@@ -124,7 +124,7 @@ export default function BuyNFT() {
   function modalBottom() {
     return (
       <>
-        <ButtonPrimary disabled={!userValuationTokenBalance?.greaterThan(0)} onClick={onBuy}>
+        <ButtonPrimary disabled={!userValuationTokenBalance?.greaterThan(0)} onClick={handle}>
           <span className='text-lg font-semibold'>
             <Trans>Confirm</Trans>
           </span>
@@ -135,7 +135,7 @@ export default function BuyNFT() {
 
   const buyNFTContract = useBuyNFTContract()
 
-  async function onBuy() {
+  async function handle() {
     if (!chainId
       || !library
       || !nftReceiver
@@ -233,7 +233,7 @@ export default function BuyNFT() {
                   nftPriceCurrencyAmount && nftPriceCurrencyAmount.greaterThan(0)
                     ?
                     <div className='col-span-3'>
-                      <label htmlFor='about' className='block text-sm font-medium text-gray-700'>
+                      <label className='block text-sm font-medium text-gray-700'>
                         NFT价格
                       </label>
                       <p className='mt-2 text-sm text-gray-500'>
@@ -247,7 +247,7 @@ export default function BuyNFT() {
                   chainId && buyNFTAddress
                     ?
                     <div className='col-span-3'>
-                      <label htmlFor='about' className='block text-sm font-medium text-gray-700'>
+                      <label className='block text-sm font-medium text-gray-700'>
                         NFT交易合约地址
                       </label>
                       <p className='mt-2 text-sm text-gray-500'>
@@ -263,7 +263,7 @@ export default function BuyNFT() {
                 }
 
                 <div className='col-span-3'>
-                  <label htmlFor='about' className='block text-sm font-medium text-gray-700'>
+                  <label className='block text-sm font-medium text-gray-700'>
                     NFT接收地址
                   </label>
                   <p className='mt-2 text-sm text-gray-500'>
@@ -282,7 +282,7 @@ export default function BuyNFT() {
                   userValuationTokenBalance
                     ?
                     <div className='col-span-3'>
-                      <label htmlFor='about' className='block text-sm font-medium text-gray-700'>
+                      <label className='block text-sm font-medium text-gray-700'>
                         <Trans>Balance: {userValuationTokenBalance?.toSignificant(3)}</Trans> {valuationToken?.symbol}
                       </label>
                     </div>
