@@ -64,7 +64,7 @@ function ConfirmationPendingContent({
         )}
         <ConfirmedIcon inline={inline}>
           {/*<CustomLightSpinner src={Circle} alt="loader" size={inline ? '40px' : '90px'} />*/}
-          <SyncAlt size={90} />
+          <SyncAlt size={60} className='text-blue-500' />
         </ConfirmedIcon>
         <AutoColumn gap="12px" justify={'center'}>
           <Text fontWeight={500} fontSize={20} textAlign="center">

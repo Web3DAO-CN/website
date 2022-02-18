@@ -54,6 +54,10 @@ export default function Sponsor() {
     await approveCallback()
   }
 
+  const handleMaxInput = useCallback(() => {
+    setAmountInput(userValuationTokenBalance ? userValuationTokenBalance?.toExact() : '')
+  }, [userValuationTokenBalance])
+
   //合约交互
   const [txHash, setTxHash] = useState<string>('')
   const [attemptingTxn, setAttemptingTxn] = useState(false) // clicked confirm
@@ -280,7 +284,7 @@ export default function Sponsor() {
                   userValuationTokenBalance
                     ?
                     <div className='col-span-3'>
-                      <label htmlFor='about' className='block text-sm font-medium text-gray-700'>
+                      <label onClick={handleMaxInput} htmlFor='about' className='block text-sm font-medium text-gray-700'>
                         <Trans>Balance: {userValuationTokenBalance?.toSignificant(3)}</Trans> {valuationToken?.symbol}
                       </label>
                     </div>
