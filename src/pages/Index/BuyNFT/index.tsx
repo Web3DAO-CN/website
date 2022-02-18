@@ -42,9 +42,6 @@ export default function BuyNFT() {
     }
   }, [lastAccount, account])
 
-  // const valuationToken2 = useToken(chainId ? VALUATION_TOKEN_ADDRESSES[chainId] : undefined)
-  // console.log('valuationToken2 = %s', JSON.stringify(valuationToken2))
-
   const valuationToken = chainId ? VALUATION_TOKEN[chainId] : undefined
 
   const userValuationTokenBalance = useCurrencyBalance(account ?? undefined, valuationToken)

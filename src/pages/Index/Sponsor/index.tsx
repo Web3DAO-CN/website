@@ -189,56 +189,6 @@ export default function Sponsor() {
           console.error(error)
         }
       })
-
-    /*//
-    const methodNames: string[] = ['sponsor']
-    const args: Array<string | BigNumber> =
-      [
-        ownTokenIds[0],
-        BigNumber.from(amountInputCurrencyAmount.quotient.toString())
-      ]
-    //
-    const safeGasEstimates: (BigNumber | undefined)[] = await Promise.all(
-      methodNames.map((methodName) =>
-        daoTreasuryContract.estimateGas[methodName](...args)
-          .then((estimateGas) => calculateGasMargin(estimateGas))
-          .catch((error) => {
-            console.error(`estimateGas failed`, methodName, args, error)
-            const msg = error?.data?.message ? error.data.message : error?.message ? error.message : error.reason
-            popupToastError({ message: msg, removeAfterMs: DEFAULT_TXN_DISMISS_MS })
-            return undefined
-          })
-      )
-    )
-    //
-    const indexOfSuccessfulEstimation = safeGasEstimates.findIndex((safeGasEstimate) =>
-      BigNumber.isBigNumber(safeGasEstimate)
-    )
-    //
-    if (indexOfSuccessfulEstimation === -1) {
-      console.error('This transaction would fail. Please contact support.')
-    } else {
-      const methodName = methodNames[indexOfSuccessfulEstimation]
-      const safeGasEstimate = safeGasEstimates[indexOfSuccessfulEstimation]
-
-      setAttemptingTxn(true)
-      await daoTreasuryContract[methodName](...args, {
-        gasLimit: safeGasEstimate
-      })
-        .then((response: TransactionResponse) => {
-          setAttemptingTxn(false)
-
-          addTransaction(response, {
-            type: TransactionType.BUY_NFT
-          })
-
-          setTxHash(response.hash)
-        })
-        .catch((error: Error) => {
-          setAttemptingTxn(false)
-          console.error(error)
-        })
-    }*/
   }
 
   return (

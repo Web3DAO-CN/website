@@ -4,49 +4,36 @@ import classNames from '../../../../utils/classNames'
 
 const navigation = [
   {
-    id: 1,
     name: '购买WETH(仅测试)',
     href: '#',
     icon: <ExchangeAlt />,
     path: '/buyWETH'
   },
-  /*{
-    id: 2,
-    name: '授权W母币',
-    href: '#',
-    icon: <CreditCard />,
-    path: '/approveWrapToken'
-  },*/
   {
-    id: 3,
-    name: '购买NFT',
+    name: '个人中心',
     href: '#',
     icon: <ShoppingCart />,
     path: '/buyNFT'
   },
   {
-    id: 4,
-    name: '赞助',
+    name: '赞助DAO',
     href: '#',
     icon: <Donate />,
     path: '/sponsor'
   },
   {
-    id: 5,
     name: '借出GAS',
     href: '#',
     icon: <HandHoldingDroplet />,
     path: '/borrowGas'
   },
   {
-    id: 6,
     name: '归还GAS',
     href: '#',
     icon: <PiggyBank />,
     path: '/returnGas'
   },
   {
-    id: 9,
     name: '参考布局',
     href: '#',
     icon: <LayerGroup />,

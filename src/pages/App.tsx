@@ -8,7 +8,6 @@ import Polling from '../components/Header/Polling'
 import Web3ReactManager from '../components/Web3ReactManager'
 import initFontawesome from './fontawesome'
 import Index from './Index'
-import IndexApproveWrapToken from './Index/ApproveWrapToken'
 import IndexBuyWETH from './Index/BuyWETH'
 import IndexDemoLayout from './Index/DemoLayout'
 import IndexBuyNFT from './Index/BuyNFT'
@@ -73,7 +72,6 @@ export default function App() {
               <Route path='/' element={<PageLayout />}>
                 <Route index element={<Index />} />
                 <Route path='buyWETH/*' element={<IndexBuyWETH />} />
-                <Route path='approveWrapToken/*' element={<IndexApproveWrapToken />} />
                 <Route path='demoLayout/*' element={<IndexDemoLayout />} />
                 <Route path='buyNFT/*' element={<IndexBuyNFT />} />
                 <Route path='sponsor/*' element={<Sponsor />} />
