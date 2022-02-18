@@ -23,14 +23,10 @@ export default function NFTDetail({ tokenId }: { tokenId: string }) {
   const attrGas: AttrIdPropExt = WEB3_DAO_CN_ATTR[AttrIdEnum.gas]
   attrGas.totalSupply = useTotalSupplyERC3664(gasToken, AttrIdEnum.gas)
   attrGas.balance = useTokenBalanceERC3664(gasToken, tokenId, AttrIdEnum.gas)
-  attrGas.actionColList = [
-    {
-      actionLabel: '借出', path: '#/borrowGas'
-    },
-    {
-      actionLabel: '归还', path: '#/returnGas'
-    }
-  ]
+  attrGas.actionColList = tokenId ?
+    [{ actionLabel: '借出', path: '#/borrowGas' },
+      { actionLabel: '归还', path: '#/returnGas' }]
+    : undefined
   list.push(attrGas)
 
   const blockToken = chainId ? BLOCK_TOKEN[chainId] : undefined
@@ -55,11 +51,10 @@ export default function NFTDetail({ tokenId }: { tokenId: string }) {
   const attrSponsor: AttrIdPropExt = WEB3_DAO_CN_ATTR[AttrIdEnum.sp]
   attrSponsor.totalSupply = useTotalSupplyERC3664(sponsorToken, AttrIdEnum.sp)
   attrSponsor.balance = useTokenBalanceERC3664(sponsorToken, tokenId, AttrIdEnum.sp)
-  attrSponsor.actionColList = [
-    {
+  attrSponsor.actionColList = tokenId
+    ? [{
       actionLabel: '赞助', path: '#/sponsor'
-    }
-  ]
+    }] : undefined
   list.push(attrSponsor)
 
   return (
