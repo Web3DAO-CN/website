@@ -10,6 +10,7 @@ import { BookmarkAltIcon, BriefcaseIcon, ChartBarIcon, CheckCircleIcon, CursorCl
 import { ChevronDownIcon } from '@heroicons/react/solid'
 import classNames from '../../utils/classNames'
 import Web3Status from '../Web3Status'
+import NetworkSelector from './NetworkSelector'
 
 const solutions = [
   {
@@ -461,15 +462,23 @@ export default function Header() {
               </Popover>
             </Popover.Group>
             <div className='flex items-center'>
+
               {/*<a href="#" className="text-base font-medium text-gray-500 hover:text-gray-900">*/}
               {/*  Sign in*/}
               {/*</a>*/}
-              <span className='text-base font-medium text-gray-500 hover:text-gray-900'>
+
+              <span className='text-base font-medium text-gray-500'>
                 {userEthBalance?.toSignificant(3)} {chainInfo?.addNetworkInfo.nativeToken.symbol}
               </span>
-              <span className='text-base font-medium text-gray-500 hover:text-gray-900 ml-2'>
+
+              <span className='text-base font-medium text-gray-500 rounded-3xl border-2 hover:border-[#415BE5] ml-2'>
+                <NetworkSelector />
+              </span>
+
+              <span className='text-base font-medium text-gray-500 rounded-3xl border-2 hover:border-[#415BE5] ml-2'>
                 <Web3Status />
               </span>
+
             </div>
           </div>
         </div>
@@ -557,16 +566,19 @@ export default function Header() {
                 </a>
               </div>
               <div className='mt-6'>
+
                 <span
                   className='w-full flex items-center justify-center text-base font-medium text-indigo-600'
                 >
                   {userEthBalance?.toSignificant(3)} {chainInfo?.addNetworkInfo.nativeToken.symbol}
                 </span>
+
                 <p className='mt-6 text-center text-base font-medium text-gray-500'>
                   <span className='text-indigo-600 hover:text-indigo-500'>
                     <Web3Status />
                   </span>
                 </p>
+
               </div>
             </div>
           </div>

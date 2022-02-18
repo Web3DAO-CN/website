@@ -7,8 +7,7 @@ import { useOnClickOutside } from 'hooks/useOnClickOutside'
 import useParsedQueryString from 'hooks/useParsedQueryString'
 import usePrevious from 'hooks/usePrevious'
 import { ParsedQs } from 'qs'
-import { useCallback, useRef } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useCallback, useEffect, useRef } from 'react'
 import { useModalOpen, useToggleModal } from 'state/application/hooks'
 import { addPopup, ApplicationModal } from 'state/application/reducer'
 import styled from 'styled-components/macro'
@@ -229,10 +228,10 @@ const getChainIdFromName = (name: string) => {
   return chainId ? parseInt(chainId) : undefined
 }
 
-const getChainNameFromId = (id: string | number) => {
-  // casting here may not be right but fine to return undefined if it's not a supported chain ID
-  return CHAIN_IDS_TO_NAMES[id as SupportedChainId] || ''
-}
+// const getChainNameFromId = (id: string | number) => {
+//   // casting here may not be right but fine to return undefined if it's not a supported chain ID
+//   return CHAIN_IDS_TO_NAMES[id as SupportedChainId] || ''
+// }
 
 export default function NetworkSelector() {
   const { chainId, library } = useActiveWeb3React()
@@ -244,7 +243,7 @@ export default function NetworkSelector() {
   const toggle = useToggleModal(ApplicationModal.NETWORK_SELECTOR)
   useOnClickOutside(node, open ? toggle : undefined)
 
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
 
   const info = chainId ? CHAIN_INFO[chainId] : undefined
 
@@ -262,8 +261,6 @@ export default function NetworkSelector() {
         })
     }, [dispatch, library, toggle])
 
-  /*
-  TODO:切换网络
   const handleChainSwitch = useCallback(
     (targetChain: number, skipToggle?: boolean) => {
       if (!library) return
@@ -272,9 +269,9 @@ export default function NetworkSelector() {
           if (!skipToggle) {
             toggle()
           }
-          navigate.replace({
-            search: replaceURLParam(history.location.search, 'chain', getChainNameFromId(targetChain)),
-          })
+          // navigate.replace({
+          //   search: replaceURLParam(history.location.search, 'chain', getChainNameFromId(targetChain)),
+          // })
         })
         .catch((error) => {
           console.error('Failed to switch networks', error)
@@ -282,7 +279,7 @@ export default function NetworkSelector() {
           // we want app network <-> chainId param to be in sync, so if user changes the network by changing the URL
           // but the request fails, revert the URL back to current chainId
           if (chainId) {
-            history.replace({ search: replaceURLParam(history.location.search, 'chain', getChainNameFromId(chainId)) })
+            // history.replace({ search: replaceURLParam(history.location.search, 'chain', getChainNameFromId(chainId)) })
           }
 
           if (!skipToggle) {
@@ -293,16 +290,14 @@ export default function NetworkSelector() {
         })
     },
     [dispatch, library, toggle, history, chainId]
-  )*/
+  )
 
-  /*
-  TODO:切换网络
   useEffect(() => {
     if (!chainId || !prevChainId) return
 
     // when network change originates from wallet or dropdown selector, just update URL
     if (chainId !== prevChainId) {
-      history.replace({ search: replaceURLParam(history.location.search, 'chain', getChainNameFromId(chainId)) })
+      // history.replace({ search: replaceURLParam(history.location.search, 'chain', getChainNameFromId(chainId)) })
       // otherwise assume network change originates from URL
     } else if (urlChainId && urlChainId !== chainId) {
       handleChainSwitch(urlChainId, true)
@@ -312,10 +307,10 @@ export default function NetworkSelector() {
   // set chain parameter on initial load if not there
   useEffect(() => {
     if (chainId && !urlChainId) {
-      history.replace({ search: replaceURLParam(history.location.search, 'chain', getChainNameFromId(chainId)) })
+      // history.replace({ search: replaceURLParam(history.location.search, 'chain', getChainNameFromId(chainId)) })
     }
   }, [chainId, history, urlChainId, urlChain])
-*/
+
   if (!chainId || !info || !library) {
     return null
   }

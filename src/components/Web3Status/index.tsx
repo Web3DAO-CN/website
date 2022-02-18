@@ -2,7 +2,7 @@ import { Trans } from '@lingui/macro'
 import { Connector } from '@web3-react/types'
 import { darken } from 'polished'
 import { useMemo } from 'react'
-import styled, { css } from 'styled-components/macro'
+import styled from 'styled-components/macro'
 import { AbstractConnector } from 'web3-react-abstract-connector'
 import { UnsupportedChainIdError, useWeb3React } from 'web3-react-core'
 
@@ -12,12 +12,11 @@ import { useWalletModalToggle } from '../../state/application/hooks'
 import { isTransactionRecent, useAllTransactions } from '../../state/transactions/hooks'
 import { TransactionDetails } from '../../state/transactions/reducer'
 import { shortenAddress } from '../../utils'
-import { ButtonSecondary } from '../Button'
 import StatusIcon from '../Identicon/StatusIcon'
 import Loader from '../Loader'
 import { RowBetween } from '../Row'
 import WalletModal from '../WalletModal'
-import { PhoneSlash } from "../FontawesomeIcon";
+import { PhoneSlash } from '../FontawesomeIcon'
 
 const IconWrapper = styled.div<{ size?: number }>`
   ${({ theme }) => theme.flexColumnNoWrap};
@@ -29,73 +28,39 @@ const IconWrapper = styled.div<{ size?: number }>`
   }
 `
 
-const Web3StatusGeneric = styled(ButtonSecondary)`
+const Web3StatusGeneric = styled.button`
   ${({ theme }) => theme.flexRowNoWrap}
   width: 100%;
   align-items: center;
   padding: 0.5rem;
-  border-radius: 14px;
+  border-radius: 0;
+  border: 0;
   cursor: pointer;
   user-select: none;
-  height: 36px;
+  //height: 36px;
   margin-right: 2px;
   margin-left: 1px;
-  :focus {
-    outline: none;
-  }
+  //:focus {
+  //  outline: none;
+  //}
 `
 const Web3StatusError = styled(Web3StatusGeneric)`
   background-color: ${({ theme }) => theme.red1};
   border: 1px solid ${({ theme }) => theme.red1};
   color: ${({ theme }) => theme.white};
   font-weight: 500;
-  :hover,
-  :focus {
-    background-color: ${({ theme }) => darken(0.1, theme.red1)};
-  }
+  // :hover,
+  // :focus {
+  //   background-color: ${({ theme }) => darken(0.1, theme.red1)};
+  // }
 `
 
 const Web3StatusConnect = styled(Web3StatusGeneric)<{ faded?: boolean }>`
-  background-color: ${({ theme }) => theme.primary4};
-  border: none;
 
-  color: ${({ theme }) => theme.primaryText1};
-  font-weight: 500;
-
-  :hover,
-  :focus {
-    border: 1px solid ${({ theme }) => darken(0.05, theme.primary4)};
-    color: ${({ theme }) => theme.primaryText1};
-  }
-
-  ${({ faded }) =>
-    faded &&
-    css`
-      background-color: ${({ theme }) => theme.primary5};
-      border: 1px solid ${({ theme }) => theme.primary5};
-      color: ${({ theme }) => theme.primaryText1};
-
-      :hover,
-      :focus {
-        border: 1px solid ${({ theme }) => darken(0.05, theme.primary4)};
-        color: ${({ theme }) => darken(0.05, theme.primaryText1)};
-      }
-    `}
 `
 
 const Web3StatusConnected = styled(Web3StatusGeneric)<{ pending?: boolean }>`
-  background-color: ${({ pending, theme }) => (pending ? theme.primary1 : theme.bg1)};
-  border: 1px solid ${({ pending, theme }) => (pending ? theme.primary1 : theme.bg1)};
-  color: ${({ pending, theme }) => (pending ? theme.white : theme.text1)};
-  font-weight: 500;
-  :hover,
-  :focus {
-    border: 1px solid ${({ theme }) => darken(0.05, theme.bg3)};
-
-    :focus {
-      border: 1px solid ${({ pending, theme }) => (pending ? darken(0.1, theme.primary1) : darken(0.1, theme.bg2))};
-    }
-  }
+  
 `
 
 const Text = styled.p`
