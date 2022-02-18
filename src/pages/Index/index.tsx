@@ -1,7 +1,7 @@
-import BuyWETH from './BuyWETH'
+import Profile from './Profile'
 
 export default function Index() {
 
-  return <BuyWETH />
+  return <Profile />
 
 }

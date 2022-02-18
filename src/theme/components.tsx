@@ -1,6 +1,6 @@
 import React, { HTMLProps } from 'react'
 
-import { ArrowLeft, ExternalLinkAlt, Times, TrashAlt } from 'components/FontawesomeIcon'
+import { ArrowLeft, Times } from 'components/FontawesomeIcon'
 
 // import ReactGA from 'react-ga'
 import { Link } from 'react-router-dom'
@@ -108,50 +108,50 @@ const StyledLink = styled.a`
   }
 `
 
-const LinkIconWrapper = styled.a`
-  text-decoration: none;
-  cursor: pointer;
-  align-items: center;
-  justify-content: center;
-  display: flex;
+// const LinkIconWrapper = styled.a`
+//   text-decoration: none;
+//   cursor: pointer;
+//   align-items: center;
+//   justify-content: center;
+//   display: flex;
+//
+//   :hover {
+//     text-decoration: none;
+//     opacity: 0.7;
+//   }
+//
+//   :focus {
+//     outline: none;
+//     text-decoration: none;
+//   }
+//
+//   :active {
+//     text-decoration: none;
+//   }
+// `
 
-  :hover {
-    text-decoration: none;
-    opacity: 0.7;
-  }
+// const LinkIcon = styled(ExternalLinkAlt)`
+//   height: 16px;
+//   width: 18px;
+//   margin-left: 10px;
+//   stroke: ${({ theme }) => theme.blue1};
+// `
 
-  :focus {
-    outline: none;
-    text-decoration: none;
-  }
-
-  :active {
-    text-decoration: none;
-  }
-`
-
-const LinkIcon = styled(ExternalLinkAlt)`
-  height: 16px;
-  width: 18px;
-  margin-left: 10px;
-  stroke: ${({ theme }) => theme.blue1};
-`
-
-export const TrashIcon = styled(TrashAlt)`
-  height: 16px;
-  width: 18px;
-  margin-left: 10px;
-  stroke: ${({ theme }) => theme.text3};
-
-  cursor: pointer;
-  align-items: center;
-  justify-content: center;
-  display: flex;
-
-  :hover {
-    opacity: 0.7;
-  }
-`
+// export const TrashIcon = styled(TrashAlt)`
+//   height: 16px;
+//   width: 18px;
+//   margin-left: 10px;
+//   stroke: ${({ theme }) => theme.text3};
+//
+//   cursor: pointer;
+//   align-items: center;
+//   justify-content: center;
+//   display: flex;
+//
+//   :hover {
+//     opacity: 0.7;
+//   }
+// `
 
 const rotateImg = keyframes`
   0% {
@@ -200,33 +200,33 @@ export function ExternalLink({
   return <StyledLink target={target} rel={rel} href={href} onClick={handleClickExternalLink} {...rest} />
 }
 
-export function ExternalLinkIcon({
-                                   target = '_blank',
-                                   href,
-                                   rel = 'noopener noreferrer',
-                                   ...rest
-                                 }: Omit<HTMLProps<HTMLAnchorElement>, 'as' | 'ref' | 'onClick'> & { href: string }) {
-  return (
-    <LinkIconWrapper target={target} rel={rel} href={href} onClick={handleClickExternalLink} {...rest}>
-      <LinkIcon />
-    </LinkIconWrapper>
-  )
-}
+// export function ExternalLinkIcon({
+//                                    target = '_blank',
+//                                    href,
+//                                    rel = 'noopener noreferrer',
+//                                    ...rest
+//                                  }: Omit<HTMLProps<HTMLAnchorElement>, 'as' | 'ref' | 'onClick'> & { href: string }) {
+//   return (
+//     <LinkIconWrapper target={target} rel={rel} href={href} onClick={handleClickExternalLink} {...rest}>
+//       <LinkIcon />
+//     </LinkIconWrapper>
+//   )
+// }
 
-const rotate = keyframes`
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-`
+// const rotate = keyframes`
+//   from {
+//     transform: rotate(0deg);
+//   }
+//   to {
+//     transform: rotate(360deg);
+//   }
+// `
 
-const Spinner = styled.img`
-  animation: 2s ${rotate} linear infinite;
-  width: 16px;
-  height: 16px;
-`
+// const Spinner = styled.img`
+//   animation: 2s ${rotate} linear infinite;
+//   width: 16px;
+//   height: 16px;
+// `
 
 const BackArrowLink = styled(StyledInternalLink)`
   color: ${({ theme }) => theme.text1};
@@ -251,11 +251,11 @@ export const HideSmall = styled.span`
   `};
 `
 
-export const HideExtraSmall = styled.span`
-  ${({ theme }) => theme.mediaWidth.upToExtraSmall`
-    display: none;
-  `};
-`
+// export const HideExtraSmall = styled.span`
+//   ${({ theme }) => theme.mediaWidth.upToExtraSmall`
+//     display: none;
+//   `};
+// `
 
 export const SmallOnly = styled.span`
   display: none;
@@ -263,9 +263,9 @@ export const SmallOnly = styled.span`
     display: block;
   `};
 `
-
-export const Separator = styled.div`
-  width: 100%;
-  height: 1px;
-  background-color: ${({ theme }) => theme.bg2};
-`
+//
+// export const Separator = styled.div`
+//   width: 100%;
+//   height: 1px;
+//   background-color: ${({ theme }) => theme.bg2};
+// `

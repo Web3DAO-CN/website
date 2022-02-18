@@ -14,7 +14,7 @@ import { useTransaction, useTransactionAdder } from '../../../state/transactions
 import { shortenAddress } from '../../../utils'
 import { popupToastError } from '../../../components/Popups/PopupToast'
 import { DEFAULT_TXN_DISMISS_MS } from '../../../constants/misc'
-import { DAO_TREASURY_ADDRESSES, WEB3_DAO_CN_ADDRESSES } from '../../../constants/addresses'
+import { DAO_TREASURY_ADDRESSES } from '../../../constants/addresses'
 import { ExternalLinkAlt } from '../../../components/FontawesomeIcon'
 import { ExplorerDataType, getExplorerLink } from '../../../utils/getExplorerLink'
 import ExternalLink from '../../../lib/components/ExternalLink'
@@ -24,7 +24,7 @@ import { useERC20CurrencyAmount, useERC20CurrencyAmountForTypeInput } from '../.
 import useDebounce from '../../../hooks/useDebounce'
 import { useAvailableBorrowGas, useLockVault } from '../../../hooks/contract/useDaoSponsorContract'
 import CountdownExt from '../../../components/CountdownExt'
-import { useTotalSupplyByAttrId } from '../../../hooks/contract/useERC2664Contract'
+import { useTotalSupplyERC3664 } from '../../../hooks/useTotalSupply'
 
 export default function BorrowGas() {
 
@@ -55,8 +55,7 @@ export default function BorrowGas() {
   const availableBorrowGasCurrencyAmount = useAvailableBorrowGas(ownTokenIds[0])
 
   //gas总供应
-  const gasTotalSupply = useTotalSupplyByAttrId(AttrIdEnum.gas, chainId ? WEB3_DAO_CN_ADDRESSES[chainId] : undefined)
-  const gasTotalSupplyCurrencyAmount = useERC20CurrencyAmount(gasTotalSupply?.toString(), gasToken)
+  const gasTotalSupplyCurrencyAmount = useTotalSupplyERC3664(gasToken, AttrIdEnum.gas)
 
   const [amountInput, setAmountInput] = useState<string>('')
   const debouncedAmountInput = useDebounce(amountInput, 200)

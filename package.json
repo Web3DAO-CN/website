@@ -174,6 +174,7 @@
     "@lingui/react": "^3.9.0",
     "@popperjs/core": "^2.4.4",
     "@reduxjs/toolkit": "^1.6.1",
+    "@tailwindcss/forms": "^0.4.0",
     "@uniswap/redux-multicall": "^1.0.0",
     "@uniswap/sdk-core": "^3.0.1",
     "@uniswap/token-lists": "^1.0.0-beta.27",
@@ -197,6 +198,7 @@
     "node-vibrant": "^3.2.1-alpha.1",
     "polished": "^3.3.2",
     "popper-max-size-modifier": "^0.2.0",
+    "react-countdown": "^2.3.2",
     "react-popper": "^2.2.3",
     "react-redux": "^7.2.2",
     "react-toastify": "^8.1.0",
@@ -208,8 +210,7 @@
     "tiny-invariant": "^1.2.0",
     "wcag-contrast": "^3.0.0",
     "web3-react-core": "npm:@web3-react/core@^6.0.9",
-    "wicg-inert": "^3.1.1",
-    "react-countdown": "^2.3.2"
+    "wicg-inert": "^3.1.1"
   },
   "peerDependencies": {
     "@babel/runtime": "^7.17.0",

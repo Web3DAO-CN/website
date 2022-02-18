@@ -61,6 +61,7 @@ function ClaimSummary({ info: { recipient, uniAmountRaw } }: { info: ClaimTransa
   )
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function SubmitProposalTransactionSummary(_: { info: SubmitProposalTransactionInfo }) {
   return <Trans>Submit new proposal</Trans>
 }
@@ -108,12 +109,14 @@ function WrapSummary({ info: { chainId, currencyAmountRaw, unwrapped } }: { info
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function DepositLiquidityStakingSummary(_: { info: DepositLiquidityStakingTransactionInfo }) {
   // not worth rendering the tokens since you can should no longer deposit liquidity in the staking contracts
   // todo: deprecate and delete the code paths that allow this, show user more information
   return <Trans>Deposit liquidity</Trans>
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function WithdrawLiquidityStakingSummary(_: { info: WithdrawLiquidityStakingTransactionInfo }) {
   return <Trans>Withdraw deposited liquidity</Trans>
 }

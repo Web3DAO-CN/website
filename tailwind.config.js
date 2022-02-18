@@ -1,11 +1,18 @@
+const colors = require('tailwindcss/colors')
+
 module.exports = {
   content: ['./src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
       screen: {
-        '3xl': '1680px',
+        '4xl': '1680px'
       },
-    },
+      colors: {
+        orange: colors.orange
+      }
+    }
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/forms')
+  ]
 }

@@ -4,7 +4,7 @@ import { Outlet } from 'react-router-dom'
 
 export default function PageLayout() {
   return (
-    <div className="flex flex-col justify-between">
+    <div className='flex flex-col'>
       <Header />
       <Outlet />
       <Footer />

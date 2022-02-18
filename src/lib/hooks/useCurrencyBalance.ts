@@ -4,12 +4,13 @@ import ERC20ABI from 'abis/erc20.json'
 import { Erc20Interface } from 'abis/types/Erc20'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import JSBI from 'jsbi'
-import { useMultipleContractSingleData, useSingleContractMultipleData } from 'lib/hooks/multicall'
+import { useMultipleContractSingleData, useSingleCallResult, useSingleContractMultipleData } from 'lib/hooks/multicall'
 import { useMemo } from 'react'
 
 import { nativeOnChain } from '../../constants/tokens'
-import { useInterfaceMulticall } from '../../hooks/useContract'
+import { useInterfaceMulticall, useTokenContractERC3664 } from '../../hooks/useContract'
 import { isAddress } from '../../utils'
+import { BigNumber } from '@ethersproject/bignumber'
 
 /**
  * Returns a map of the given addresses to their eventually consistent ETH balances.
@@ -24,10 +25,10 @@ export function useNativeCurrencyBalances(uncheckedAddresses?: (string | undefin
     () =>
       uncheckedAddresses
         ? uncheckedAddresses
-            .map(isAddress)
-            .filter((a): a is string => a !== false)
-            .sort()
-            .map((addr) => [addr])
+          .map(isAddress)
+          .filter((a): a is string => a !== false)
+          .sort()
+          .map((addr) => [addr])
         : [],
     [uncheckedAddresses]
   )
@@ -76,15 +77,15 @@ export function useTokenBalancesWithLoadingIndicator(
     () => [
       address && validatedTokens.length > 0
         ? validatedTokens.reduce<{ [tokenAddress: string]: CurrencyAmount<Token> | undefined }>((memo, token, i) => {
-            const value = balances?.[i]?.result?.[0]
-            const amount = value ? JSBI.BigInt(value.toString()) : undefined
-            if (amount) {
-              memo[token.address] = CurrencyAmount.fromRawAmount(token, amount)
-            }
-            return memo
-          }, {})
+          const value = balances?.[i]?.result?.[0]
+          const amount = value ? JSBI.BigInt(value.toString()) : undefined
+          if (amount) {
+            memo[token.address] = CurrencyAmount.fromRawAmount(token, amount)
+          }
+          return memo
+        }, {})
         : {},
-      anyLoading,
+      anyLoading
     ],
     [address, validatedTokens, anyLoading, balances]
   )
@@ -141,3 +142,92 @@ export default function useCurrencyBalance(
     useMemo(() => [currency], [currency])
   )[0]
 }
+
+/*
+
+interface TokenERC3664Props {
+  token: Token
+  attrId: string | number
+}
+
+export function useTokenBalancesWithLoadingIndicatorERC3664(
+  tokenContractAddress?: string,
+  tokenId?: string,
+  tokens?: (Token | undefined)[],
+  attrIds?: (string | number | undefined)[]
+): [{ [tokenAddress: string]: CurrencyAmount<Token> | undefined }, boolean] {
+
+  if (tokens && attrIds && tokens?.length != attrIds?.length) {
+    throw new Error('invalid tokens attrIds,length ')
+  }
+
+  const validatedTokens = useMemo(() => {
+    const arr: TokenERC3664Props[] = []
+    tokens?.map((token, index) => {
+      if (token && attrIds && attrIds[index] && isAddress(token?.address)) {
+        arr.push(
+          { token, attrId: attrIds[index] ?? '' }
+        )
+      }
+    })
+    return arr
+  }, [tokens, attrIds])
+
+  const tokenContract = useTokenContractERC3664(tokenContractAddress, false)
+
+  const balanceOfBatch = useSingleCallResult(tokenContract, 'balanceOfBatch', [tokenId, [attrIds]])
+
+  const anyLoading: boolean = useMemo(() => balanceOfBatch.loading, [balanceOfBatch])
+
+  return useMemo(
+    () => [
+      attrIds && validatedTokens.length > 0
+        ? validatedTokens.reduce<{ [tokenAddress: string]: CurrencyAmount<Token> | undefined }>((memo, item, i) => {
+          const value = balanceOfBatch.result?.[0]
+          const amount = value ? JSBI.BigInt(value.toString()) : undefined
+          if (amount) {
+            memo[item.token.address] = CurrencyAmount.fromRawAmount(item.token, amount)
+          }
+          return memo
+        }, {})
+        : {},
+      anyLoading
+    ],
+    [attrIds, validatedTokens, anyLoading, balanceOfBatch]
+  )
+
+}
+
+export function useTokenBalancesERC3664(
+  tokenContractAddress?: string,
+  tokenId?: string,
+  tokens?: (Token | undefined)[],
+  attrIds?: (string | number | undefined)[]
+): { [tokenAddress: string]: CurrencyAmount<Token> | undefined } {
+  return useTokenBalancesWithLoadingIndicatorERC3664(tokenContractAddress, tokenId, tokens, attrIds)[0]
+}
+
+export function useTokenBalanceERC3664(tokenContractAddress?: string, tokenId?: string, token?: Token, attrId?: string | number): CurrencyAmount<Token> | undefined {
+  const tokenBalances = useTokenBalancesERC3664(
+    tokenContractAddress,
+    tokenId,
+    [token],
+    [attrId]
+  )
+  if (!token) return undefined
+  return tokenBalances[token.address]
+}
+
+*/
+
+// export function useTokenBalanceERC3664(tokenId?: string | number, attrId?: number, contractAddress?: string): BigNumber | undefined {
+//   const contract = useERC3664Contract(contractAddress)
+//   return useSingleCallResult(contract, 'balanceOf', [tokenId, attrId])?.result?.[0]
+// }
+
+export function useTokenBalanceERC3664(token?: Currency, tokenId?: string | number, attrId?: string | number): CurrencyAmount<Token> | undefined {
+  const contract = useTokenContractERC3664(token?.isToken ? token.address : undefined, false)
+  const balance: BigNumber = useSingleCallResult(contract, 'balanceOf', [tokenId, attrId])?.result?.[0]
+  return token?.isToken && balance ? CurrencyAmount.fromRawAmount(token, balance.toString()) : undefined
+}
+

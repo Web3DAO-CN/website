@@ -2,7 +2,7 @@ import { CurrencyAmount, Token } from '@uniswap/sdk-core'
 import { useSingleCallResult } from 'lib/hooks/multicall'
 import { useMemo } from 'react'
 
-import { useTokenContract, useTokenContractERC2664 } from './useContract'
+import { useTokenContract, useTokenContractERC3664 } from './useContract'
 
 export function useTokenAllowance(token?: Token, owner?: string, spender?: string): CurrencyAmount<Token> | undefined {
   const contract = useTokenContract(token?.address, false)
@@ -17,7 +17,7 @@ export function useTokenAllowance(token?: Token, owner?: string, spender?: strin
 }
 
 export function useTokenAllowanceERC3664(token?: Token, fromTokenId?: string, toTokenId?: string, attrId?: string): CurrencyAmount<Token> | undefined {
-  const contract = useTokenContractERC2664(token?.address, false)
+  const contract = useTokenContractERC3664(token?.address, false)
 
   const inputs = useMemo(() => (fromTokenId && toTokenId && attrId) ? [fromTokenId, toTokenId, attrId] : [undefined, undefined, undefined], [fromTokenId, toTokenId, attrId])
   const allowance = useSingleCallResult(contract, 'allowance', inputs).result

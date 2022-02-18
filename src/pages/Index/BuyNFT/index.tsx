@@ -27,11 +27,14 @@ import { ExternalLinkAlt } from '../../../components/FontawesomeIcon'
 import { ExplorerDataType, getExplorerLink } from '../../../utils/getExplorerLink'
 import ExternalLink from '../../../lib/components/ExternalLink'
 import { VALUATION_TOKEN } from '../../../constants/web3dao'
+import { useTokenIdsByOwner } from '../../../hooks/contract/useWeb3DAOCNContract'
 
 export default function BuyNFT() {
 
   const { account, library, chainId } = useActiveWeb3React()
   const lastAccount = usePrevious(account)
+
+  const ownTokenIds = useTokenIdsByOwner(account)
 
   const [nftReceiver, setNFTReceiver] = useState<string>('')
   useEffect(() => {

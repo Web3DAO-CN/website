@@ -7,11 +7,13 @@ import ErrorBoundary from '../components/ErrorBoundary'
 import Polling from '../components/Header/Polling'
 import Web3ReactManager from '../components/Web3ReactManager'
 import initFontawesome from './fontawesome'
+import { PageLayout } from '../components/Layout'
 import Index from './Index'
+import Demo from './Demo'
+import IndexProfile from './Index/Profile'
 import IndexBuyWETH from './Index/BuyWETH'
 import IndexDemoLayout from './Index/DemoLayout'
 import IndexBuyNFT from './Index/BuyNFT'
-import { PageLayout } from '../components/Layout'
 import PopupsContainer from '../components/PopupsContainer'
 import Sponsor from './Index/Sponsor'
 import BorrowGas from './Index/BorrowGas'
@@ -71,6 +73,8 @@ export default function App() {
             <Routes>
               <Route path='/' element={<PageLayout />}>
                 <Route index element={<Index />} />
+                <Route path='demo*' element={<Demo />} />
+                <Route path='profile/*' element={<IndexProfile />} />
                 <Route path='buyWETH/*' element={<IndexBuyWETH />} />
                 <Route path='demoLayout/*' element={<IndexDemoLayout />} />
                 <Route path='buyNFT/*' element={<IndexBuyNFT />} />

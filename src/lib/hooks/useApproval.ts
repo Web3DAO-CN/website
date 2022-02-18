@@ -2,7 +2,7 @@ import { MaxUint256 } from '@ethersproject/constants'
 import { TransactionResponse } from '@ethersproject/providers'
 import { Currency, CurrencyAmount, Token } from '@uniswap/sdk-core'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
-import { useTokenContract, useTokenContractERC2664 } from 'hooks/useContract'
+import { useTokenContract, useTokenContractERC3664 } from 'hooks/useContract'
 import { useTokenAllowance, useTokenAllowanceERC3664 } from 'hooks/useTokenAllowance'
 import { useCallback, useMemo } from 'react'
 import { calculateGasMargin } from 'utils/calculateGasMargin'
@@ -145,7 +145,7 @@ export function useApprovalERC3664(
   // check the current approval status
   const approvalState = useApprovalStateERC3664(amountToApprove, fromTokenId, toTokenId, attrId, useIsPendingApproval)
 
-  const tokenContract = useTokenContractERC2664(token?.address)
+  const tokenContract = useTokenContractERC3664(token?.address)
 
   const approve = useCallback(async () => {
     function logFailure(error: Error | string): undefined {

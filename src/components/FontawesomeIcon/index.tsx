@@ -581,3 +581,7 @@ export function Donate({ ...rest }: FontAwesomeIconProps | any) {
 export function HandHoldingDroplet({ ...rest }: FontAwesomeIconProps | any) {
   return <BaseIcon {...rest} icon={['fas', 'hand-holding-droplet']} />
 }
+
+export function IdCardFar({ ...rest }: FontAwesomeIconProps | any) {
+  return <BaseIcon {...rest} icon={['far', 'id-card']} />
+}

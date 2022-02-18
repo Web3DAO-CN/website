@@ -1,4 +1,4 @@
-import { Donate, ExchangeAlt, HandHoldingDroplet, LayerGroup, PiggyBank, ShoppingCart } from 'components/FontawesomeIcon'
+import { Donate, ExchangeAlt, HandHoldingDroplet, IdCardFar, LayerGroup, PiggyBank } from 'components/FontawesomeIcon'
 import { NavLink } from 'react-router-dom'
 import classNames from '../../../../utils/classNames'
 
@@ -12,8 +12,8 @@ const navigation = [
   {
     name: '个人中心',
     href: '#',
-    icon: <ShoppingCart />,
-    path: '/buyNFT'
+    icon: <IdCardFar />,
+    path: '/profile'
   },
   {
     name: '赞助DAO',

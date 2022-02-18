@@ -223,6 +223,7 @@ const getParsedChainId = (parsedQs?: ParsedQs) => {
 }
 
 const getChainIdFromName = (name: string) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const entry = Object.entries(CHAIN_IDS_TO_NAMES).find(([_, n]) => n === name)
   const chainId = entry?.[0]
   return chainId ? parseInt(chainId) : undefined
@@ -236,7 +237,8 @@ const getChainIdFromName = (name: string) => {
 export default function NetworkSelector() {
   const { chainId, library } = useActiveWeb3React()
   const parsedQs = useParsedQueryString()
-  const { urlChain, urlChainId } = getParsedChainId(parsedQs)
+  // const { urlChain, urlChainId } = getParsedChainId(parsedQs)
+  const { urlChainId } = getParsedChainId(parsedQs)
   const prevChainId = usePrevious(chainId)
   const node = useRef<HTMLDivElement>()
   const open = useModalOpen(ApplicationModal.NETWORK_SELECTOR)
@@ -289,7 +291,8 @@ export default function NetworkSelector() {
           dispatch(addPopup({ content: { failedSwitchNetwork: targetChain }, key: `failed-network-switch` }))
         })
     },
-    [dispatch, library, toggle, history, chainId]
+    // [dispatch, library, toggle, history, chainId]
+    [dispatch, library, toggle, chainId]
   )
 
   useEffect(() => {
@@ -302,14 +305,16 @@ export default function NetworkSelector() {
     } else if (urlChainId && urlChainId !== chainId) {
       handleChainSwitch(urlChainId, true)
     }
-  }, [chainId, urlChainId, prevChainId, handleChainSwitch, history])
+  //}, [chainId, urlChainId, prevChainId, handleChainSwitch, history])
+  }, [chainId, urlChainId, prevChainId, handleChainSwitch])
 
   // set chain parameter on initial load if not there
   useEffect(() => {
     if (chainId && !urlChainId) {
       // history.replace({ search: replaceURLParam(history.location.search, 'chain', getChainNameFromId(chainId)) })
     }
-  }, [chainId, history, urlChainId, urlChain])
+  // }, [chainId, history, urlChainId, urlChain])
+  }, [chainId, urlChainId])
 
   if (!chainId || !info || !library) {
     return null

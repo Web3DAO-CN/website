@@ -4,14 +4,13 @@ import { useSingleCallResult } from 'lib/hooks/multicall'
 import { useDaoSponsor } from '../useContract'
 import { LockVaultT } from '../../types/web3dao'
 import { BigNumber } from '@ethersproject/bignumber'
-import { useTotalSupplyByAttrId } from './useERC2664Contract'
-import { AttrIdEnum, GAS_TOKEN } from '../../constants/web3dao'
+import { AttrIdEnum, GAS_TOKEN, SPONSOR_TOKEN } from '../../constants/web3dao'
 import { useReserve } from './useDaoVaultContract'
 import { useGasAttrPrice } from './useDaoTreasuryContract'
 import { useERC20CurrencyAmount } from '../../lib/hooks/useNativeCurrency'
-import { WEB3_DAO_CN_ADDRESSES } from '../../constants/addresses'
 import useActiveWeb3React from '../useActiveWeb3React'
 import { Currency, CurrencyAmount } from '@uniswap/sdk-core'
+import { useTotalSupplyERC3664 } from '../useTotalSupply'
 
 export function useLockVault(tokenId?: string): LockVaultT | undefined {
   const contract = useDaoSponsor()
@@ -47,11 +46,12 @@ export function useAvailableBorrowGas(tokenId?: string): CurrencyAmount<Currency
   const { chainId } = useActiveWeb3React()
 
   const gasToken = chainId ? GAS_TOKEN[chainId] : undefined
+  const sponsorToken = chainId ? SPONSOR_TOKEN[chainId] : undefined
 
   console.log('\n\n\n')
 
   // NFT合约的 sponsor attr总发行量
-  const sponsorTotalSupply = useTotalSupplyByAttrId(AttrIdEnum.sp, chainId ? WEB3_DAO_CN_ADDRESSES[chainId] : undefined)
+  const sponsorTotalSupply = useTotalSupplyERC3664(sponsorToken, AttrIdEnum.sp)
   console.log('sponsorTotalSupply = %s', sponsorTotalSupply?.toString())
 
   // DaoVault储备量
@@ -72,8 +72,8 @@ export function useAvailableBorrowGas(tokenId?: string): CurrencyAmount<Currency
 
   // 计算sponsorAmount总价值对应的ethAmount
   const ethAmount = useMemo(() => {
-    if (lockVault?.sponsorAmount && daoVaultReserve && sponsorTotalSupply?.gt(0)) {
-      return lockVault?.sponsorAmount.mul(daoVaultReserve).div(sponsorTotalSupply)
+    if (lockVault?.sponsorAmount && daoVaultReserve && sponsorTotalSupply?.greaterThan(0)) {
+      return lockVault?.sponsorAmount.mul(daoVaultReserve).div(sponsorTotalSupply?.quotient.toString())
     } else {
       return BigNumber.from(0)
     }
