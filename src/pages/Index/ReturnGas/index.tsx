@@ -307,7 +307,7 @@ export default function ReturnGas() {
                       <label className='block text-sm font-medium text-gray-700'>
                         赞助总额
                       </label>
-                      {sponsorAmountCurrencyAmount.toExact()} {sponsorAmountCurrencyAmount.currency.symbol}
+                      {sponsorAmountCurrencyAmount.toSignificant(3)} {sponsorAmountCurrencyAmount.currency.symbol}
                     </div>
                     : null
                 }
@@ -351,15 +351,15 @@ export default function ReturnGas() {
                 </div>
 
                 {
-                  borrowGasAmountCurrencyAmount && gasTotalSupplyCurrencyAmount
+                  borrowGasAmountCurrencyAmount?.greaterThan(0) && gasTotalSupplyCurrencyAmount?.greaterThan(0)
                     ?
                     <div className='col-span-12 sm:col-span-6'>
                       <label className='block text-sm font-medium text-gray-700 flex justify-between'>
                         <div onClick={handleMaxInput} className='text-blue-600'>
-                          <Trans>可归还数额: {borrowGasAmountCurrencyAmount?.toExact()}</Trans> {borrowGasAmountCurrencyAmount?.currency.symbol}
+                          可归还数额: {borrowGasAmountCurrencyAmount?.toExact()} {borrowGasAmountCurrencyAmount?.currency.symbol}
                         </div>
                         <div>
-                          <Trans>总供应数额: {gasTotalSupplyCurrencyAmount?.toExact()}</Trans> {gasTotalSupplyCurrencyAmount?.currency.symbol}
+                          总供应数额: {gasTotalSupplyCurrencyAmount?.toExact()} {gasTotalSupplyCurrencyAmount?.currency.symbol}
                         </div>
                       </label>
                     </div>
