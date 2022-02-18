@@ -96,6 +96,33 @@ export function useHasPendingApproval(token?: Token, spender?: string): boolean 
   )
 }
 
+// returns whether a token has a pending approval transaction
+export function useHasPendingApprovalERC3664(token?: Token, fromTokenId?: string, toTokenId?: string, attrId?: string): boolean {
+  const allTransactions = useAllTransactions()
+  return useMemo(
+    () =>
+      typeof token?.address === 'string' &&
+      typeof fromTokenId === 'string' &&
+      typeof toTokenId === 'string' &&
+      typeof attrId === 'string' &&
+      Object.keys(allTransactions).some((hash) => {
+        const tx = allTransactions[hash]
+        if (!tx) return false
+        if (tx.receipt) {
+          return false
+        } else {
+          if (tx.info.type !== TransactionType.APPROVAL_ERC3664) return false
+          return tx.info.fromTokenId === fromTokenId
+            && tx.info.toTokenId === toTokenId
+            && tx.info.attrId === attrId
+            && tx.info.tokenAddress === token.address
+            && isTransactionRecent(tx)
+        }
+      }),
+    [allTransactions, fromTokenId, toTokenId, attrId, token?.address]
+  )
+}
+
 // watch for submissions to claim
 // return null if not done loading, return undefined if not found
 export function useUserHasSubmittedClaim(account?: string): {

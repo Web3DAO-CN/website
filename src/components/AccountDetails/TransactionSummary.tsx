@@ -5,7 +5,7 @@ import JSBI from 'jsbi'
 import { nativeOnChain } from '../../constants/tokens'
 import { useCurrency, useToken } from '../../hooks/Tokens'
 import useENSName from '../../hooks/useENSName'
-import { AddLiquidityV2PoolTransactionInfo, AddLiquidityV3PoolTransactionInfo, ApproveTransactionInfo, BorrowGasInfo, BuyNFTInfo, BuyWETHInfo, ClaimTransactionInfo, CollectFeesTransactionInfo, CreateV3PoolTransactionInfo, DelegateTransactionInfo, DepositLiquidityStakingTransactionInfo, ExactInputSwapTransactionInfo, ExactOutputSwapTransactionInfo, MigrateV2LiquidityToV3TransactionInfo, RemoveLiquidityV3TransactionInfo, SubmitProposalTransactionInfo, TransactionInfo, TransactionType, WithdrawLiquidityStakingTransactionInfo, WrapTransactionInfo } from '../../state/transactions/actions'
+import { AddLiquidityV2PoolTransactionInfo, AddLiquidityV3PoolTransactionInfo, ApproveTransactionERC3664Info, ApproveTransactionInfo, BorrowGasInfo, BuyNFTInfo, BuyWETHInfo, ClaimTransactionInfo, CollectFeesTransactionInfo, CreateV3PoolTransactionInfo, DelegateTransactionInfo, DepositLiquidityStakingTransactionInfo, ExactInputSwapTransactionInfo, ExactOutputSwapTransactionInfo, MigrateV2LiquidityToV3TransactionInfo, RemoveLiquidityV3TransactionInfo, SubmitProposalTransactionInfo, TransactionInfo, TransactionType, WithdrawLiquidityStakingTransactionInfo, WrapTransactionInfo } from '../../state/transactions/actions'
 
 function formatAmount(amountRaw: string, decimals: number, sigFigs: number): string {
   return new Fraction(amountRaw, JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(decimals))).toSignificant(sigFigs)
@@ -257,6 +257,11 @@ function BorrowGasSummary({ info }: { info: BorrowGasInfo }) {
   </Trans>
 }
 
+function ApprovalERC3664Summary({ info }: { info: ApproveTransactionERC3664Info }) {
+  const token = useToken(info.tokenAddress)
+  return <Trans>Approve {token?.symbol} tokenId from {info.fromTokenId} to {info.toTokenId}</Trans>
+}
+
 export function TransactionSummary({ info }: { info: TransactionInfo }) {
   switch (info.type) {
     case TransactionType.ADD_LIQUIDITY_V3_POOL:
@@ -309,5 +314,8 @@ export function TransactionSummary({ info }: { info: TransactionInfo }) {
 
     case TransactionType.BORROW_GAS:
       return <BorrowGasSummary info={info} />
+
+    case TransactionType.APPROVAL_ERC3664:
+      return <ApprovalERC3664Summary info={info} />
   }
 }

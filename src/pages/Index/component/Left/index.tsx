@@ -1,4 +1,4 @@
-import { Donate, ExchangeAlt, HandHoldingDroplet, LayerGroup, ShoppingCart } from 'components/FontawesomeIcon'
+import { Donate, ExchangeAlt, HandHoldingDroplet, LayerGroup, PiggyBank, ShoppingCart } from 'components/FontawesomeIcon'
 import { NavLink } from 'react-router-dom'
 import classNames from '../../../../utils/classNames'
 
@@ -37,6 +37,13 @@ const navigation = [
     href: '#',
     icon: <HandHoldingDroplet />,
     path: '/borrowGas'
+  },
+  {
+    id: 6,
+    name: '归还GAS',
+    href: '#',
+    icon: <PiggyBank />,
+    path: '/returnGas'
   },
   {
     id: 9,

@@ -16,6 +16,7 @@ import { PageLayout } from '../components/Layout'
 import PopupsContainer from '../components/PopupsContainer'
 import Sponsor from './Index/Sponsor'
 import BorrowGas from './Index/BorrowGas'
+import ReturnGas from './Index/ReturnGas'
 
 // const AppWrapper = styled.div`
 //   display: flex;
@@ -77,6 +78,7 @@ export default function App() {
                 <Route path='buyNFT/*' element={<IndexBuyNFT />} />
                 <Route path='sponsor/*' element={<Sponsor />} />
                 <Route path='borrowGas/*' element={<BorrowGas />} />
+                <Route path='returnGas/*' element={<ReturnGas />} />
                 <Route path='*' />
               </Route>
             </Routes>

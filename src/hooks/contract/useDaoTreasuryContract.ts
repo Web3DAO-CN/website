@@ -11,3 +11,12 @@ export function useGasAttrPrice(): BigNumber | undefined {
     return result ? result : undefined
   }, [result])
 }
+
+export function useHoldNFTId(): BigNumber | undefined {
+  const contract = useDaoTreasury()
+  const result = useSingleCallResult(contract, 'holdNFTId')?.result?.[0]
+  return useMemo(() => {
+    return result ? result : undefined
+  }, [result])
+}
+

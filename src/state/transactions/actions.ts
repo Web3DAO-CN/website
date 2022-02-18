@@ -35,6 +35,7 @@ export enum TransactionType {
   BUY_WETH = 101,
   BUY_NFT = 102,
   BORROW_GAS = 103,
+  APPROVAL_ERC3664 = 104,
 }
 
 export interface BaseTransactionInfo {
@@ -164,6 +165,14 @@ export interface BorrowGasInfo {
   symbol?: string
 }
 
+export interface ApproveTransactionERC3664Info extends BaseTransactionInfo {
+  type: TransactionType.APPROVAL_ERC3664
+  tokenAddress: string
+  fromTokenId: string
+  toTokenId: string
+  attrId: string
+}
+
 export type TransactionInfo =
   | ApproveTransactionInfo
   | ExactOutputSwapTransactionInfo
@@ -183,6 +192,7 @@ export type TransactionInfo =
   | BuyWETHInfo
   | BuyNFTInfo
   | BorrowGasInfo
+  | ApproveTransactionERC3664Info
 
 export const addTransaction = createAction<{
   chainId: number

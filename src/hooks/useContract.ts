@@ -53,6 +53,10 @@ export function useTokenContract(tokenAddress?: string, withSignerIfPossible?: b
   return useContract<Erc20>(tokenAddress, ERC20_ABI, withSignerIfPossible)
 }
 
+export function useTokenContractERC2664(tokenAddress?: string, withSignerIfPossible?: boolean) {
+  return useContract<Erc3664>(tokenAddress, ERC3664_ABI, withSignerIfPossible)
+}
+
 export function useWETHContract(withSignerIfPossible?: boolean) {
   const { chainId } = useActiveWeb3React()
   return useContract<Weth>(

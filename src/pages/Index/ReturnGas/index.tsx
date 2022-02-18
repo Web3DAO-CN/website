@@ -22,16 +22,22 @@ import { useTokenIdsByOwner } from '../../../hooks/contract/useWeb3DAOCNContract
 import { AttrIdEnum, GAS_TOKEN, SPONSOR_TOKEN } from '../../../constants/web3dao'
 import { useERC20CurrencyAmount, useERC20CurrencyAmountForTypeInput } from '../../../lib/hooks/useNativeCurrency'
 import useDebounce from '../../../hooks/useDebounce'
-import { useAvailableBorrowGas, useLockVault } from '../../../hooks/contract/useDaoSponsorContract'
+import { useLockVault } from '../../../hooks/contract/useDaoSponsorContract'
 import CountdownExt from '../../../components/CountdownExt'
 import { useTotalSupplyByAttrId } from '../../../hooks/contract/useERC2664Contract'
+import { ApprovalState, useApproveCallbackERC3664 } from '../../../hooks/useApproveCallback'
+import { useHoldNFTId } from '../../../hooks/contract/useDaoTreasuryContract'
+import { Dots } from '../../../components/Dots'
 
-export default function BorrowGas() {
+export default function ReturnGas() {
 
   const { account, library, chainId } = useActiveWeb3React()
 
   const ownTokenIds = useTokenIdsByOwner(account)
   //console.log('ownTokenIds = %s', JSON.stringify(ownTokenIds))
+
+  const holdNFTId = useHoldNFTId()
+  console.log('holdNFTId = %s', holdNFTId?.toNumber())
 
   const gasToken = chainId ? GAS_TOKEN[chainId] : undefined
   const sponsorToken = chainId ? SPONSOR_TOKEN[chainId] : undefined
@@ -51,9 +57,6 @@ export default function BorrowGas() {
   //股份
   const stakeAmountCurrencyAmount = useERC20CurrencyAmount(lockVault?.stakeAmount.toString(), gasToken)
 
-  //可借出GAS
-  const availableBorrowGasCurrencyAmount = useAvailableBorrowGas(ownTokenIds[0])
-
   //gas总供应
   const gasTotalSupply = useTotalSupplyByAttrId(AttrIdEnum.gas, chainId ? WEB3_DAO_CN_ADDRESSES[chainId] : undefined)
   const gasTotalSupplyCurrencyAmount = useERC20CurrencyAmount(gasTotalSupply?.toString(), gasToken)
@@ -68,14 +71,15 @@ export default function BorrowGas() {
   }, [chainId])
 
   const handleMaxInput = useCallback(() => {
-    setAmountInput(availableBorrowGasCurrencyAmount ? availableBorrowGasCurrencyAmount?.toExact() : '')
-  }, [availableBorrowGasCurrencyAmount])
+    setAmountInput(borrowGasAmountCurrencyAmount ? borrowGasAmountCurrencyAmount?.toExact() : '')
+  }, [borrowGasAmountCurrencyAmount])
 
-  //const [approval, approveCallback] = useApproveCallback(userValuationTokenBalance, daoTreasuryAddress)
+  const [approval, approveCallback] = useApproveCallbackERC3664(amountInputCurrencyAmount, ownTokenIds[0], holdNFTId?.toString(), AttrIdEnum.gas.toString())
 
-  // async function onAttemptToApprove() {
-  //   await approveCallback()
-  // }
+  //
+  async function onAttemptToApprove() {
+    await approveCallback()
+  }
 
   //合约交互
   const [txHash, setTxHash] = useState<string>('')
@@ -99,7 +103,7 @@ export default function BorrowGas() {
 
   const pendingText = (
     <Trans>
-      Borrowing {amountInputCurrencyAmount?.toExact()} {amountInputCurrencyAmount?.currency.symbol}
+      Returning {amountInputCurrencyAmount?.toExact()} {amountInputCurrencyAmount?.currency.symbol}
     </Trans>
   )
 
@@ -108,7 +112,7 @@ export default function BorrowGas() {
       <div className='bg-white shadow sm:rounded-lg m-4'>
         <div className='px-4 py-5 sm:p-6'>
           <h3 className='text-lg leading-6 font-medium text-gray-900'>
-            You will borrow
+            You will return
           </h3>
           <div className='mt-5'>
             <div className='rounded-md bg-gray-50 px-6 py-5 sm:flex sm:items-start sm:justify-between'>
@@ -120,7 +124,7 @@ export default function BorrowGas() {
                   </div>
                   <div className='mt-1 text-sm text-gray-600 sm:flex sm:items-center'>
                     <div className='mt-1 sm:mt-0'>
-                      <Trans>Will receive {amountInputCurrencyAmount?.toSignificant(3)} {amountInputCurrencyAmount?.currency.symbol}</Trans>
+                      <Trans>Will return {amountInputCurrencyAmount?.toSignificant(3)} {amountInputCurrencyAmount?.currency.symbol}</Trans>
                     </div>
                   </div>
                 </div>
@@ -170,8 +174,8 @@ export default function BorrowGas() {
     //
     // const methodNames: string[] = [depositWithdraw ? 'deposit' : 'withdraw']
 
-    const estimate = treasuryContract.estimateGas.borrowGas
-    const method: (...args: any) => Promise<TransactionResponse> = treasuryContract.borrowGas
+    const estimate = treasuryContract.estimateGas.returnGas
+    const method: (...args: any) => Promise<TransactionResponse> = treasuryContract.returnGas
     const args = [ownTokenIds[0], amountInputCurrencyAmount?.quotient.toString()]
     const value = null
 
@@ -334,7 +338,7 @@ export default function BorrowGas() {
 
                 <div className='col-span-12 sm:col-span-6'>
                   <label className='block text-sm font-medium text-gray-700'>
-                    输入借出数额
+                    输入归还数额
                   </label>
                   <input
                     type='text'
@@ -347,12 +351,12 @@ export default function BorrowGas() {
                 </div>
 
                 {
-                  availableBorrowGasCurrencyAmount && gasTotalSupplyCurrencyAmount
+                  borrowGasAmountCurrencyAmount && gasTotalSupplyCurrencyAmount
                     ?
                     <div className='col-span-12 sm:col-span-6'>
                       <label className='block text-sm font-medium text-gray-700 flex justify-between'>
                         <div onClick={handleMaxInput} className='text-blue-600'>
-                          <Trans>可借出数额: {availableBorrowGasCurrencyAmount?.toExact()}</Trans> {availableBorrowGasCurrencyAmount?.currency.symbol}
+                          <Trans>可归还数额: {borrowGasAmountCurrencyAmount?.toExact()}</Trans> {borrowGasAmountCurrencyAmount?.currency.symbol}
                         </div>
                         <div>
                           <Trans>总供应数额: {gasTotalSupplyCurrencyAmount?.toExact()}</Trans> {gasTotalSupplyCurrencyAmount?.currency.symbol}
@@ -367,10 +371,14 @@ export default function BorrowGas() {
             </div>
             <div className='px-4 py-3 bg-gray-50 text-right sm:px-6'>
 
-              {/*{
-                approval !== ApprovalState.APPROVED && userValuationTokenBalance?.greaterThan(0)
+              {
+                approval !== ApprovalState.APPROVED && ownTokenIds?.[0] && holdNFTId
                   ? <button
-                    disabled={approval !== ApprovalState.NOT_APPROVED || !userValuationTokenBalance?.greaterThan(0)}
+                    disabled={
+                      approval !== ApprovalState.NOT_APPROVED
+                      || !ownTokenIds?.[0]
+                      || !holdNFTId
+                    }
                     type='button'
                     className='bg-indigo-600 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-30'
                     onClick={onAttemptToApprove}
@@ -385,13 +393,16 @@ export default function BorrowGas() {
                     }
                   </button>
                   : null
-              }*/}
+              }
 
               <button
                 disabled={
-                  (!availableBorrowGasCurrencyAmount?.greaterThan(0) || amountInputCurrencyAmount?.greaterThan(availableBorrowGasCurrencyAmount))
+                  (!borrowGasAmountCurrencyAmount?.greaterThan(0)
+                    || amountInputCurrencyAmount?.greaterThan(borrowGasAmountCurrencyAmount)
+                  )
                   || !amountInputCurrencyAmount?.greaterThan(0)
-                  || !(ownTokenIds && ownTokenIds.length > 0)
+                  || !ownTokenIds?.[0]
+                  || !holdNFTId
                 }
                 type='button'
                 className='bg-indigo-600 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-30 ml-2'
@@ -400,13 +411,17 @@ export default function BorrowGas() {
                 }}
               >
                 {
-                  (!availableBorrowGasCurrencyAmount?.greaterThan(0) || amountInputCurrencyAmount?.greaterThan(availableBorrowGasCurrencyAmount))
-                    ? <Trans>Insufficient {availableBorrowGasCurrencyAmount?.currency.symbol} balance</Trans>
+                  (!borrowGasAmountCurrencyAmount?.greaterThan(0)
+                    || amountInputCurrencyAmount?.greaterThan(borrowGasAmountCurrencyAmount)
+                  )
+                    ? <Trans>Insufficient {borrowGasAmountCurrencyAmount?.currency.symbol} balance</Trans>
                     : !amountInputCurrencyAmount?.greaterThan(0)
                       ? <Trans>Enter an amount</Trans>
-                      : !(ownTokenIds && ownTokenIds.length > 0)
+                      : !ownTokenIds?.[0]
                         ? <Trans>您尚未购买NFT</Trans>
-                        : <Trans>借出</Trans>
+                        : !holdNFTId
+                          ? <Trans>国库没有NFT</Trans>
+                          : <Trans>归还</Trans>
                 }
               </button>
 

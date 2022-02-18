@@ -237,7 +237,7 @@ export default function BuyWETH() {
 
                 <div className='col-span-3'>
                   <label className='block text-sm font-medium text-gray-700'>
-                    兑换额度
+                    兑换数额
                   </label>
                   <div className='mt-1'>
                     <NumericalInput

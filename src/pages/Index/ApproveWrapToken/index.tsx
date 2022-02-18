@@ -74,7 +74,7 @@ export default function ApproveWrapToken() {
                     </Dots>
                     : userWrappedNativeTokenBalance?.greaterThan(0)
                       ? <Trans>Approve</Trans>
-                      : <Trans>额度不足</Trans>
+                      : <Trans>数额不足</Trans>
                 }
               </button>
 

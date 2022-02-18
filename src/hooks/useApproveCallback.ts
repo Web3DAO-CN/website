@@ -1,9 +1,9 @@
 import { Currency, CurrencyAmount } from '@uniswap/sdk-core'
-import { ApprovalState, useApproval } from 'lib/hooks/useApproval'
+import { ApprovalState, useApproval, useApprovalERC3664 } from 'lib/hooks/useApproval'
 import { useCallback } from 'react'
 
 import { TransactionType } from '../state/transactions/actions'
-import { useHasPendingApproval, useTransactionAdder } from '../state/transactions/hooks'
+import { useHasPendingApproval, useHasPendingApprovalERC3664, useTransactionAdder } from '../state/transactions/hooks'
 
 export { ApprovalState } from 'lib/hooks/useApproval'
 
@@ -28,3 +28,25 @@ export function useApproveCallback(
   return [approval, useGetAndTrackApproval(getApproval)]
 }
 
+function useGetAndTrackApprovalERC3664(getApproval: ReturnType<typeof useApprovalERC3664>[1]) {
+  const addTransaction = useTransactionAdder()
+  return useCallback(() => {
+    return getApproval().then((pending) => {
+      if (pending) {
+        const { response, tokenAddress, fromTokenId, toTokenId, attrId } = pending
+        addTransaction(response, { type: TransactionType.APPROVAL_ERC3664, tokenAddress, fromTokenId, toTokenId, attrId })
+      }
+    })
+  }, [addTransaction, getApproval])
+}
+
+// returns a variable indicating the state of the approval and a function which approves if necessary or early returns
+export function useApproveCallbackERC3664(
+  amountToApprove?: CurrencyAmount<Currency>,
+  fromTokenId?: string,
+  toTokenId?: string,
+  attrId?: string
+): [ApprovalState, () => Promise<void>] {
+  const [approval, getApproval] = useApprovalERC3664(amountToApprove, fromTokenId, toTokenId, attrId, useHasPendingApprovalERC3664)
+  return [approval, useGetAndTrackApprovalERC3664(getApproval)]
+}
