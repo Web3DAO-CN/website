@@ -7,7 +7,7 @@ import { useTokenContract, useTokenContractERC2664 } from './useContract'
 export function useTokenAllowance(token?: Token, owner?: string, spender?: string): CurrencyAmount<Token> | undefined {
   const contract = useTokenContract(token?.address, false)
 
-  const inputs = useMemo(() => [owner, spender], [owner, spender])
+  const inputs = useMemo(() => (owner && spender) ? [owner, spender] : [undefined, undefined], [owner, spender])
   const allowance = useSingleCallResult(contract, 'allowance', inputs).result
 
   return useMemo(
@@ -19,7 +19,7 @@ export function useTokenAllowance(token?: Token, owner?: string, spender?: strin
 export function useTokenAllowanceERC3664(token?: Token, fromTokenId?: string, toTokenId?: string, attrId?: string): CurrencyAmount<Token> | undefined {
   const contract = useTokenContractERC2664(token?.address, false)
 
-  const inputs = useMemo(() => [fromTokenId, toTokenId, attrId], [fromTokenId, toTokenId, attrId])
+  const inputs = useMemo(() => (fromTokenId && toTokenId && attrId) ? [fromTokenId, toTokenId, attrId] : [undefined, undefined, undefined], [fromTokenId, toTokenId, attrId])
   const allowance = useSingleCallResult(contract, 'allowance', inputs).result
 
   return useMemo(

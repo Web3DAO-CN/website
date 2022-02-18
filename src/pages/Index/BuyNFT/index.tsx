@@ -58,6 +58,8 @@ export default function BuyNFT() {
     return chainId ? BUY_NFT_ADDRESSES[chainId] : undefined
   }, [chainId])
 
+  console.log('buyNFTAddress = %s', buyNFTAddress)
+
   const [approval, approveCallback] = useApproveCallback(userValuationTokenBalance, buyNFTAddress)
 
   async function onAttemptToApprove() {

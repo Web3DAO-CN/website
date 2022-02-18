@@ -1,6 +1,6 @@
 import useCurrencyBalance, { useNativeCurrencyBalances } from '../../../lib/hooks/useCurrencyBalance'
 import useActiveWeb3React from '../../../hooks/useActiveWeb3React'
-import { useCallback, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { maxAmountSpend } from '../../../utils/maxAmountSpend'
 import NumericalInput from 'components/NumericalInput'
 import { useERC20CurrencyAmountForTypeInput } from '../../../lib/hooks/useNativeCurrency'
@@ -28,7 +28,9 @@ export default function BuyWETH() {
   //存，取
   const [depositWithdraw, setDepositWithdraw] = useState<boolean>(true)
 
-  const valuationToken = chainId ? VALUATION_TOKEN[chainId] : undefined
+  const valuationToken = useMemo(() => {
+    return chainId ? VALUATION_TOKEN[chainId] : undefined
+  }, [chainId])
 
   const userValuationTokenBalance = useCurrencyBalance(account ?? undefined, valuationToken)
 
