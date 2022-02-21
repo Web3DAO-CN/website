@@ -101,9 +101,8 @@ export default function ReturnGas() {
   }, [])
 
   const pendingText = (
-    <Trans>
-      Returning {amountInputCurrencyAmount?.toExact()} {amountInputCurrencyAmount?.currency.symbol}
-    </Trans>
+    // <Trans>Returning {amountInputCurrencyAmount?.toExact()} {amountInputCurrencyAmount?.currency.symbol}</Trans>
+    <>Returning {amountInputCurrencyAmount?.toExact()} {amountInputCurrencyAmount?.currency.symbol}</>
   )
 
   function modalHeader() {

@@ -79,9 +79,8 @@ export default function Sponsor() {
   }, [])
 
   const pendingText = (
-    <Trans>
-      Sponsor {amountInputCurrencyAmount?.toExact()} {amountInputCurrencyAmount?.currency.symbol} for tokenId {ownTokenIds?.[0]}
-    </Trans>
+    // <Trans>Sponsor {amountInputCurrencyAmount?.toExact()} {amountInputCurrencyAmount?.currency.symbol} for tokenId {ownTokenIds?.[0]}</Trans>
+    <>Sponsor {amountInputCurrencyAmount?.toExact()} {amountInputCurrencyAmount?.currency.symbol} for tokenId {ownTokenIds?.[0]}</>
   )
 
   function modalHeader() {

@@ -82,9 +82,8 @@ export default function BuyWETH() {
   }, [])
 
   const pendingText = (
-    <Trans>
-      {depositWithdraw ? ' Deposit' : ' Withdraw'} {userNativeTokenBalance?.currency.symbol}
-    </Trans>
+    // <Trans>{depositWithdraw ? ' Deposit' : ' Withdraw'} {userNativeTokenBalance?.currency.symbol}</Trans>
+    <>{depositWithdraw ? ' Deposit' : ' Withdraw'} {userNativeTokenBalance?.currency.symbol}</>
   )
 
   function modalHeader() {

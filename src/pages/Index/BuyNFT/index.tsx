@@ -78,9 +78,7 @@ export default function BuyNFT() {
   }, [])
 
   const pendingText = (
-    <Trans>
-      Buy NFT
-    </Trans>
+    <Trans>Buy NFT</Trans>
   )
 
   function modalHeader() {
