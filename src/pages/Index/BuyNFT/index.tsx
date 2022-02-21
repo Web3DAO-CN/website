@@ -100,7 +100,8 @@ export default function BuyNFT() {
                   </div>
                   <div className='mt-1 text-sm text-gray-600 sm:flex sm:items-center'>
                     <div className='mt-1 sm:mt-0'>
-                      <Trans>{shortenAddress(nftReceiver)} will receive NFT</Trans>
+                      {/*<Trans>{shortenAddress(nftReceiver)} will receive NFT</Trans>*/}
+                      {shortenAddress(nftReceiver)} will receive NFT
                     </div>
                   </div>
                 </div>
@@ -285,7 +286,8 @@ export default function BuyNFT() {
                     ?
                     <div className='col-span-3'>
                       <label className='block text-sm font-medium text-gray-700'>
-                        <Trans>Balance: {userValuationTokenBalance?.toSignificant(3)}</Trans> {valuationToken?.symbol}
+                        {/*<Trans>Balance: {userValuationTokenBalance?.toSignificant(3)}</Trans> {valuationToken?.symbol}*/}
+                        Balance: {userValuationTokenBalance?.toSignificant(3)} {valuationToken?.symbol}
                       </label>
                     </div>
                     : null
@@ -327,7 +329,8 @@ export default function BuyNFT() {
                     ? 'NFT接收地址，格式不正确'
                     : userValuationTokenBalance?.greaterThan(0)
                       ? <Trans>购买</Trans>
-                      : <Trans>Insufficient {userValuationTokenBalance?.currency.symbol} balance</Trans>
+                      // : <Trans>Insufficient {userValuationTokenBalance?.currency.symbol} balance</Trans>
+                      : <>Insufficient {userValuationTokenBalance?.currency.symbol} balance</>
                 }
               </button>
 

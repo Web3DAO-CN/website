@@ -97,9 +97,8 @@ export default function BorrowGas() {
   }, [])
 
   const pendingText = (
-    <Trans>
-      Borrowing {amountInputCurrencyAmount?.toExact()} {amountInputCurrencyAmount?.currency.symbol}
-    </Trans>
+    // <Trans>Borrowing {amountInputCurrencyAmount?.toExact()} {amountInputCurrencyAmount?.currency.symbol}</Trans>
+    <>Borrowing {amountInputCurrencyAmount?.toExact()} {amountInputCurrencyAmount?.currency.symbol}</>
   )
 
   function modalHeader() {
@@ -400,7 +399,8 @@ export default function BorrowGas() {
               >
                 {
                   (!availableBorrowGasCurrencyAmount?.greaterThan(0) || amountInputCurrencyAmount?.greaterThan(availableBorrowGasCurrencyAmount))
-                    ? <Trans>Insufficient {availableBorrowGasCurrencyAmount?.currency.symbol} balance</Trans>
+                    // ? <Trans>Insufficient {availableBorrowGasCurrencyAmount?.currency.symbol} balance</Trans>
+                    ? <>Insufficient {availableBorrowGasCurrencyAmount?.currency.symbol} balance</>
                     : !amountInputCurrencyAmount?.greaterThan(0)
                       ? <Trans>Enter an amount</Trans>
                       : !(ownTokenIds && ownTokenIds.length > 0)

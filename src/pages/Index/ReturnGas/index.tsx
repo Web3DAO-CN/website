@@ -123,7 +123,8 @@ export default function ReturnGas() {
                   </div>
                   <div className='mt-1 text-sm text-gray-600 sm:flex sm:items-center'>
                     <div className='mt-1 sm:mt-0'>
-                      <Trans>Will return {amountInputCurrencyAmount?.toSignificant(3)} {amountInputCurrencyAmount?.currency.symbol}</Trans>
+                      {/*<Trans>Will return {amountInputCurrencyAmount?.toSignificant(3)} {amountInputCurrencyAmount?.currency.symbol}</Trans>*/}
+                      Will return {amountInputCurrencyAmount?.toSignificant(3)} {amountInputCurrencyAmount?.currency.symbol}
                     </div>
                   </div>
                 </div>
@@ -413,7 +414,8 @@ export default function ReturnGas() {
                   (!borrowGasAmountCurrencyAmount?.greaterThan(0)
                     || amountInputCurrencyAmount?.greaterThan(borrowGasAmountCurrencyAmount)
                   )
-                    ? <Trans>Insufficient {borrowGasAmountCurrencyAmount?.currency.symbol} balance</Trans>
+                    // ? <Trans>Insufficient {borrowGasAmountCurrencyAmount?.currency.symbol} balance</Trans>
+                    ? <>Insufficient {borrowGasAmountCurrencyAmount?.currency.symbol} balance</>
                     : !amountInputCurrencyAmount?.greaterThan(0)
                       ? <Trans>Enter an amount</Trans>
                       : !ownTokenIds?.[0]

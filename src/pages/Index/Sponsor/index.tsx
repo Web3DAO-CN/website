@@ -101,7 +101,8 @@ export default function Sponsor() {
                   </div>
                   <div className='mt-1 text-sm text-gray-600 sm:flex sm:items-center'>
                     <div className='mt-1 sm:mt-0'>
-                      <Trans>For tokenId {ownTokenIds?.[0]}</Trans>
+                      {/*<Trans>For tokenId {ownTokenIds?.[0]}</Trans>*/}
+                      For tokenId {ownTokenIds?.[0]}
                     </div>
                   </div>
                 </div>
@@ -285,7 +286,8 @@ export default function Sponsor() {
                     ?
                     <div className='col-span-3'>
                       <label onClick={handleMaxInput} className='block text-sm font-medium text-blue-600'>
-                        <Trans>Balance: {userValuationTokenBalance?.toSignificant(3)}</Trans> {valuationToken?.symbol}
+                        {/*<Trans>Balance: {userValuationTokenBalance?.toSignificant(3)}</Trans> {valuationToken?.symbol}*/}
+                        Balance: {userValuationTokenBalance?.toSignificant(3)} {valuationToken?.symbol}
                       </label>
                     </div>
                     : null
@@ -329,7 +331,8 @@ export default function Sponsor() {
               >
                 {
                   (!userValuationTokenBalance?.greaterThan(0) || amountInputCurrencyAmount?.greaterThan(userValuationTokenBalance))
-                    ? <Trans>Insufficient {userValuationTokenBalance?.currency.symbol} balance</Trans>
+                    // ? <Trans>Insufficient {userValuationTokenBalance?.currency.symbol} balance</Trans>
+                    ? <>Insufficient {userValuationTokenBalance?.currency.symbol} balance</>
                     : !amountInputCurrencyAmount?.greaterThan(0)
                       ? <Trans>Enter an amount</Trans>
                       : !(ownTokenIds && ownTokenIds.length > 0)

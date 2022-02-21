@@ -104,7 +104,8 @@ export default function BuyWETH() {
                   </div>
                   <div className='mt-1 text-sm text-gray-600 sm:flex sm:items-center'>
                     <div className='mt-1 sm:mt-0'>
-                      <Trans>Will receive {amountInputCurrencyAmount?.toSignificant(3)} {depositWithdraw ? valuationToken?.symbol : userNativeTokenBalance?.currency.symbol}</Trans>
+                      {/*<Trans>Will receive {amountInputCurrencyAmount?.toSignificant(3)} {depositWithdraw ? valuationToken?.symbol : userNativeTokenBalance?.currency.symbol}</Trans>*/}
+                      Will receive {amountInputCurrencyAmount?.toSignificant(3)} {depositWithdraw ? valuationToken?.symbol : userNativeTokenBalance?.currency.symbol}
                     </div>
                   </div>
                 </div>
@@ -256,7 +257,8 @@ export default function BuyWETH() {
                       ?
                       <div className='mt-2 text-sm text-gray-500 flex justify-between items-center'>
                         <div onClick={handleMaxInput} className='text-blue-600'>
-                          <Trans>Balance: {depositWithdraw ? userNativeTokenBalance?.toSignificant(4) : userValuationTokenBalance?.toSignificant(4)}</Trans>
+                          {/*<Trans>Balance: {depositWithdraw ? userNativeTokenBalance?.toSignificant(4) : userValuationTokenBalance?.toSignificant(4)}</Trans>*/}
+                          Balance: {depositWithdraw ? userNativeTokenBalance?.toSignificant(4) : userValuationTokenBalance?.toSignificant(4)}
                           &nbsp;
                           {
                             depositWithdraw
