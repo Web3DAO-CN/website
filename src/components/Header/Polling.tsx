@@ -27,11 +27,11 @@ const StyledPolling = styled.div<{ warning: boolean }>`
   color: ${({ theme, warning }) => (warning ? theme.yellow3 : theme.green1)};
   transition: 250ms ease color;
 
-  ${({ theme }) => theme.mediaWidth.upToMedium`
-    display: none;
-  `}
+  // ${({ theme }) => theme.mediaWidth.upToExtraSmall`
+  //   display: none;
+  // `}
 `
-const StyledPollingNumber = styled(ThemedText.Small)<{ breathe: boolean; hovering: boolean }>`
+const StyledPollingNumber = styled(ThemedText.SubHeader)<{ breathe: boolean; hovering: boolean }>`
   transition: opacity 0.25s ease;
   opacity: ${({ breathe, hovering }) => (hovering ? 0.7 : breathe ? 1 : 0.5)};
   :hover {
@@ -39,11 +39,11 @@ const StyledPollingNumber = styled(ThemedText.Small)<{ breathe: boolean; hoverin
   }
 
   a {
-    color: unset;
+    color: lightskyblue;
   }
   a:hover {
     text-decoration: none;
-    color: unset;
+    color: lightskyblue;
   }
 `
 const StyledPollingDot = styled.div<{ warning: boolean }>`
@@ -143,7 +143,7 @@ export default function Polling() {
           <ExternalLink href={'https://etherscan.io/gastracker'}>
             {priceGwei ? (
               <RowFixed style={{ marginRight: '8px' }}>
-                <ThemedText.Main fontSize="11px" mr="8px" color={theme.text3}>
+                <ThemedText.Main fontSize="14px" mr="8px" color={theme.text3}>
                   <MouseoverTooltip
                     text={
                       <Trans>
